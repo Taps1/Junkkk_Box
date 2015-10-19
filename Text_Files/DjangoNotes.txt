@@ -1,0 +1,120 @@
+sudo pip insall django
+django-admin startproject my_project
+django-admin 
+Settings: Set your time zone TIME_ZONE
+django.contrib.admin -- admin site
+django.contrib.auth -- authentication system
+django.contrib.contenttypes -- framework for content types.
+django.contrib.sessions -- session framework
+django.contrib.messages -- messaging framework
+django.contrib.staticfiles -- framework to manage static files
+django.db import models
+
+python manage.py migrate
+python manage.py runserver
+python manage.py startapp app_name
+
+
+	class Question(models.Model):
+	    question_text = models.CharField(max_length=200)
+	    pub_date = models.DateTimeField('date published')
+
+
+	class Choice(models.Model):
+	    question = models.ForeignKey(Question)
+	    choice_text = models.CharField(max_length=200)
+	    votes = models.IntegerField(default=0)
+
+Each choice is related to a single question.
+
+Python manage.py makemigrations
+python manage.py migrate
+python manage.py check -- will check if there's no problem in project without touching database.
+python manage.py shell
+from app.models import modelClass
+	ClassName.objects.all()
+	q = ClassName(arg1, arg2, arg3, ...)
+	q.save()
+	q.id
+	q.arg1, q.arg2, q.arg3, ...
+	q.arg1 = "Some_Value"
+	q.save()
+	ClassName.objects.filter(name__startswith="")
+	ClassName.objects.filter(pub_date__year="")
+	q = Question.objects.get(pk=1)
+	q.choice_set.all()
+	q.choice_set.create(arg1="", arg2="")
+	q.choice_set.create(arg1="", arg2="")
+	q.choice_set.all()
+	Choice.objects.filter(question__pub_date__year=currentyear)
+	Choice.objects.filter(choice_text__startswith="")
+
+python manage.py createsuperuser
+
+	from django.contrib import admin
+	from .models import Question
+	admin.site.register(Question)
+
+	class QuestionAdmin(admin.ModelAdmin):
+	    fields = ['pub_date', 'question_text']
+	admin.site.register(Question, QuestionAdmin)
+
+	class QuestionAdmin(admin.ModelAdmin):
+	    # ...
+	    list_display = ('question_text', 'pub_date')
+
+
+
+mysite/settings.py
+
+	TEMPLATES = [
+	    {
+		'BACKEND': 'django.template.backends.django.DjangoTemplates',
+		'DIRS': [os.path.join(BASE_DIR, 'templates')],
+		'APP_DIRS': True,
+		'OPTIONS': {
+		    'context_processors': [
+		        'django.template.context_processors.debug',
+		        'django.template.context_processors.request',
+		        'django.contrib.auth.context_processors.auth',
+		        'django.contrib.messages.context_processors.messages',
+		    ],
+		},
+	    },
+	]
+
+
+Where are the Django files:
+	$ python -c "
+	import sys
+	sys.path = sys.path[1:]
+	import django
+	print(django.__path__)"
+
+
+<PRIMARY KEY AND FOREIGN KEY MODELS>:
+	class A():
+		aa = '123'
+		bb = models.ForeignKey(bb, null=True, blank=True)
+
+	class B():
+		id = '345'
+		ff = 'abc'
+		dd = 'def'
+		ee = 'fgh'
+
+	Now A has foreignKey defined and pointing to B.
+	Now I want to fetch the data of class B by object of class A
+
+	obj_A = A.objects.filter(aa='123')
+	obj_A.bb.id
+	obj_A.bb.dd
+	obj_A.bb.ee
+
+    Now I want to fetch data of Class A by class B.
+    obj_B = B.objects.filter(id='345')        
+    obj_B.A_set.all()[0].aa
+    obj_B.A_set.all()[0].bb
+
+
+
