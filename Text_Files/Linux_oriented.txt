@@ -245,3 +245,49 @@ History of Commands:
 !n									#Refers to the nth command from the history 
 !string									#refers to the recent command started with the string
 ^string1^string2							#refers to the last command and change the string1 with string2
+
+
+cat q.txt w.txt will append the item as vertically, first q's and then w's
+
+If I want to append the items horizontally, Then I'll have to use paste command as:
+		paste q.txt w.txt
+
+If I want to merge the commands in a single statement then I can use it by using back tick(`) as:
+		echo `paste q.txt w.txt` 
+
+If I want to make the sequence as in matrix form, then I can use it as:
+		seq 0 9 | xargs -n 5(number of columns)
+
+If I want to have a string splitted by specified character then It can be used by awk commands as:
+		grep "*\.mp3" | awk -F'="' '{print $NF}' | awk -F'">' '{print $1}' | wc -l
+			[-F'="' will split having ="] 
+			[$NF the last column of the string]
+			[$1 $2 the column no.1 no.2 after splitting]
+			[wc -l number of records]
+
+grep -v ".mp3"  [it will display all the things except .mp3]
+grep -v "\.mp3"	[it will take the .(dot) as the part of the searched string]
+ifconfig
+internetip
+ps aux
+ps aux|grep "string"
+F6 [To go to URL bar directly]
+
+If I want to login into another system then use:
+		
+		ssh username@ip_adress
+		password:____________
+
+ShellScript:
+
+		If the shell script name is "dm_identification_custom.sh",
+	Then we can make it executable by executing this command:
+		
+		chmod +x dm_identification_custom.sh
+	
+	and after making this shell script as executable:
+		./dm_identification_custom.sh 
+
+find . -name "filename" [will find from the current folder]
+
+
