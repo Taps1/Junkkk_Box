@@ -96,3 +96,36 @@ If you want to get to the immediate previous commit:
 		git reset --soft HEAD^				#Will keep the changes
 		git reset --hard HEAD^				#will discard the changes
 		git reset --soft/--hard HEAD^2|3|...
+
+If I want to have more than 1 git accounts on a single local machine, Then do
+               ssh-keygen -t rsa -C "first_account@domain_name.com"
+               ssh-keygen -t rsa -C "second_account@domain_name.com"
+               ssh-keygen -t rsa -C "third_account@doman_name.com"
+      Give different names to these RSA keys
+      Now, I have to create a config file, as
+
+      Host github.com
+        HostName github.com
+        User git
+        IdentityFile ~/.ssh/id_rsa
+
+     Host github-first_account
+        HostName github.com
+        User git
+        IdentityFile ~/.ssh/id_rsa_first_account
+
+    Host github-second_account
+        HostName github.com
+        User git
+        IdentityFile ~/.ssh/id_rsa_second_account
+
+
+Once, the config file is been created, I have to add these Identity keys as:
+	ssh-add ~/path/to/first/keys/id_rsa
+        ssh-add ~/path/to/second/key/id_rsa
+
+Now the work has been done and will be able to do stuff with github, 
+
+       To clone from first account:
+          git clone git@github-first_account:/path/to/user/name
+          git clone git@<Host>:<repository_paht>
