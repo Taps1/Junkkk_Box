@@ -1,0 +1,34 @@
+Originated by Sun microsystem but now acquired by Oracle. Categorized into 3 parts:
+	J2SE - Core Java - Classes/Interfaces (StandAlone programs)
+	J2EE - Advanced Java - (Servlet, JSP, EJB to write Web application)
+	J2ME - Mobile Designing
+
+JDBC: Use to interact with Databases. (Connection with Database) [Doesn’t hold any full form, But a trademark]
+AWT - SWING: Abstract Window tool kit (To develop desktop applications)
+	java -version
+
+Write Once, Run anywhere — (Platform Independent, Architectural Neutral<IBM, Sunmicro, Apple inc.>)
+Class oriented language
+
+	javac filename.java	<will be compiled>
+	java HelloWorld	<will be executed>
+
+I’ll be compiling this file with version(1.8) and can put compiled file onto some system which has completely different architecture (Java installation is required), It’ll be executed, But If I put compiled file(.class) to lower version compared to that In which it was compiled then major-minor version error will be thrown. But program compiled in lower version can be executed in higher version.
+	Java compiled in 1.8 won’t execute in 1.7
+	Java compiled in 1.2 will get execute in 1.8
+
+Java software(which we install is platform dependent) - Java for Mac, Java for Windows, Java for Linux
+But Once the file is compiled, .class file is uniformed
+
+
+As of now, When I compiled the file, If className is different from fileName, then “public” shouldn’t be there while defining class name
+and Compiled file will be created with the name of ClassName.
+
+We’ve 8 datatypes: byte, boolean, char, short, int, float, long, double
+We’ve 5 exceptions: try, throw, throws, catch, finally
+We’ve 11 modifiers: private, public, protected, static, final, volatile, native, abstract, transient, synchronised, strictfp
+We’ve 11 Classes and Object: class, interface, enum, extends, implements, this, super, instanceof, package, import, new
+We’ve 10 conditions and Loop: for, while, do, continue, break, switch, case, default, if, else
+We’ve 2 unused keywords: goto, const
+We’ve 2 method keywords: void, return and 1 assert
+We’ve 3 literals: true, false, Null
