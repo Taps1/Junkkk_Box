@@ -51,8 +51,8 @@ Simple Strings:
 	set(s)				#(['a','t','T','l'])
 	id(s)
 	string.letters
-	string.lowercase
-	string.uppercase
+	string.lower
+	string.upper
 	string.punctuation
 	string.whitespace
 	string.swapcase()
@@ -210,6 +210,18 @@ simple tuple functions:
 	with keyword is also used to open a file and it will automatically close the file when goes out of the scope.
 		with open('file_name.txt') as f:
 			//statements
+
+       #!/usr/bin/python
+       import time
+       import os
+       # Open a file
+       outputFile = open("bb.py","a") # outputFile = open("bb.py”,”a”, 0)
+       outputFile.write("First")
+       outputFile.flush()
+       #print "Now you have 10sec to see that outputFile.txt is still the same as before"
+       time.sleep(10)
+       outputFile.write("Second")
+       print "Now if you look at outputFile.txt you will see 'First' and 'Second'"
 		
 
 <EXCEPTION HANDLING>
@@ -412,60 +424,93 @@ If I want to check whether the file is having syntax file or not:
 
 
 <DECORATOR>
-	A decorator is just a callable that takes a function as an Argument and return a replacement function
+	A decorator is just a callable that takes a function as an Argument and return a replacement function. These are simply wrappers to existing functions.
 
-	def outer(some_func):				// will recieve the function
-		def inner():				// inner function that will modify the content of function recieved by outer function
-			value=some_func()+1		// The value that was returned by some_func() has been incremented by 1
-			return value			// Return the modified value
-		return inner				// Outer function will return inner to get it executed
+					"""def foo(bar):
+					    return bar + 1
 
-	def some_func():				// function name will be passed to decorator
-		print "Now, Its going to decorator"
-		return 1				// This value will be going to decorator
+					print foo(2) == 3
+					-------------------------------------------------------------
+					Nested Function:
+					--------------------------------------------------------------
 
-	
+					def parent(number):
+					    print "Printing from parent function"
 
-	How to execute this Program:
-		
-		t=outer(some_func)			// outer will recieve some_func function as an argument
-		t()					// it will have the value returned by inner function of decorator 'outer'
+					    def first():
+					        print "first child"
+					    def second():
+					        print "second child"
+					    def third():
+					        print "third child"
+
+					    try:
+					       assert number == 10
+					       return first()
+					    except AssertionError:
+					       return second()
+
+					parent(18)
 
 
+					------------------------------------------------------------
+					Decorator Call to function
+					------------------------------------------------------------
 
-	The another version to perform this program is:
-		@outer
-		def foo():
-			retun 1
+					def my_decorator(some_func):
+					    def wrapper():
+					        print "Something is happening before some_function() is called"
+					        some_func()
+					        print "Something is happening after some_function() is called"
+					    
+					    return wrapper
 
-		foo()					// Will print the output returned by inner function of decorator 'outer'
+					def just_some_function():
+					    print "Wwheee!!"
 
 
+					just_some_function = my_decorator(just_some_function)()
+					#just_some_function()
 
-	Inner function wil always have the same arguments as the foo() function is recieving. 
 
-		def outer(some_func):
-			def inner(a,b):
-				print "The arguments recieved by functions are",a,b
-			return inner
-		@outer
-		def foo(a,b):
-			pass
-	
+					-------------------------------------------------------
+					Decorator Call to function with "PIE" syntax
+					-------------------------------------------------------
+					"""
+					def my_decorator(some_func):
+					    def wrapper():
+					        print "Something is happening before some_function() is called"
+					        some_func()
+					        print "Something is happening after some_function() is called"
+					    
+					    return wrapper
 
-	We can again return to the same function from where the decorator was called:
-		def outer(some_func):
-			def inner(*args,**kwargs):
-				print "The arguments recieved are:",args,kwargs
-				return func(*args,**kwargs)
-			return inner
+					@my_decorator
+					def just_some_function():
+					    print "Wwheee!!"
 
-		@outer
-		def foo(x,y):
-			return x*y
-		
 
-		foo(1,2)
+					just_some_function()
+
+
+					-------------------------------------------------------
+					Some real word examples
+					-------------------------------------------------------
+					"""
+					from time import sleep
+
+					def sleep_decorator(function):
+					    def wrapper(*args, **kwargs):
+					        sleep(2)
+					        return function(*args, **kwargs)
+					    return wrapper
+
+					@sleep_decorator
+					def print_number(num):
+					    print num
+
+					print_number(10)
+
 
 <GENERATOR>
 

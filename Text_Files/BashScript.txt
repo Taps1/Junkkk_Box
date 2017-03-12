@@ -1,0 +1,65 @@
+Bash files will are simple scripts to execute in the linux terminal commands via script. We Can simply write into a text file and can make it executable by this way:
+    
+    $ chmod +x <file_name>, 
+
+    If file needs to made executable for the current user, Then execute it by this way:    $ chmod u+x <file_name>,
+
+Once the file is executable, It can directly be executed via this way:
+    
+    $ ./<file_name>
+
+#! == known as She-Bang characters
+#!/bin/bash == declares that the script below is meant to be run by this interpreter.
+If interpreter is not present then, Put /usr/bin/env bash — Here env variable will look for bash interpreter in all set paths
+
+echo “<some_value>”
+echo $1 (where $1 will be the first argument)
+echo $2 (depicts all the arguments received)
+echo $* (any number of arguments received)
+$./<file_name> arg1 arg2 arg3 arg4 arg5 arg6 arg7 arg8 arg9 (All arguments are separated by space character)
+$./<file_name> ‘arg1’ ‘arg2’ ‘arg3’ ‘arg4’ ‘arg5’ ‘arg6’    (If any argument’s value itself contain space then better to provide values within single quotes)
+
+$./<file_name> ‘arg1’
+In script: echo “$1 was $(date)” will work
+
+Here, In double quotes, $1 will be taken as argument received, Whereas In single quote It’ll be taken as simple string
+
+
+Now, As I might be in another location and my script might be in another location, In order to get them Executed from anywhere, I will follow these steps:
+		$ cd
+		$ mkdir bin (where all the bash/shell scripts will come)
+		$ PATH=$PATH:~/my_workspace/where/all/the/bash/script/have/been/put
+	Now, I will be able to call this script from anywhere in the system, As the path of this script has been added to PATH, But it’s temporary, If I want to add it permanently, I need to modify the path in /etc/profile.d directory
+
+<NAMING BASH SCRIPTS>:
+	Must not conflict with existing ones.
+	Do I have a way to check If the name conflicts:
+		$ type <commmand_name/script_name> —> $ type ls
+
+<VARIABLES>:
+		$ files=“file1 file2 file3 file4 file5”
+		$ touch $files (5 files will be created from 1-5)
+	
+	Variables can also be assigned to other variable as in: 
+		new_file=“$files, $USER”
+
+When assigning some value, the value must be a single word, So we’ve to use “”.
+Why I can’t use x = 5 rather than x=5, Because here x will be taken as command and ‘=’ will be taken as first argument.
+
+If I want something to be required as User I/P, I will be using ‘read <variable_name>’ command
+
+		#!/bin/bash
+		#This program will take an argument and will put in notes.tx
+		#Ask User for Input
+		echo “Please provide your Input”
+		read unote
+		# read -p "Please Insert the command" unote
+		echo $(date): $unote >> ~/notes.txt
+		echo "Notes saved: $unote"
+
+If I want my variable to be append with something else, Then I will be taking my variable in {}, As in ${year}/${month}_file.gz
+
+Debugging the bash script, When I want to debug the whole bash script, It’d be better to put -x option in she-bang, Or If I want to debug only some portion of script then put 
+		set -x 
+		//statements
+		set +x
