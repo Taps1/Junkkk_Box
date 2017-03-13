@@ -40,3 +40,47 @@ When we install JAVA, We receive two folders - JDK & JRE
 Where JDK has javac.exe and java.exe both file and is primarily for Programmer to compile the <file_name>.java file
 Whereas JRE only has java.exe file and is available for Client and for programmer as well.
 So In case, Anyone wants the program, Then I will simply install JRE and will give him compiled files (<file_name>.class)
+
+Until, javac is not identified, No program will be compiled So We need to set the PATH
+When class is defined as public, then ClassName and FileName must be same.
+
+javac HelloWorld.java —> ///invokes the compiler
+java Test	      —> ///invokes JVM for execution
+
+Do main() method has to be public?
+	Compiled class goes to JVM’s memory, When main() is not public then JVM will not be able to locate main() method, So main() method needs to be defined as public. So In case main() is not public then It’ll get compiled but won’t get executed.
+
+Do main() method has to be static?
+	JVM should be able to call main() and internally JVM code that calls main() is written in static blocks. Yes, Otherwise JVM can’t call it directly but with Object.
+
+class Test
+	{
+		static void main1(String suraj[])
+		{
+			System.out.println(“Hello World”);
+		}
+	}
+
+public class JVMTest
+	{
+		public static void main(String args[])
+		{
+			Test.main1(args);
+		}
+	}
+
+If there’s no static in called class, Then I will have to create an object of Test class and only then I would be able to access it via Object.
+	Test t = new Test();
+	t.main1(args);
+
+Now, After compiling this as javac JVMTest.java, Two .class files are created 1. Test.class	2.JVMTest.class
+
+What is void in main()?
+	JVM calls main() and main() is void which means that main is not going to return any value back to JVM.
+
+What is String args[]? Why it’s an array?
+	java JVMTest 100 50 —> Arguments to main() method, args.lenght == 2, Arguments are received as strings - So type casting is also required, To get them:
+	args[0], args[1]
+
+What If String args[] is not declared as array:
+	Exception will be thrown, Compilation is successful but failed to execute
