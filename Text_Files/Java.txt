@@ -32,3 +32,11 @@ We’ve 10 conditions and Loop: for, while, do, continue, break, switch, case, d
 We’ve 2 unused keywords: goto, const
 We’ve 2 method keywords: void, return and 1 assert
 We’ve 3 literals: true, false, Null
+
+When we install JAVA, We receive two folders - JDK & JRE 
+(JDK is in C:/Program_Files/Java/JDK.<version>/)
+(JRE is in C:/Program_Files/Java/JRE.<version>/)
+
+Where JDK has javac.exe and java.exe both file and is primarily for Programmer to compile the <file_name>.java file
+Whereas JRE only has java.exe file and is available for Client and for programmer as well.
+So In case, Anyone wants the program, Then I will simply install JRE and will give him compiled files (<file_name>.class)
