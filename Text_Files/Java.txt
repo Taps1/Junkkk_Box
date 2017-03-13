@@ -51,7 +51,7 @@ Do main() method has to be public?
 	Compiled class goes to JVM’s memory, When main() is not public then JVM will not be able to locate main() method, So main() method needs to be defined as public. So In case main() is not public then It’ll get compiled but won’t get executed.
 
 Do main() method has to be static?
-	JVM should be able to call main() and internally JVM code that calls main() is written in static blocks. Yes, Otherwise JVM can’t call it directly but with Object.
+	JVM should be able to call main() and internally JVM code that calls main() is written in static blocks. Yes, Otherwise JVM can’t call it directly.
 
 class Test
 	{
@@ -84,3 +84,7 @@ What is String args[]? Why it’s an array?
 
 What If String args[] is not declared as array:
 	Exception will be thrown, Compilation is successful but failed to execute
+
+<Method Overloading>:
+	Different type of arguments with same name of function.
+	We must have Only one main() method per class, But of main(String args[]) type, rest we can have any number of. JVM only checks for main() method which has exact same signature as: “public static void main(String args[])”
