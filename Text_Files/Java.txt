@@ -20,9 +20,8 @@ I’ll be compiling this file with version(1.8) and can put compiled file onto s
 Java software(which we install is platform dependent) - Java for Mac, Java for Windows, Java for Linux
 But Once the file is compiled, .class file is uniformed
 
-
-As of now, When I compiled the file, If className is different from fileName, then “public” shouldn’t be there while defining class name
-and Compiled file will be created with the name of ClassName.
+As of now, When I compiled the file, if there’s public in definition of class, then className and fileName must be same.
+and Compiled file will be created with the name of ClassName. With public - FileName must be same as of ClassName
 
 We’ve 8 datatypes: byte, boolean, char, short, int, float, long, double
 We’ve 5 exceptions: try, throw, throws, catch, finally
@@ -88,3 +87,36 @@ What If String args[] is not declared as array:
 <Method Overloading>:
 	Different type of arguments with same name of function.
 	We must have Only one main() method per class, But of main(String args[]) type, rest we can have any number of. JVM only checks for main() method which has exact same signature as: “public static void main(String args[])”
+
+All predefined class and interfaces in java are not keywords and We can use them as identifiers but not recommended.
+
+Datatypes: Byte, Boolean(1 byte), Short, Char(2 bytes), Int, float(4 bytes), long, double(8 bytes)
+	Category Wise: 
+		3 Category:
+			1. Character Type	2.Boolean Type	3.Numeric
+									- Integral type(byte, short, int, long)
+									- Floating point type(float, double)
+		byte: 1 byte - 8 bits
+		Range: -(2^7) to (2^7)-1 # Values from -128 to 127 can be assigned (For rest value, error will be thrown)
+		byte b1 = 10; //valid
+		byte b2 = 128; // invalid
+		byte b3 = 127; //valid
+		b3 += 5 = -123; //Cycle
+	
+		Short: -(2^15) to (2^15)-1
+
+		Integer: 4 bytes: -(2^31) to (2^31)-1
+
+		long: 8 bytes: 64 bits: -(2^63) to +(2^63) - 1
+	
+		float: 4 bytes: -(3.4e38) to +(3.4e38)
+	
+		double: 8 bytes: -(1.79e^308) to +(1.79e^308)
+	
+		char: 2 bytes
+			
+		long variable is of 8 bytes and float type of variable is of 4 bytes, Still maximum value of long(2^x) can easily be stored in float type variable(3.4e^x).
+
+		Cycle methodology is applicable for all integer types
+	
+	
