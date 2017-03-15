@@ -119,4 +119,18 @@ Datatypes: Byte, Boolean(1 byte), Short, Char(2 bytes), Int, float(4 bytes), lon
 
 		Cycle methodology is applicable for all integer types
 	
-	
+Autoconversion: Ability to convert from one datatype to another datatype. (Byte can be converted to Int, but vice-versa not possible as Integer can hold large value which
+		byte won’t be able to hold) 
+		int num = 10;
+		byte number = (byte)num //valid
+
+byte, short, char, int, long holds the data in binary format But float and double holds the data in exponential format.
+
+		Float declaration goes as: float f1=10.5f, without suffixed f, It’s treated as double.
+		byte + byte == integer
+		char + char == integer
+		short + short == integer
+		integer + integer == integer
+		float + feat == float
+		long + long == long
+		double + double == double
