@@ -134,3 +134,44 @@ byte, short, char, int, long holds the data in binary format But float and doubl
 		float + feat == float
 		long + long == long
 		double + double == double
+
+There are two types of variables:
+	Primitive type - 
+		int x = 10
+		boolean flag = false
+					(Because datatype is of Primitive type)
+	Reference type
+		String name = “Talat” (Name is reference to an object holding “Talat”, thence known as reference variable)
+	
+Objects are created in memory called Heap.
+Java doesn’t support pointers.
+
+These variables are divided into 3 types:
+Instance Variables
+Static Variables
+Local Variables
+
+Instance Variables: These variables are declared inside the class but outside of all methods and blocks.
+If variables are not assigned with any value then default value is assigned to them. 
+
+		<This function is not gonna work>
+		// A static method can’t call non-static method directly.
+		// It has to call non-static methof using object.
+
+		public class InstanceVariabledemo{
+			public static void main(String args[]){
+				//A static method can’t call non-static method directly
+				//It has to call non-static method directly
+				show();
+				public void show(){
+					System.out.println(“This is a non-static method”)
+						  }
+						}
+					      }
+
+		I need to create the object of the class, So show() method can be called from main() method.
+			InstanceVariabledemo demo = new InstanceVariabledemo();
+			demo.show();
+
+
+Compilation goes with filename and execution goes with classname. and To get compiled, the public class will be called by JVM So no matter what - how many classes are defined in java file but there should only be one public class.
