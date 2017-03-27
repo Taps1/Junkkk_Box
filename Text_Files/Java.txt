@@ -182,3 +182,5 @@ If variables are not assigned with any value then default value is assigned to t
 
 
 Compilation goes with filename and execution goes with classname. and To get compiled, the public class will be called by JVM So no matter what - how many classes are defined in java file but there should only be one public class.
+
+Static Variables: These are class level variable, declared using static keyword. Say - If I have 10 objects of particular class, and that class has some static variable then static variable is common to all 10 objects.

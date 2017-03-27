@@ -1,0 +1,69 @@
+{1}: Unit of Data:
+————————————————
+Bit, Byte, KB, MB, GB, TB, PB, EB, ZB, YB, XB
+
+Java framework to store and process huge amount of data.
+It can be used for batch processing but not for online processing.
+
+Scalability:
+	Horizontal - Add newer small machines.(Followed by Hadoop)
+	Vertical - We’ll keep on improving the same machine as data grows.
+
+{2}
+Difference between hadoop and RDBMS:
+Hadoop believe in horizontal scaling whereas SQL believes in vertical scaling.
+Hadoop will be using map reduce programs instead of SQL
+SQL is designed to store the data in tabular format (structured data), whereas Hadoop use key-value pair.
+
+SQL is for real time processing data(Requires data immediately - Online transaction).
+Hadoop is designed for batch processing.
+In SQL, We can update the record, In Hadoop we won’t be able to.
+
+Node: Any independent computer(processor) with its own RAM and HDD.
+Cluster: A set of nodes in a network that can interact with each other.(Hadoop needs to be installed in all nodes).
+Block: A small unit of data. 64MB is the block size in hadoop
+
+Apache hadoop is free version, On top of it some companies has some customisations and known as Distributions,
+Apache hadoop has 64MB block size, But distributions have 128MB block size.
+
+So If I am having 200 MB file, Then it’ll be split into 4 blocks - 64MB, 64MB, 64MB, 8MB. Let’s have an example where We’ve 100 MB file.
+
+Talat1	Parwez1	Software-Engineer1	Pilkhuwa1
+Talat2	Parwez2	Software-Engineer2	Pilkhuwa2
+Talat3	Parwez3	Software-Engineer3	Pilkhuwa3
+
+Now when we talk that this file will split, Say this 100 MB file has been split in 2 blocks (64MB and 36MB).
+	64MB
+	Talat1	Parwez1	Software-Engineer1	Pilkhuwa1
+	Talat2	Parwez2	Software-Engineer2
+
+	36MB
+						Pilkhuwa2
+	Talat3	Parwez3	Software-Engineer3	Pilkhuwa3
+
+There’s data corruption, 64 and 36 doesn’t contain atomic records but partial record(Pilkhuwa2), So hadoop will store the data in a way that record is complete on each block(know as Split).
+
+	63.3MB
+	Talat1	Parwez1	Software-Engineer1	Pilkhuwa1
+	Talat2	Parwez2	Software-Engineer2	Pilkhuwa2
+
+	36.7MB
+	Talat3	Parwez3	Software-Engineer3	Pilkhuwa3
+
+{3}
+Hadoop Architecture - In cluster, there will be master-slave architecture where hadoop is installed on all systems.
+Master will have NameNode process
+	NameNode(Master)
+	Secondary-NameNode
+	JobTracker(Master)
+	TaskTracker(Slave)
+	DataNode(Slave)
+
+Hadoop version should be same across the cluster nodes otherwise can create issue later on.
+Hadoop’s own storage system: HDFS
+
+Hadoop maintains replication factor which is by default: 3, So that no block of file is lost If any of the node goes down(Mean to say, It’s replicated across the nodes). If any datanode goes down then hadoop start searching for any suitable node to maintain the said replication factor. Say in meantime, the downed nodes came up - So there’ll be Overreplication then Hadoop will remove block from any node.
+
+Speculative Execution: Suppose, Hadoop was executing B1 block somewhere in Node3, But Node3 is taking way much long time than configured one, So Hadoop will search all the nodes which have that block B1, Now Hadoop finds that Node2 has the block B1, So execution will start happening on Node2, and If Node2’s processing is way much faster than Node3, then result for block B1 from Node2 will be taken instead of taking from Node3.
+
+When we submit our map reduce program to Hadoop, Hadoop will send that program to all the slave nodes. Namenode will be deciding where the block should go (Which block should gets executed on which datanode and maintains this register - .txt file has been divided into 4 parts, Now where all these blocks are residing across cluster.)
