@@ -67,3 +67,43 @@ Hadoop maintains replication factor which is by default: 3, So that no block of 
 Speculative Execution: Suppose, Hadoop was executing B1 block somewhere in Node3, But Node3 is taking way much long time than configured one, So Hadoop will search all the nodes which have that block B1, Now Hadoop finds that Node2 has the block B1, So execution will start happening on Node2, and If Node2’s processing is way much faster than Node3, then result for block B1 from Node2 will be taken instead of taking from Node3.
 
 When we submit our map reduce program to Hadoop, Hadoop will send that program to all the slave nodes. Namenode will be deciding where the block should go (Which block should gets executed on which datanode and maintains this register - .txt file has been divided into 4 parts, Now where all these blocks are residing across cluster.)
+
+
+Download hadoop from link: https://archive.apache.org/dist/hadoop/core/hadoop-1.2.1/
+
+Inside Hadoop folder, We have 3 folders to mainly consider:
+	bin & conf & lib
+
+Modes in Hadoop:
+	StandAlone hadoop - 1 Box, 5 JVMs
+	Pseudo distributed mode hadoop
+	Fully distributed mode hadoop - 3 Box, 5 JVMs
+
+When we've multiple node cluster, then datanodes1, datanodes2 will be called as different machines having their own JVMs. 
+If the cluster goes very huge, Then JobTracker will be kept in separate machine and this jobtracker will co-ordinate with all DataNodes and namenode will co-ordinate with JobTracker. 
+
+Hadoop/conf:
+	start-all.sh: 		starts all daemons one by one, Calls hadoop-config.sh, start-dfs.sh, start-mapred.sh
+	start-dfs.sh:		Starts NameNode, DataNode, Secondary NameNode
+	start-mapred.sh:	Starts JobTracker, TaskTracker
+
+Whenever any command gets fired from terminal(say hadoop fs -put), then terminal(client) interacts with NameNode. Then NameNode will start talking with all datanodes available and status of all the datanodes (say their capacity to store the data) is acknowledged to client. Now It's the responsibility of client application to divide the data into chunks of 64 MB and after getting status of all datanodes from namenode, Client application will start putting data onto datanodes.
+
+	step1: Client wants to put 200MB file and tell NameNode about it
+	step2: NameNode talks to available datanodes and checks the status of them.
+	step3: DataNodes acknowledged their status (like how much memory they're left with)
+	step4: NameNode acknowledged to Client Application about the status of DataNodes
+	step5: Client start sending data to different datanodes after breaking data into chunks.
+	step6: Datanodes will start putting their data to another datanodes in order to maintain replication factor.
+	step7: DataNodes will start communicating with NameNode and will tell about the blocks it has stored. Now NameNode will maintain 		       register.
+
+The NameNode is a single point of failure for HDFS cluster, When the NameNode goes down, The file system goes Offline.
+
+There's an optional secondary namenode that can be hosted on a separate machine, It only creates checkpoints of the namespace by merging the edit files into fsimage file and doesn't provide any real redundancy.
+
+Now I want to submit a MapReduce program to hadoop cluster, So when I fire the command: "$ hadoop jar FindAllEmail.jar p1.ExtractEmail sample.txt /user/sumit/output", Then client application will talk to JobTracker, and JobTracker will contact to NameNode to check where the samplefile.txt file is stored and NameNode will tell in what all datanodes the blocks of file are present.
+
+	step1: Client Application asks JobTracker to execute JAR command on Input file.
+	step2: JobTracker asks for the location of blocks of file.
+	step3: JobTracker got to know the location of all blocks and send the JAR file to all these tasktrackers(On DataNode). and will ask 		       TaskTrackers to execute corresponding blocks. (All execution instructions are given by JobTracker) and maintain register to 		       track which node is doing what. 
+	step4: TaskTracker will keep on sending the amount of percentage of the work completed. Say one tasktracker went down, So JobTracker wil get to know a datanode is down If it doesn't receive any heartbeat for sometime, Now the block will be executed in some another datanode.
