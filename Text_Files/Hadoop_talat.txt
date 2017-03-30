@@ -101,9 +101,157 @@ The NameNode is a single point of failure for HDFS cluster, When the NameNode go
 
 There's an optional secondary namenode that can be hosted on a separate machine, It only creates checkpoints of the namespace by merging the edit files into fsimage file and doesn't provide any real redundancy.
 
+{7}
 Now I want to submit a MapReduce program to hadoop cluster, So when I fire the command: "$ hadoop jar FindAllEmail.jar p1.ExtractEmail sample.txt /user/sumit/output", Then client application will talk to JobTracker, and JobTracker will contact to NameNode to check where the samplefile.txt file is stored and NameNode will tell in what all datanodes the blocks of file are present.
 
 	step1: Client Application asks JobTracker to execute JAR command on Input file.
 	step2: JobTracker asks for the location of blocks of file.
 	step3: JobTracker got to know the location of all blocks and send the JAR file to all these tasktrackers(On DataNode). and will ask 		       TaskTrackers to execute corresponding blocks. (All execution instructions are given by JobTracker) and maintain register to 		       track which node is doing what. 
 	step4: TaskTracker will keep on sending the amount of percentage of the work completed. Say one tasktracker went down, So JobTracker wil get to know a datanode is down If it doesn't receive any heartbeat for sometime, Now the block will be executed in some another datanode.
+
+Hadoop execution sample command;
+	hadoop jar MyWC.jar <HDFS_INPUT_PATH> <HDFS_OUTPUT_PATH>
+
+When this job is submitted, JobTracker will take care of this and TaskTracker will execute it.
+
+TaskTracker will call one more instance called as TaskInstance(by default - 2 map slots<only 1 block of file will get processed by each slot> and 2 reduce slots), In case of exception - TaskInstance will be terminated and TaskTracker won’t that’s why they are working on different JVM.
+
+{8}
+In map slot, The data will be converted into key-value pair.
+
+Now this key-value paired data will be sorted (On basis of key), and after that “group phase” will be performed
+
+from mapper:
+apple 1
+boy 1
+cat 1 
+apple 1
+apple 1 
+
+sort phase:
+apple 1
+apple 1
+apple 1
+
+
+group phase;
+apple[1,1,1]
+boy[1,1,1,1,1]
+
+Reducer(key=fruit_name, value=array):
+
+This reducer will be called for each key, and mapper will be called for each line.
+
+{9}
+Installation of Hadoop:
+	$ sudo su
+	$ addgroup hadoop
+	$ adduser hduser				// dedicated hadoop user account for running hadoop, (Not required but recommended) in order to separate Hadoop 							   installation from other applications and user accounts running on the same machine.
+	# Need to add this newly created user(hduser) to newly created group(hadoop)
+	$ sudo adduser hduser hadoop
+	
+	Add hduser to sudoers list so that hduser can perform admin tasks.
+	$ sudo visudo 
+
+	Add a line under ##ALLOW member of group sudo to execute any command anywhere in the format
+	hduser ALL=(ALL)ALL
+
+Hadoop requires SSH access to manage its nodes, i.e. remote machines plus local machine If I want to use Hadoop on it.
+Generate the ssh key and add public key to authorized_keys so that whenever our datanode/namenode try to interact with each other and by adding these keys to authorized keys, Then they don’t need to verify it again and again.
+
+	$ cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+	$ chmod 700 ~/.ssh/authorized_keys
+
+If ssh is not running, then start it by using: 
+	$ sudo /etc/init.d/ssh start
+
+Hadoop and IPV6 do not agree on the meaning of 0.0.0.0 address, thus it’s advisable to disable IPV6 adding the following lines @the end of /etc/sysctl.conf:
+	$ vim /etc/sysctl.conf
+	# disable ipv6
+	net.ipv6.conf.all.disable_ipv6 = 1	
+	net.ipv6.conf.default.disable_ipv6 = 1	
+	net.ipv6.conf.lo.disable_ipv6 = 1
+
+	•Check if IPv6 is disabled.
+	After a system reboot the output of 
+	hduser@ubuntu:~$ cat /proc/sys/net/ipv6/conf/all/disable_ipv6 
+	should be 1, meaning that IPV6 is actually disabled
+
+Download the hadoop and put it inside /usr/local (unzip and untag it), After that We can create a symlink with “hadoop” name in order to retrieve it by “hadoop” name.
+	sudo ln -s hadoop-1.2.1 hadoop
+	Give permissions to the hadoop-1.2.1 folder after altering chown as well.
+
+Add Java location to Hadoop so that It can recognise Java
+	 $ vim /usr/local/hadoop/conf/hadoop-env.sh
+	 export HADOOP_OPTS=-Djava.net.preferIPv4Stack=true 
+	 export HADOOP_HOME_WARN_SUPPRESS="TRUE" 
+	 export JAVA_HOME=/usr/local/java/jdk1.8.0_31 
+
+	$ vim ~/.bashrc  
+
+	# Set Hadoop-related environment variables 
+	export HADOOP_HOME=/usr/local/hadoop  
+	# Set JAVA_HOME (we will also configure JAVA_HOME directly for Hadoop later on) 
+	export JAVA_HOME=/usr/local/java/jdk1.8.0_31  
+	# Some convenient aliases and functions for running Hadoop-related commands 
+
+	unaliasfs&> /dev/null 
+	aliasfs="hadoop fs" 
+	unaliashls&> /dev/null 
+	aliashls="fs -ls"
+
+
+Inside file “hdfs-site.xml”, replication factor is set, which is configurable:
+		<property>
+			<name>dfs.replication</name>
+			<value>3</value>
+		</property>
+
+————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+Update core-site.xml file
+	Add the following snippets between the <configuration> ... </configuration> tags in/usr/local/hadoop/conf/core-site.xml:
+		vim  /usr/local/hadoop/conf/core-site.xml  
+		<!-- In: conf/core-site.xml --> 
+
+		<property> 
+			<name>hadoop.tmp.dir</name> 
+			<value>/app/hadoop/tmp</value> 
+			<description>A base for other temporary directories.</description> 	
+		</property>  
+		 <property>
+			 <name>fs.default.name</name> 				
+			<value>hdfs://localhost:54310</value> 
+			<description>The name of the default file system.A URI whose scheme and authority determine the FileSystem implementation.The uri's scheme determines 					the config property. The uri's authority is used to determine the host, port, etc. for a filesystem.
+			</description> 
+		</property>
+
+
+Update mapred-site.xml file
+	Add the following to /usr/local/hadoop/conf/mapred-site.xml  between<configuration> ... </configuration>
+		vim /usr/local/hadoop/conf/mapred-site.xml  
+		<property> 
+			<name>mapred.job.tracker</name>
+			<value>localhost:54311</value> 
+			<description>The host and port that the MapReduce job tracker runs at. If "local", then jobs are run in-process as a single map and reduce task.
+		 	</description> 
+		</property>  
+
+
+Update hdfs-site.xml file
+	Add the following to /usr/local/hadoop/conf/hdfs-site.xml  between<configuration> ... </configuration>
+
+	vim /usr/local/hadoop/conf/hdfs-site.xml  
+
+	<property>
+	   <name>dfs.replication</name>
+	   <value>1</value>
+	   <description>Default block replication.The actual number of replications can be specified when the file is created.The default is used if replication is not 	   specified in create time.</description>
+	</property>
+————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+Whenever a new installation is done, Its recommended to format the name node:
+	$ hadoop namenode -format
+
+Single node cluster is ready to use and can be verified via: 
+	$ start-all.sh
+	$ jps
