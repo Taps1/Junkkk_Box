@@ -146,7 +146,7 @@ This reducer will be called for each key, and mapper will be called for each lin
 Installation of Hadoop:
 	$ sudo su
 	$ addgroup hadoop
-	$ adduser hduser				// dedicated hadoop user account for running hadoop, (Not required but recommended) in order to separate Hadoop 							   installation from other applications and user accounts running on the same machine.
+	$ adduser hduser				// dedicated hadoop user account` for running hadoop, (Not required but recommended) in order to separate Hadoop 							   installation from other applications and user accounts running on the same machine.
 	# Need to add this newly created user(hduser) to newly created group(hadoop)
 	$ sudo adduser hduser hadoop
 	
@@ -165,6 +165,10 @@ Generate the ssh key and add public key to authorized_keys so that whenever our 
 If ssh is not running, then start it by using: 
 	$ sudo /etc/init.d/ssh start
 
+But before this, One might have to install ssh(client) and sshd(server):
+	$ sudo apt-get remove openssh-client openssh-server
+	$ sudo apt-get install openssh-client openssh-server
+
 Hadoop and IPV6 do not agree on the meaning of 0.0.0.0 address, thus it’s advisable to disable IPV6 adding the following lines @the end of /etc/sysctl.conf:
 	$ vim /etc/sysctl.conf
 	# disable ipv6
@@ -179,7 +183,7 @@ Hadoop and IPV6 do not agree on the meaning of 0.0.0.0 address, thus it’s advi
 
 Download the hadoop and put it inside /usr/local (unzip and untag it), After that We can create a symlink with “hadoop” name in order to retrieve it by “hadoop” name.
 	sudo ln -s hadoop-1.2.1 hadoop
-	Give permissions to the hadoop-1.2.1 folder after altering chown as well.
+	Give permissions to the hadoop-1.2.1 folder after altering chown as well(hduser:hadoop)
 
 Add Java location to Hadoop so that It can recognise Java
 	 $ vim /usr/local/hadoop/conf/hadoop-env.sh
@@ -200,14 +204,16 @@ Add Java location to Hadoop so that It can recognise Java
 	unaliashls&> /dev/null 
 	aliashls="fs -ls"
 
+Make sure to add HADOOP_HOME and JAVA_HOME path to PATH variable, otherwise I’ll keep on getting HADOOP command not found
 
+————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 Inside file “hdfs-site.xml”, replication factor is set, which is configurable:
 		<property>
 			<name>dfs.replication</name>
 			<value>3</value>
 		</property>
 
-————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
 Update core-site.xml file
 	Add the following snippets between the <configuration> ... </configuration> tags in/usr/local/hadoop/conf/core-site.xml:
 		vim  /usr/local/hadoop/conf/core-site.xml  
@@ -255,3 +261,42 @@ Whenever a new installation is done, Its recommended to format the name node:
 Single node cluster is ready to use and can be verified via: 
 	$ start-all.sh
 	$ jps
+
+
+{10}{1}
+Hadoop commands:
+	Hadoop hdfs command:
+		hadoop fs  <command>
+	hadoop job command:
+		hadoop jar <command>
+
+
+	hadoop fs -mkdir <foldername> — will create folder inside /users/<user_name>/
+	hadoop fs -mkdir /<foldername> — will create folder @root
+	
+	list out all folders recursively:
+		hadoop fs -lrs <foldername>
+	
+	Copy file from local to HDFS:
+		hadoop fs -put <file_name_on_local> <location_on_hdfs> OR
+		hadoop fs -copyFromLocal <file_name_on_local> <location_on_hdfs>
+
+Say, I have .tar.gz file and I want to copy only one file out of it to HDFS for processing.
+	$ tar xvzf data.tar.gz/fruits.txt -O | hadoop fs -put - myData1/fruits.txt.
+
+I can even write content to the file(Not with existing one) in HDFS:
+	$ hadoop fs -put - myfile.txt
+
+I can see the content of file in terminal as well:
+	$ hadoop fs -get <file_name> -
+	$ hadoop fs -copyToLocal <file_name> -
+
+put VS copyFromLocal and get VS copToLocal
+	copyFromLocal will only deal with local file system, While put deals with any file system (In case of writing to a file from one HDFS to another HDFS, put will be used/from stdin).
+
+Setting replication factor of a specific file:
+	$ hadoop fs -setrep 3 <file_name>
+
+NameNode takes care of all ls/mkdir operations.
+
+{10}{2}
