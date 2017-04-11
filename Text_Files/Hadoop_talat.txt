@@ -300,3 +300,56 @@ Setting replication factor of a specific file:
 NameNode takes care of all ls/mkdir operations.
 
 {10}{2}
+If I want to write content from stdin to any of the HDFS file, then I’ll be saying:
+	$ hadoop fs -put - <file_name>
+
+I can also change the group of file present in HDFS (chmod & chown can also be done as well)
+	$ hadoop fs -chgrp -R <group_name> <file_name/directory_name>
+
+cp command is used to copy files from one HDFS location to another HDFS location
+	$ hadoop fs -cp <source_hdfs_location> <destination_hdfs_location>
+
+If I want to get the data from HDFS to local then It’s good to merge the whole data into a single file and then get it. For this purpose getmerge is used.
+	$ hadoop fs -getmerge <file_name1> <file_name2> <output_filename>
+
+Instead of copying a file to HDFS from local, We can move the file to HDFS:
+	$ hadoop fs -moveFromLocal <file_name_on_local> <destination_folder>
+f
+We can also move files from one HDFS location to another HDFS location.
+	$ hadoop fs -mv <source_location> <destination_location>
+
+In order to clear recycle bin in HDFS, Use expunge(thrashing concept)
+	$ hadoop fs -expunge
+
+The hadoop test is used for file operations,
+	$ hadoop fs -test [ezd] <file_path> followed by echo $?
+		e - existence of file
+		z - file size is zero or not
+		d - If the path is directory or not
+
+We can create an empty file too in Hadoop: (Can’t be written)
+	$ hadoop fs -touchz <file_name>
+
+To count the number of files in a directory:
+	$ hadoop fs -count <directory_name>
+
+When we start writing a hadoop map/reduce program with eclipse - chose: new/other/java-projet, As we've chosed java_project, then we'll be adding some JAR files.
+
+Some jar files, I'll be getting from $HADOOP_HOME and some files, I'll be getting from $HADOOP_HOME/lib.
+
+Create a project in Eclipse - create another new folder inside it named as lib, copy hadoop-core-1.2.1.jar inside lib folder. Once all required JAR files are present under lib location, then we've to add this lib folder while building a path, add these JARS
+
+In mapper-reducer code, 3 resources are required
+	Mapper class
+	Reducer class
+	Main method class called as driver program
+
+As of Now, all these methods are written as separate class/file and for driver(holds main(String args[])) some configuration objects are needed.
+	1. Create a configuration object
+		Configuration conf = new Configuration();        // hadoop related files only (^+shift+O)
+
+	2. Create a Job class which'll take care of MapReduce job (JobTracker)
+		Job job = new Job(conf, "MyWordCountJob")
+
+	3. link your driver class with the job
+		job.setJarByClass(MyDriver.class);               // Coz MyDriver contains main() method
