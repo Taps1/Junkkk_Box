@@ -1,3 +1,4 @@
+"""This is using the CSV MODULE """
 import csv
 import datetime
 import sys
@@ -29,6 +30,8 @@ time_difference.insert(id,d)
 print time_difference
 for i in time_difference:
     print i
+
+"""It will print the output from 1 input file to another output file """
 with open(sys.argv[1],'r') as csvinput:
     with open("output.csv", 'w') as csvoutput:
         writer = csv.writer(csvoutput, lineterminator='\n')

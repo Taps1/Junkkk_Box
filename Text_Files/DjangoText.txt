@@ -1,0 +1,329 @@
+Two Scoops of Django 1.8
+==========================================================================================================================================
+http://12factor.net/ -- For web site deployment
+
+CodeBase
+Dependencies
+Config
+Backing-Services
+Build, Release, Run
+Processes
+Port Binding
+Concurrency
+Disposabiltiy
+Dev/Prod parity
+Logs
+Admin Processes
+
+
+There's only one codebasse per app.
+Deploy is a running instance of an app. talat.com, dev.talat.com
+Pip is used for declaration, virtualenv for Isolation.
+No configuration should be present as constants in the code., Because config varies on different deploys, Code doesn't
+Backing service is any service in the app that consumes over the network as part of its normal operation. Ex. includes datastores, Messaging/Queueing system(RabbitMQ) and caching systems(Memcached).
+
+SMTP services -- Postmark
+Metrics-Gathering Services -- NewRelic
+Binary Asset services -- AmazonS3
+Databases -- Managed by Amazon RDS
+Any third party resource should be attached and detached without any code changes[These configuration must be present in config file not on code].
+Build -- Whenever a new code is deployed by the app's developer
+Run -- Server reboot, Crashed, Processes being restarted by Process manager.
+The Processes shut down gracefully when they receive a SIGTERM signal from the process manager.
+Databases -- Postgresql, Mysql, Mssql |
+Queueing -- Celery                    | -- Backing Services
+Cache -- Memcached                    |
+
+The word on Imports:
+All packages and files should be imported in following order:
+Standard Library Imports -- Python imports
+Related third party imports -- Django imports
+Local application -- from local_app.models import local_model
+
+#animal.views.py
+from animal.models import mammal                |  Bad snippet
+from animal.serializer import animal_serializer |
+
+#animal.views.py
+from .models import mammal                |  Good snippet
+from .serializer import animal_serializer |
+
+{In case, app named animal is changed then don't have a need to go everywhere and change old_app_name to new_app_name}
+
+Use the same database engine everywhere.
+ - As we can't examine an exact copy of production data locally.
+ - Different databases have different field types/constraints.
+
+<Fixtures>:
+    
+
+<PIP>: 
+    A tool that fetches Python packages from python package index and its mirrors.
+
+    $ sudo apt-get install python-pip
+    $ pip freeze --local
+
+<VIRTUALENV>:
+    A tool for creating isolated python environments.
+It's great for situations where you're working on more than one projects and there are clashes b/w version numbers of diff. libraries that our project uses.
+
+    $ sudo apt-get install virtualenv
+    $ source venv/bin/activate
+
+<VIRTUALENVWRAPPER>:
+    A tool for creating isolated python environments.
+By virtaulenv I've to type source venv/bin/activate, but by virtaulenvwrapper,I can simply use workon venv        
+
+    $ sudo apt-get install virtualenvwrapper    
+    $ workon venv
+
+version control -- revision control -- source control -- GIT
+
+If we're developing on MAC or on windows, and if our site is deployed on ubuntu Linux, then there are huge differences b/w how project and locally and how it's on production.
+
+Vagrant is popular tool for creating, configuring, and managing reproducible development environments.
+If production(ubuntu) and local(MAC), are different, then I can quickly get a virtual ubuntu development environment locally.
+
+Working with docker is sort of like developing inside of a VM,
+
+
+<PROJECT LAYOUT>:
+    Django Project Layout:
+        $ django-admin.py startproject mysite -- management command
+        $ cd mysite
+        $ django-admin.py myapp
+
+The preferred project layout will be:
+    <repository_root>/ -- Readme.rst/.gitignore/requirements.txt/deployment_settings all these files will be kept here
+        <django_project_root>/ -- Django_Project
+            <configuration_root>/ -- Will act as a csm/settings
+
+README.rst -- Developer facing project documentation
+static\ -- Non-user-generated static media assets including CSS,JS,and images.this will be hosted on separate static media server(s).
+
+If you're developing lots of projects, better to create env folder and create virtual environments according to the project.
+
+To make the Django Project Layout, We can use cookie cutter and after asking a series of questions, It'll generate all the layout for Project.
+
+    $ cookiecutter https://github.com/pydanny/cookiecutter-django
+
+Uncommon app modules:
+behaviours.py -- Locate model mixins.
+constants.py -- applevel settings.
+context_processors.py --  
+decorators.py -- Locate the decorators.
+exceptions.py -- 
+fields.py -- Used for form fields, 
+factories.py -- Place our test data factories.
+helpers.py -- Extract the code from views to here.
+managers.py -- when models.py grows too large, Move custome model managers to this module.
+middleware.py -- 
+signals.py -- Locate custom signals here.
+utils.py -- Synonymous to helpers.py.
+viewmixins.py -- Move view mixins here in case view is getting large.
+
+It'd be  better if diff. settings are broken into diff. files such as:
+    settings/
+        base.py
+        local.py
+        qa.py
+        prod.py
+        stg.py
+        dev.py
+
+To open the project with some specific settings, I've to do:
+    python manage.py shell --settings=twoscoops.settings.local
+    python manage.py runserver --settings=twoscoops.settings.local
+
+Instead of using --settings again and again, We can set DJANGO_SETTINGS_MODULE to our desired settings.
+
+export MY_NAME='talatparwez'
+>>> import os
+>>> os.environ["MY_NAME"]
+>>> talatparwez
+
+Now the thing is How I can make use of environment variables in settings.py file
+So In terminal I can set its value and can get in the settings file,
+
+    import os
+    SOME_SECRET_KEY = os.environ["SOME_SECRET_KEY"]
+
+Now all the secret values remains safe.
+
+The problem with using environment variables to store secrets is that it doesn't always work. -- When using Apache for serving HTTP, When using NGINX based environments.
+
+For each instance, We may require different requirements file, So create a requirement folder and then create respective base.txt, local.txt, prod.txt etc.
+
+	# base.py
+	django==1.8.0
+	psycopg2==2.6
+	djangorestframework==3.1.1
+
+	# local.txt
+	-r base.txt
+	django-debug-toolbar==1.3.0
+
+To Install these files, I've to do is:
+	pip install -r requirements/base.txt
+
+In settings file, Never ever hard code path of the directories.
+Django provides a project root variable named BASE_DIR @top of base settings module.
+BASE_DIR = os.getcwd() -- current working directory
+__file__ -- Current filename
+BASE_DIR = Path(__file__).ancestor(3)
+MEDIA_ROOT = BASE_DIR.child("media") -- Path('media')
+STATIC_ROOT = BASE_DIR.child("static") -- Path('static')
+
+If I want to check If my settings are different with Django default settings, I can do is:
+	Python manage.py diffsettings
+
+Djago provides three kinds of Model inheritance:
+	Abstract base classes,
+	Multi table Inheritance,
+	Proxy Models.
+
+Django abstract base classes and Python abstract base classes are completely different
+
+Abstract base: Tables are created only for derived models.
+Multi table inheritance: Tables are created for both parent and child, OneToOne field links parent and child.
+Proxy Models: Allows to have an alias of a model with a different python behaviour
+
+We must avoid multi-table inheritance and should use explicit OnetoOne fields and foreign keys b/w models.
+Tables won't be created for this model but tables will be created for the model which inherits it.
+	
+	# core/models.py
+	from django.db import models
+	class TimeStampedModel(models.Model):
+	"""
+	An abstract base class model that provides self-
+	updating, created, and modifiedfields.
+	
+	"""
+		created = models.DateTimeField(auto_now_add=True)
+		modified = models.DateTimeField(auto_now=True)
+
+	class Meta:
+		abstract = True -- Turns this example to Abstract base class.
+		       
+	from django.db import models
+	from core.models import TimeStampedModel
+	
+	class Flavor(TimeStampedModel):
+		title = models.CharField(max_length=200) -- It'll create only one table i.e. flavors_flavor
+
+django.db.migrations replaced the use of third party South
+	$ python manage.py makemigrations
+	$ python manage.py migrate
+
+With MySQL, rollbacks are impossible as MySQL lacks transaction supports.
+
+blank = True -- empty values get stored as empty strings in database.
+
+CharField
+TextField
+SlugField
+EmailField
+CommaSeparatedIntegerField
+UUIDField
+FileField
+ImageField
+BooleanField
+IntegerField
+FloatField
+DecimalField
+DurationField
+DateTimeField
+DateField
+TimeField
+ForeginKey
+ManyToManyField
+OneToOneField
+GenericIPAdressField
+IPAdressField -- deprecated in Django-1.7
+BinaryField -- storage of raw binary data
+
+The original purpose of _meta was simply to store the extra info about models for its own use.
+The main uses of meta in models are:
+	Get a list of models field.
+	
+Every time we use the Django ORM to query a model, we're using an interface called Model Manager to interact with database.
+
+
+	from django.db import models
+	from django.utils import timezone
+	class PublishedManager(models.Manager):
+		use_for_related_fields = True
+	
+	def published(self, **kwargs):
+
+		return self.filter(pub_date__lte=timezone.now(), **kwargs)
+
+	class FlavorReview(models.Model):
+		review = models.CharField(max_length=255)
+		pub_date = models.DateTimeField()
+		# add our custom model manager
+		objects = PublishedManager()
+
+	>>> from reviews.models import FlavorReview
+	>>> FlavorReview.objects.count()
+	35
+	>>> FlavorReview.objects.published().count() or FlavorReview.published.filter().count()
+	31
+
+When using model inheritance, children of abstract base classes receive their parent's model manager, and children of concrete base class don't.
+
+Fat Models: Rather than putting data-related code in views, templates We can put the respective code in Models<way to encapsulate logic in models>
+
+<QUERIES AND DJANGO MODELS>
+ 	when I want to retrieve a single object, I should use get_object_or_404() instead of get(). [keep in views only]
+
+Model.DoestNotExist:
+
+	try:
+		return Flavor.objects.get(sku=sku, quantity__gt=0)
+	except Flavor.DoesNotExist:
+		msg = "We are out of {0}".format(sku)
+
+When I want to retrieve only one but get three back,
+
+	try:
+		return Flavor.objects.get(sku=sku,quantity__gt=0)
+	except Flavor.DoesNotExist:
+		msg = "We are out of {}".format(sku)
+	except Flavor.MultipleObjectsReturned:
+		msg = "Multiple items have SKU {}. Please fix!".format(sku)
+		
+	Flavor.objects.filter(name__startswith='talat').exclude(status='inactive')
+
+	Flavor.objects.iterate()		# will have each and every record and can iterate over them
+
+Django ORM does not make the SQL calls untill the data is actually needed.
+
+Don't drop down to raw sql query until it's necessary.
+
+When using POSTGRESQL, pg_stat_activity tells us what indexes are being actually used.
+The default behaviour of Django 1.8 is autocommit; every time a .update() or .create() is called. it immediately modifies data in SQL db.
+
+The disadvantage is that if a view requires two or more db modifications and one modifications succeed and other fails, The database is @risk, To avoid this risk We can use transactions. Transaction -- two or more updates work as a single unit. ACID(Atomicity, Consistency, Isolation, Durability). To make this work change the database settings as:
+
+	# settings/base.py
+	DATABASES = {
+
+		'default': {
+		# ...
+			'ATOMIC_REQUESTS': True,
+					}
+				}
+
+
+Now each and every request is in a transaction
+Database operations that modifies the database should be wrapped in a transaction.
+Database operations that do not modify the database should not be wrapped in a transaction.
+
+	.create(), .bulk_create(), .get_or_create()		-- create the data
+	.get(), .filter(), .count(), .iterate(), .exists(), .exclude(), .in_bulk()		-- retrieve the data
+	.update()		-- update the data
+	.delete()		-- delete the data
+
+If a view is returning django.http.StreamingHttpResponse , it’s impossible to handle transaction errors once the response has begun.
+If this is the case as mentioned above then Wrap the view in the django.db.transaction.non atomic requests decorator.
