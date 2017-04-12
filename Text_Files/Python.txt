@@ -959,3 +959,32 @@ Sys Module:Access to some variable used or maintained by Interpreter and to that
         __file__ will tell you the name of the file which is currently being executed.
 
         SQLite is included in Python, so you won’t need to install anything else to support your database.
+
+
+_ —> last printed statement on interpreter
+_ —> Ignore the values while Un-Packing, a, _, _, d = (1, 2, 3, 4)
+_function_name() —> will make it private, and when calling via:
+
+from <module_name> import *, 
+All the methods and variables will not be imported which have _ as prefix, But they can be imported If called via <module_name>._<method_name>
+
+def foo():
+  print “hello”
+
+def _foo1():
+  print “Hi”
+
+from <module_name> import * —> _foo1() won’t be accessible
+import <module_name> —> <module_name>._foo1() will be accessible
+
+class <ClassName>:
+  def foo(self):
+    print “foo”
+
+  def _foo1(self):
+    print “foo1”
+
+  def __foo2(self):
+    print “foo2”
+
+from <module_name> import <class_name> —> foo()/_foo1() are accessible but __foo2() won’t be accessible even by importing it.
