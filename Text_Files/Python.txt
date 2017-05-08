@@ -17,8 +17,7 @@ Simple Integer Functions:
 	x**2				#100<Exponent Power>
 	hash('Python')			#Return the hash value for word
 	round(2.554)
-	trunc(2.66)
-	abs(number)			#Return the absolute value for the number
+	abs(number)			#Return the absolute value for the number (No -/+)
 	max(sequence)			#Return the Maximum Value from the sequence
 	min(sequence)			#Return the Minimum value from the sequence
 	>>>1,00,000			#(1,0,0) Python will take it as comma separated Integers.	
@@ -27,11 +26,11 @@ Simple Integer Functions:
 	
 <COMPLEX>
 Simple Complex Number:
-	x=5i+6j				# Complex Number
+	x=5+6j				# Complex Number
 	dir(x)
 
-	real(x)
-	imag(x)
+	x.real
+	x.imag
 
 <STRING>
 Simple Strings:
@@ -49,17 +48,14 @@ Simple Strings:
 	s.split()			#["Hello","Talat"]
 	list(s)				#['T','a','l','a','t']
 	set(s)				#(['a','t','T','l'])
-	id(s)
-	string.letters
+	id(s)				# id(s) and hash(s) are not same
 	string.lower
 	string.upper
-	string.punctuation
-	string.whitespace
 	string.swapcase()
 	ord('A')			#will print the ASCII value
 	chr(65)				#will print the ordinal value of ASCII value
 	s='xxyy'			
-	s.replace('x','786')		#will replace the x with '786'
+	s.replace('x','786')		#will replace the x with '786' at all positions
 	s.find('y')			#Return the first occurance Index of 'y'
 	s.rfind('y')			#Return the Last occurance index of 'y'
 	s.title				#Will Capitalize the first letter of the string.
@@ -96,9 +92,12 @@ Range Function:
 
 <LIST>
 Simple List Functions:
+        # append will simply append the item as it is, Whereas extend adds the item iteratively
 	fruits=['a','b','c']
 	fruits[0]			#'a'
 	fruits.append('d')		#['a','b','c','d']
+        fruits.append(['e'])		#['a', 'b', 'c', 'd', ['e']]
+	fruits.extend(['f'])		#['a', 'b', 'c', 'd', ['e'], 'f']
 	fruits.index('a')		#0
 	fruits.index('a',1)		#It will find the element 'a' from index 1
 	fruits_copy=fruits[:]		#will copy the whole list<shadow copy>
@@ -135,7 +134,6 @@ Loopings in List:
 	l1=['a','b']
 	l2=['c','d']
 	l3=l1+l2			#['a','b','c','d']
-	l2.extend(l1)			#['c','d','b','a']
 
 Sorting of a List:
 	l1.sort()			#will sort the list
@@ -177,10 +175,10 @@ simple tuple functions:
 	d.items()			#Return the (key,value)
 	q=d.get(key, default_value)	#will return the Value for the Key-->  <request.get("params",0)>
 	q=d.get(key,'Message')		#Will return the Message if value for key was not returned
-	d[i][j]				#Dictionaries can be indexed
+	d[i][j]				#Dictionaries can be indexed with their keys
 	d.has_key(key)			#Will return True or False if key was found or not
-	d.update(d1)			#It will update the d by adding key-values of d1
-	d.setdefault("key",value)	#Will set a default value to the key
+	d.update(d1)			#It will update the d by adding key-values of d1 and If keys are same both dictionaries then keys of d1 will be given the priority
+	d.setdefault("key",value)	#Will set a default value to the key If key is not present already
 	d.setdefault("key",[]).append("value")	#{"key":""}
 
 <FILE OPERATION>
@@ -205,7 +203,6 @@ simple tuple functions:
 	f.seek(0)			#will move the pointer to 0th index
         f.seek(-3, 2 )                  #Go to 3rd byte from the end ... [1 start of file, 2 end of file]
 	f.tell()			#will tell the pointer's position(Offset position)
-	f.flush()
 
 	with keyword is also used to open a file and it will automatically close the file when goes out of the scope.
 		with open('file_name.txt') as f:
@@ -222,6 +219,9 @@ simple tuple functions:
        time.sleep(10)
        outputFile.write("Second")
        print "Now if you look at outputFile.txt you will see 'First' and 'Second'"
+
+	###USECASE:
+		When we write firstly into file, and after some time we write secondly into file, The program waits for the complete execution till the first write can happen, So In order to write into the file immediately(When LOC occurs), We need to use file_object.FLUSH() method
 		
 
 <EXCEPTION HANDLING>
@@ -256,7 +256,7 @@ simple tuple functions:
                 try:
                     f=open("file.txt",'w')
                     t=12/0
-                catch ZeroDivisionError:
+                except ZeroDivisionError:
                     print "Can't be divided by Zero"
                 finally:
                     f.close()
@@ -282,7 +282,6 @@ The Last printed expression will be assigned to the variable _ (underscore)
 	s1.issuperset(s2)
 
 Methods without self are considered as Global Functions
-Old methods are hidden by redefinition
 
 <MRO>	Method Resolution Order
 	Will look for the element firstly in <current><parent><grand-parent><object>
@@ -294,7 +293,16 @@ Old methods are hidden by redefinition
 <HIGHER ORDER FUNCTIONS>
         A function which does atleat one of the following:
                 Takes one or more functions as an argument.
-                Returns other function as an Output.        
+                Returns other function as an Output.
+
+<LAMBDA>
+	Lambda functions are also known as Anonymous function
+	One liner function which don't have any definition, They're just assigned to a variable and that variable will receive the arguments
+		
+		lambda args: <executablity>
+		g = lambda x, y: x**y
+		g(2,5)
+
 
 <MAP>
 	It takes one function and an iterator as input and applies the function on each value of the iterator and returns a list of result.
@@ -305,12 +313,13 @@ Old methods are hidden by redefinition
 			def square(num):
 				return num*num
 
-			print map(square, l)			
+			print map(square, l)
+			map(g, [1,2,3,4], [4,3,2,1])			
 
 <FUNCTION>
 	object is the upper most class in python.
 	issubclass(int,object)--> will return True
-	functions have gunction definition and defined by def keyword, here is the most basic syntax of the Python function
+	functions have function definition and defined by def keyword, here is the most basic syntax of the Python function
 		
 1)		def foo():	
 			return 1
@@ -383,12 +392,19 @@ ________________________________________________________________________________
 		def foo(*args):
 			print args			// It will print the recieved arguments in form of Tuples
 
+		def foo(*args);
+   			print args
+		
+		ll = [1,2,3,4]
+		foo(*ll) 				// (1,2,3,4)
+		foo([1,2,3,4])				// ([1,2,3,4],)
+
 	Another use of *(asterisk):
 		l=[1,2]
 		def foo(x,y):
 			return x+y
 		foo(l[0],l[1])				//Not a good Manner
-		foo(*l)					//It will take all the elements of the list to the called function
+		foo(*l)					//elements of list will go one by one
 _____________________________________________________________________________________________________________________________________________________________
 
 10) 	Variable Number of Arguments in Key-Value pair
@@ -408,8 +424,8 @@ ________________________________________________________________________________
 <ITERATORS>
 	
 	Iterators have the special property to keep the one value @once. 
-
-
+			
+			iter(sequence)
 			number='123456789'
 			n=iter(number)
 			n.next(),n.next()..... after reaching out the last element, It will throw an StopIteration Exception.
@@ -514,7 +530,7 @@ If I want to check whether the file is having syntax file or not:
 
 <GENERATOR>
 
-	Normal functions return only a single value; But what if I want to get the next value and to continue over the whole return .... There I will use yield ... by which 		we can continue our looping from where we left.
+	Normal functions returns value only single time; But what if I want to get the next value and to continue over the whole return .... There I will use yield ... by which 		we can continue our looping from where we left.
     Generator is a function that returns an object on which we can perform next() operation
 	Generators are a tool for creating iterators.They use to YIELD the data whenever they want to return the data
 	Each time the next() is called, Generator resumes from where it left-off
@@ -680,6 +696,8 @@ If I want to check whether the file is having syntax file or not:
         call the parent class's __init__(), we need to put super keyword in child class that while initializing the current class; the parent class of it also 
         needs to be initialized.
         It's more like How can I call the method of parent class if both child and parent class has the same method name
+
+NOTE: "super() argument 1 must be type, not classobj - If baseclass doesn't have Object class inherited"
         e.g.
            
                                         class A(object):
