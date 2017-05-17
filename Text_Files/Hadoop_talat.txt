@@ -262,6 +262,9 @@ Single node cluster is ready to use and can be verified via:
 	$ start-all.sh
 	$ jps
 
+DFS runs on port: 54310
+MapReduce runs on port: 54311
+
 
 {10}{1}
 Hadoop commands:
@@ -337,6 +340,9 @@ When we start writing a hadoop map/reduce program with eclipse - chose: new/othe
 
 Some jar files, I'll be getting from $HADOOP_HOME and some files, I'll be getting from $HADOOP_HOME/lib.
 
+Standard eclipse version may not have map-reduce plugin, We may need to add this plugin. To verify check in eclipse - windows/open_perspective/other/map-reduce
+Once map-reduce plugin is added to location, We may add a new DFS location to it and Can directly perform Upload/Delete/Mkdir operations from Eclipse
+
 Create a project in Eclipse - create another new folder inside it named as lib, copy hadoop-core-1.2.1.jar inside lib folder. Once all required JAR files are present under lib location, then we've to add this lib folder while building a path, add these JARS
 
 In mapper-reducer code, 3 resources are required
@@ -353,3 +359,13 @@ As of Now, all these methods are written as separate class/file and for driver(h
 
 	3. link your driver class with the job
 		job.setJarByClass(MyDriver.class);               // Coz MyDriver contains main() method
+
+In mapper, One has to emit the data which’ll be received by Reducer, So mapper has to emit the data in Context and reducer will take that data from Context
+
+To call a non-static method, We need an object
+Each input file is considered as block and each block is executed by One task instance.
+	word1.txt - 100MB — 2 blocks — B1, B2
+	word2.txt - 200MB — 2 blocks — B1, B2, B3, B4
+	word3.txt - 5KB — 2 blocks — B1
+
+So, here we’ve 7 blocks and each block is executed by One Task Instance, So totally 7 times, map() method will be called.
