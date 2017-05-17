@@ -369,3 +369,12 @@ Each input file is considered as block and each block is executed by One task in
 	word3.txt - 5KB — 2 blocks — B1
 
 So, here we’ve 7 blocks and each block is executed by One Task Instance, So totally 7 times, map() method will be called.
+
+<SAFE MODE IN HADOOP>:
+	When we trigger start-all.sh, All daemons starts one by one, So when NN starts - It enters into safe mode (All datanodes will be discovered and checked how many are live, How many are dead and all the information about the files present in DN will be given to NN) and No write operation will happen during this phase and Once this checking and all is done-NN will leave SafeMode
+
+There's a chance due to some problem, NN is not able to come out from SafeMode. To manually make NN come out of SafeMode:
+	$ hadoop dfsadmin -safemode leave
+	$ hdfs dfsadmin -safemode leave
+
+

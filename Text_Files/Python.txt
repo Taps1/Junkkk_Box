@@ -103,6 +103,7 @@ Simple List Functions:
 	fruits_copy=fruits[:]		#will copy the whole list<shadow copy>
 	a=[1,2,3],b=[4,5,6]
 	zip(a, b)--> [(1,4),(2,5),(3,6)]
+	In Python2, xrange() act as Generator and In python2, range() act as Generator
 	
 
 To delete an object:
@@ -180,6 +181,7 @@ simple tuple functions:
 	d.update(d1)			#It will update the d by adding key-values of d1 and If keys are same both dictionaries then keys of d1 will be given the priority
 	d.setdefault("key",value)	#Will set a default value to the key If key is not present already
 	d.setdefault("key",[]).append("value")	#{"key":""}
+	d.iteritems()			# returns the dictionary-itemiterator
 
 <FILE OPERATION>
 	
