@@ -377,4 +377,21 @@ There's a chance due to some problem, NN is not able to come out from SafeMode. 
 	$ hadoop dfsadmin -safemode leave
 	$ hdfs dfsadmin -safemode leave
 
+In hadoop interface, We've two things:
+	Mapper Class
+	Mapper Interface
 
+extends - Class(New API)
+implements - Interface(Older API)
+
+If we havn't configured any mapper and reducer class, then default classes will be called which are:
+Old API:
+	Mapper: Mapper class in API
+	Reducer: Reducer class
+
+New API
+	Mapper: IdentityMapper class in old API
+	Reducer: IdentityReducer class in old API
+
+<MAVEN>:
+	Lots of different eclipse  projects may have dependency, So Maven is a Project management and dependency management tool.
