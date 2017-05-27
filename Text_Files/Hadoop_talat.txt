@@ -394,4 +394,19 @@ New API
 	Reducer: IdentityReducer class in old API
 
 <MAVEN>:
-	Lots of different eclipse  projects may have dependency, So Maven is a Project management and dependency management tool.
+	Lots of different eclipse projects may have dependency, So Maven is a Project management and dependency management tool. Like classes in project-1 might be required in project-2, So Maven plays a role. Maven maintains a central repository from where JAR files can be downloaded. You need to install maven as well - sudo apt-get install maven3
+
+Once the maven is installed, It actually creates ".m2" folder inside /home/hduser which we can remove as well	
+Create a new "maven-project" in eclipse - There it'll ask some questions for group-Id, artifact-Id which are taken as:
+	hadoop-core-1.2.1.jar
+	company_name:	Apache -- 	Company_Name
+	version_number:	1.2.1 --  	version
+	jar_name:	hadoop-core -- 	ArtifactId
+
+Once I create the Maven project, .m2 will be created again in ~/.m2 folder and ~/.m2/repository will contain JARs. Now the project which we just created as Maven project (eclipse), We can create classes as MyMapper.java, MyReducer.java, MyDriver.java. Now these *.class files might be requiring some mandatory JARs in order to execute Hadoop wordcount example - So What we can do is: Create a lib folder, Copy all required files into that and add it to the class path ... Or we can use the functionality of Maven to add JAR files into POM.xml file.
+	- Open POM.xml file --> dependencies --> Add dependencies
+
+In case, Unable to add via "Add" button, Just copy the <dependency></dependency> tag from mvnrepository.com.
+And run it as normal java application and it can simply be converted to a JAR file by exporting to java-jar-next-finish. The Maven project can be executed in various option like: run as: Maven Install (which will generate a jar file in target folder <specified in pom.xml file>), This jar file can be executed as MapReduce program by 
+	hadoop jar <jar_file_name> <package_name>.<main_class>
+	hadoop jar WC.jar p1.MyDriver (# when we run by this command, MapReduce program runs on pseudo distributed mode, and When executed directly from Eclipse - It runs on local mode)
