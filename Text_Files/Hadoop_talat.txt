@@ -456,3 +456,9 @@ The hadoop configuration files which we modified is:
 	hdfs-site.xml
 
 In hadoop-core-1.2.1 extracted jar file, these above listed 3 files (default ones) are present, Check for {dfs.name.dir} which will go for {hadoop.tmp.dir} <configured in core-site.xml> -- This is going to lead us to location: /app/hadoop/tmp/dfs where secondary_namenode folder is present, So whenever We format the namenode, by default namenode related directories are created under `/app/hadoop/tmp/dfs/name` folder
+
+When very first time NameNode is ready, fsimage file is created and it creates a file named as edit, MetaData is always written in RAM (retrieval time will be very high If Metadata is written in HardDisk).
+When a client requests to WRITE some data under HDFS location, Those paths will be written in edit file, The same data will also be maintained in RAM as METADATA
+When a client requests to READ some data, It’ll directly be asked from METADATA.
+
+fsimage is actually a checkpoint file
