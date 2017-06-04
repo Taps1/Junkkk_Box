@@ -462,3 +462,8 @@ When a client requests to WRITE some data under HDFS location, Those paths will 
 When a client requests to READ some data, It’ll directly be asked from METADATA.
 
 fsimage is actually a checkpoint file
+
+After 1 hour or the moment when edit log reaches 64 MB, The secondary NN starts working and tells NN to create a new FSIMAGE file to create a new EDIT file.
+Once the NN creates a new FSIMAGE and EDIT, All the new logs will be written to new FSIMAGE and new EDIT logs and older(FSIMAGE & EDIT) will be taken by Secondary NN, Now SNN will read all the data from EDIT file and will put it into FSIMAGE file and now this populated FSIMAGE will be given back to NN and FSIMAGE (used by NN) will be replaced by this populated FSIMAGE. and Now If We shut down the custer - the METADATA stored in RAM will be lost and when is again UP - It’ll load FSIMAGE along with EDIT logs to it’s MEATADATA.
+
+When cluster goes up, All the datanodes contact NN to tell what all the blocks they’re holding - So this information is stored in METADATA (RAM), Not in FSIMAGE. All checkpoints DIR/PERIOD are configured in core-default.xml, When NN is started - It loads the FSIMAGES into memory and applies all the edit which are present 
