@@ -607,9 +607,40 @@ If I want to check whether the file is having syntax file or not:
 		print A.i                               #11
 		print self.j                            #20
 
+	class A(object):
+    ...:     d = 123
+    ...:     def __init__(self, a):
+    ...:         self.a = a
+    ...:         print self.a
+    ...:         print A.d
+    ...:         print self.d
 
+	obj = A(234)
+	234, 123, 123
+	
+	class A(object):
+    ...:     d = 123
+    ...:     def __init__(self, a):
+    ...:         self.a = a
+    ...:         print self.a
+    ...:         self.d = 456
+    ...:         print A.d
+    ...:         print self.d
+	obj = A(234)
+	234, 123, 456
 
-
+	
+	class A(object):
+    ...:     d = 123
+    ...:     def __init__(self, a):
+    ...:         self.a = a
+    ...:         print self.a
+    ...:         A.d = 456
+    ...:         print A.d
+    ...:         print self.d
+	
+	obj = A(234)
+	234, 456, 456
 
 
 	If you want to make an object of it then you need to define it as:	
@@ -1008,3 +1039,6 @@ class <ClassName>:
     print “foo2”
 
 from <module_name> import <class_name> —> foo()/_foo1() are accessible but __foo2() won’t be accessible even by importing it.
+
+<PROPERTY>:
+	
