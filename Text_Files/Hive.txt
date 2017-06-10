@@ -95,4 +95,9 @@ We can also execute hive commands from linux shell but the hive session shouldn'
 
 if we create a folder manually under /user/hive/warehouse/dept and try to fetch all the data from hive terminal saying - select * from dept; then an error will be thrown saying "No table found dept"
 
+<METASTORE_DB>:
+	A directory that gets auto created whenever we launch hive and table created in hive is actually a directory in "/user/hive/warehouse". 
+	Data stored inside the table is actually a file in warehouse/[table] folder. While creating a table we defined some data types for each column, All the meta information is stored by hive using derby database inside metastore_db. If metastore_db is deleted , then hive will not have any access to tables which are created although they exists physically
+
+
 
