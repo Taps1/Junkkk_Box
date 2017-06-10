@@ -1,0 +1,98 @@
+<HIVE>:
+	Hive is basically to execute MAP-REDUCE programs using SQL syntax queries
+ - It was developed by facebook, It provides HQL that can convert SQL queries to Map-Reduce programs
+ - All-Map/Reduce Apache/Tez Spark - Jobs 3 execution can engine run on hadoop YARN
+ - It provides indexes like bitmap indexes queries to accelerate
+ - Hive is a data warehouse on top of Hadoop, Hive saves us from writing complex map-reduce jobs, rather than we can submit merely SQL queries
+ - Hive converts SQL queries into the MAP-REDUCE Jobs and submit the same to the cluster.
+
+Software Installation requires:
+ - Java 1.8
+ - Hadoop 1.2.1
+
+Download the Hive's tar.gz and set all the paths in .bashrc file, Once done launch hive by putting $ hive, this step will create derby.log in /home/hduser and METASTORE_DB.
+Hive is a DBMS but not RDBMS as it doesn't have relationship among tables, Here we don't have any concept of primary and foreign key.
+
+Create the table "employee" with following schema:
+
+	DATA_COLUMN 		NAME_TYPE
+	emp_no			int
+	name			string
+	job			string
+	boss			int
+	hiredate		timestamp
+	salary			float
+	comm			float
+	deptno			int
+
+	CREATE TABLE EMPLOYEE  
+	(  
+	EMPNO INT,  
+	NAME STRING,  
+	JOB STRING,  
+	BOSS STRING,  
+	HIREDATE TIMESTAMP,  
+	SALARY FLOAT,  
+	COMM FLOAT,  
+	DEPTNO INT  
+	)  
+	ROW FORMAT DELIMITED  
+	FIELDS TERMINATED BY ','  
+	; 
+
+Now the table has been created, and We can load the data into it as:
+
+	hive> into load data local "/inpath/home/hduser.empData" txt overwrite table emp;
+	Loading data to table default.emp
+	Table default.emp stats: [numFiles=1, numRows=0, totalSize=770, rawDataSize=0]
+	Time taken: 0.356 seconds
+
+	hive> select * from emp;
+	7839	KING	PRESIDENT	0	1981-11-17 23:59:00	5000.0	0.0	10
+	7566	JONES	MANAGER	7839	1981-04-02 23:59:00	2975.0	0.0	20
+	7788	SCOTT	ANALYST	7566	1982-12-09 23:59:00	3000.0	0.0	20
+	7876	ADAMS	CLERK	7788	1983-01-12 23:59:00	1100.0	0.0	20
+	7902	FORD	ANALYST	7566	1981-12-03 23:59:00	3000.0	0.0	20
+	Time taken: 0.073 seconds, Fetched: 14 row(s)
+
+Loading data from HDFS location:
+	hive> load data inpath "/user/hduser/empData.txt" overwrite into table emp; (empData.txt has been copied from /user/hduser/empData.txt location to /user/hive/warehouse/emp/empData.txt location, Where in case of local, the data is copied not moved)
+
+ - If data contains unnecessary spaces at the end, I may end up with NULL values.
+ - If data is not proper, I may also get few columns with NULL values, It doesn't verify data while loading it, Because the data size may be huge which may kill the loading time.
+
+	hive> select empno, name from employee; --> <MAP only job>
+	hive> select * from employee e where e.salary in (select max(salary) from employee) --> "in" keyword is not used while dealing with inner/sub queries
+
+What happens when We fire "create table <table_name>" query, Hive internally creates a directory called employee under location /user/hive/warehouse on HDFS and from the location where we launched our hive, It'll create derby.log and metastore_data.
+
+Assuming our data is comma separated, but while creating the table we didn't specify FIELDS TERMINATED BY ',', what would be the behaviour when we load the data?
+	Will show all columns of rows as NULL because it'll try to store the the entire line in the first column which is INT here and we can't store data into INT as data are all characters and comma
+	However If I change EMPNO data type to STRING, then it's capable of holding the entire record and it <the very first coulmn> holds the entire record and remaining columns data will be NULL 
+
+ - If no databases are created, then "default" database is used as default database
+
+When we load the data from HDFS to HIVE and delete the table - The file will be moved to warehouse folder and after dropping the table - The data will also be removed from /user/hive/warehourse/<table_name>.
+
+I want to store all the employee records to a local file instead of just viewing it in hive terminal
+	hive> insert overwrite local "/home/hduser/employee_data.txt" select * from emp;
+	<This will create a directory named as employee_data.txt which will contain a file like 000000_0>
+	<As we didn't specify any separate delimiter, the file will contain "\001" as field separator>
+
+Data written to the file system is serialized as text with columns separated by ^A and rows separated by newline character
+However If I want to change these special characters to ",", I can do it via: cat employee_data.txt | tr "\001" ","
+ - Redirection is not allowed in HDFS
+ - We can execute some linux commands as well in Hive terminal by prefixing them with !
+	hive> !ls
+	hive> !cat word.txt
+
+We can also execute hive commands from linux shell but the hive session shouldn't be launched in some other terminal as we do in Python via $ python -c "import module; print module.class_name" by
+	$ hive -e "select * from emp;"			# get the O/P with logs
+	$ hive -S -e "select * from emp;"		# get the O/P in silent mode
+
+	$ hive -e "select * from emp" >> empData.tsv	# this will return data separated by "\t" instead of "\001"
+	$ cat empData.tsv | tr "\t" "," >> empData.csv 	# comma separated data is stored in empData.csv file
+
+if we create a folder manually under /user/hive/warehouse/dept and try to fetch all the data from hive terminal saying - select * from dept; then an error will be thrown saying "No table found dept"
+
+
