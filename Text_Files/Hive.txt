@@ -98,6 +98,25 @@ if we create a folder manually under /user/hive/warehouse/dept and try to fetch 
 <METASTORE_DB>:
 	A directory that gets auto created whenever we launch hive and table created in hive is actually a directory in "/user/hive/warehouse". 
 	Data stored inside the table is actually a file in warehouse/[table] folder. While creating a table we defined some data types for each column, All the meta information is stored by hive using derby database inside metastore_db. If metastore_db is deleted , then hive will not have any access to tables which are created although they exists physically
+All the schemas and meta information is stored in metastore_db and hive maps the actual data to HDFS.
 
+<DATABASES>:
+	hive> show databases;
+	hive> create database db1;
+	hive> use db1;					# this will create a directory called db1.db inside /user/hive/warehouse and all the table will be created under db1.db while using db1 database.
+
+ - We can drop the database using 
+	hive> drop database <database_name>;		# If database is empty
+	hive> drop database <database_name>;		# If database is not empty
+
+Say, I have a file which contains some queries, Is there any way throuhg which I can execute these commands?
+	Yes, I can do that by:
+		hive> hive -f /home/hduser/myQueries.txt;			# When myQueries.txt is present in local, Will give the execution time taken to execute each command
+		hive> hive -f hdfs://localhost:9000/user/hduser/myQueries.sql	# When myQueries.txt is present in HDFS
+		hive> source /home/hduser/myQueries.txt 			# From hive terminal, Not applicable when file is present under HDFS locaation
+		
+
+If I want to access table of another database:
+		hive> select * from <database_name>.<table_name>;
 
 
