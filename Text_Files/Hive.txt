@@ -151,3 +151,8 @@ The table which maintains data with themselves are called Managed or Internal Ta
 		row format delimited fields terminated by ',';
 		location '/mystockdata1';
 	External table without location is "internal-table/managed-table"
+
+Whenever We drop an Internal table from hive terminal, The data present in this table (/user/hive/warehouse/<table_name>) gets deleted with table's schema itself.
+Whenever We drop an External table from hive terminal, The data present in this table (/user/hive/warehouse/<table_name>) does not get deleted but table schema does.
+
+If we provide invalid HDFS location while defining the external table then table will get created successfully along with folder on HDFS as well.
