@@ -39,6 +39,8 @@ Create the table "employee" with following schema:
 	ROW FORMAT DELIMITED  
 	FIELDS TERMINATED BY ','  
 	; 
+If I want column names to be shown while reading data from hive terminal:
+	set hive.cli.print.header=true;
 
 Now the table has been created, and We can load the data into it as:
 
@@ -62,7 +64,7 @@ Loading data from HDFS location:
  - If data is not proper, I may also get few columns with NULL values, It doesn't verify data while loading it, Because the data size may be huge which may kill the loading time.
 
 	hive> select empno, name from employee; --> <MAP only job>
-	hive> select * from employee e where e.salary in (select max(salary) from employee) --> "in" keyword is not used while dealing with inner/sub queries
+	hive> select * from employee e where e.salary in (select max(salary) from employee) --> "=" keyword is not used while dealing with inner/sub queries
 
 What happens when We fire "create table <table_name>" query, Hive internally creates a directory called employee under location /user/hive/warehouse on HDFS and from the location where we launched our hive, It'll create derby.log and metastore_data.
 
@@ -119,4 +121,33 @@ Say, I have a file which contains some queries, Is there any way throuhg which I
 If I want to access table of another database:
 		hive> select * from <database_name>.<table_name>;
 
+<INTERNAL TABLES>:
+ - In Hive, We can create 2 types of tables:
+	Managed Table
+	External Table
 
+The table which maintains data with themselves are called Managed or Internal Tables, The data is managed by Hive - and If I delete the table, I'll lose the data.
+	Creating a table
+	Put the data from local machine to HDFS location
+	Load this HDFS data to hive table.
+
+	This will move the data from HDFS location to Hive table and If I drop the table, All the data will be lost - This is called Internal table or managed table
+
+<EXTERNAL TABLES>: 
+	These are the tables where data is not maintained by hive. The data will be maintained somewhere else in HDFS rather than /user/hdfs/warehouse/<table_name>/, Only the metadata is deleted from metastore_db folder when we drop the data. Just use EXTERNAL keyword while creating them. We can specify the location while defining the table itself (Or later on as well).
+
+		create external table nyse_daily_prices_hive_ext2
+		(
+		stock_exchange string,
+		stock_symbol string,
+		tdate timestamp,
+		stock_price_open double,
+		stock_price_high double,
+		stock_price_low double,
+		stock_price_close double,
+		stock_volume bigint,
+		stock_price_adj_close double
+		)
+		row format delimited fields terminated by ',';
+		location '/mystockdata1';
+	External table without location is "internal-table/managed-table"
