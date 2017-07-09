@@ -1,0 +1,6 @@
+Jenkins is an Java application thence platform independent.
+Used for CI & CD (Contiuous Integeration & Continuous Development)
+
+	Developer -> Checks in code to repo -> Source Control (Git) -> Jenkins grabs latest code -> Build artifacts -> Run tests -> Publish O/P to Live server -> Report back
+
+Download the Jenkins and place the war file under some location

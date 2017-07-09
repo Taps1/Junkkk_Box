@@ -1,0 +1,89 @@
+There are two important topics to understand in Luigi:
+	Target and Tasks
+
+The target class corresponds to a file on a disk, Or a file on S3, Or some kind of checkpoint, like an entry in Database.
+
+The only method that Targets have to implement is 'exists'
+
+	class MyTarget(luigi.Target):
+    		def exists(self):
+        		return True
+
+In practice, implementing Target subclass is rarely needed, I'll mostly use LocalTarget, S3Target or FTPTarget classes, These directly map to a file on local drive, on S3, or in FTP respectively
+
+The Task class is where work gets done in Luigi, With only three methods we need to implement: requires, output, and run.
+
+	import luigi
+
+	class MyExampleTask(luigi.Task):
+
+	    # Example parameter for our task: a 
+	    # date for which a report should be run
+	    report_date = luigi.DateParameter()
+
+	    def requires(self):
+	        """
+	        Which other Tasks need to be complete before
+	        this Task can start? Luigi will use this to 
+	        compute the task dependency graph.
+	        """
+	        return [MyUpstreamTask(self.report_date)]
+
+	    def output(self):
+	        """
+	        When this Task is complete, where will it produce output?
+	        Luigi will check whether this output (specified as a Target) 
+	        exists to determine whether the Task needs to run at all.
+	        """
+	        return S3Target('s3://my-output-bucket/my-example-tasks-output')
+
+	    def run(self):
+        	"""
+	        How do I run this Task?
+	        Luigi will call this method if the Task needs to be run.
+	        """
+	        # We can do anything we want in here, from calling python
+	        # methods to running shell scripts to calling APIs
+
+The requires() method is used to specify dependencies on other Task objects.
+
+The output() method returns one or more Target objects that point at the output from our Task.
+
+The run() method contains the actual code that is run.
+
+Luigi has built-in checkpointing support. Luigi also ensures that duplicate Tasks don't run simultaneously, protecting you from duplicate outputs
+
+	import luigi
+
+	class PrintNumbers(luigi.Task):
+        	def requires(self):
+	                return []
+
+        	def output(self):
+                	return luigi.LocalTarget("outputs_for_luigi/numbers_upto_10")
+
+	        def run(self):
+        	        with self.output().open('w') as f:
+                	        for i in range(1, 11):
+                        	        f.write("{}\n".format(i))
+
+	class SquaredNumbers(luigi.Task):
+        	def requires(self):
+                	return [PrintNumbers()]
+
+	        def output(self):
+        	        return luigi.LocalTarget("outputs_for_luigi/squares.txt")
+
+	        def run(self):
+        	        import pdb;pdb.set_trace()
+                	with self.input()[0].open() as fin, self.output().open('w') as fout:
+                        for line in fin:
+                                n = int(line.strip())
+                                out = n*n
+                                fout.write("{}: {}\n".format(n, out))
+
+	if __name__ == "__main__":
+        	luigi.run()
+
+	python run_luigi.py SquaredNumbers --local-scheduler
+	luigi -m run_luigi.py SquaredNumbers --local-scheduler
