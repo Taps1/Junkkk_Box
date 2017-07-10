@@ -1,3 +1,6 @@
+* It was built for batch jobs, It's probably not useful for near real-time processing
+* It doesn't trigger the execution for you, you still need to run the data pipeline (may be via. cronjob)
+
 There are two important topics to understand in Luigi:
 	Target and Tasks
 
@@ -87,3 +90,26 @@ Luigi has built-in checkpointing support. Luigi also ensures that duplicate Task
 
 	python run_luigi.py SquaredNumbers --local-scheduler
 	luigi -m run_luigi.py SquaredNumbers --local-scheduler
+
+We can pass the arguments with luigi.Parameter()
+
+	class SquaredNumbers(luigi.Task):
+	    n = luigi.IntParameter()
+
+	python run_luigi.py SquaredNumbers --local-scheduler --n 20
+
+Parameters can also have default values
+	n = luigi.IntParameter(default=10)
+
+Local VS Global scheduler:
+	Using global scheduler in production has 2 advantages:
+	* Avoid running two instances of the same task simultaneously
+	* Nice web based visualisation
+
+I can run Luigi scheduler daemon in the foreground with:
+	$ luigid
+Or in the background with:
+	$ luigid --background
+
+With the global Luigi scheduler, We can re-run the code without the option for local scheduler:
+	$ python run_luigi.py SquaredNumbers --n 20
