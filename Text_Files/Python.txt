@@ -195,17 +195,13 @@ ________________________________________________________________________________
 	d.setdefault("key",[]).append("value")	#{"key":""}
 	d.iteritems()			# returns the dictionary-itemiterator
 
-<<<<<<< Updated upstream
 _______________________________________________________________________________________________________________________________________________________________
-=======
 <ALL>
 	all() will return True if all elements in an iterable are True	
 
 <ANY>
 	any() will return True if any of the elements in an iterable is True
 
-
->>>>>>> Stashed changes
 
 <FILE OPERATION>
 	
@@ -1111,7 +1107,6 @@ ________________________________________________________________________________
 
 <PROPERTY>:
 	
-<<<<<<< Updated upstream
 _______________________________________________________________________________________________________________________________________________________________
 
 <COLLECTIONS>
@@ -1164,7 +1159,42 @@ ________________________________________________________________________________
 	* Replace the * with + and pattern must appear atleast once.
 	* Using ? means the pattern zero or more times.
 	* For a specific number of occurrences, use {m} after the pattern, where m is replaced with the number of times the pattern should repeat.
-	* Use {m, n} where m is the minimum number of repetitions and n is the
+	* Use {m, n} where m is the minimum number of repetitions and n is the maximum. Leaving out n (m{, }) means the value appears at least m times, with no maximum.
+
+	[
+		’sd*’, 				# s followed by zero or more d’s
+		‘sd+’, 				# s followed by one or more d’s
+		‘sd?’, 				# s followed by zero or one d
+		‘sd{3}’,			# s followed by three d’s
+		‘sd{2,3}’,			# s followed by two to three d’s
+	]
+
+	[
+		‘[sd]’,				# either s or d
+		’s[sd]+’,			# s followed by one or more s or d
+	],				
+	
+
+	[^]					# ^ is used for exclusion
+	[
+		[^!.?],				# check for matches that are not a !, ., ?.
+	]
+
+	[a-f]					# would return matches with any instance of letters between a and f
+	[
+		‘[a-z]+’,			# sequences of lower case letters
+		‘[A-Z]+’,			# sequences of upper case letters
+		‘[a-zA-Z]+’,			# sequences of lower or upper case letters
+		‘[A-Z][a-z]+’,			# one upper case letter followed by lower case letters
+	]
+
+	\d					# a digit
+	\D 					# a non-digit
+	\s					# whitespace
+	\S					# non whitespace
+	\w					# alphanumeric
+	\W					# non-alphanumeric
+
 
 <QUESTIONS:>
 * Print the length of each word in sentence using map and lambda
@@ -1198,6 +1228,3 @@ ________________________________________________________________________________
 	ff = gen_random(10, 20, 8)
 	for i in ff:
 	    print i
-
-=======
->>>>>>> Stashed changes
