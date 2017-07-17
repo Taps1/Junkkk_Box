@@ -1150,7 +1150,21 @@ ________________________________________________________________________________
 
 <TIMEIT>:
 	import timeit									# this will give the time taken in execution of any LOC
-	timeit.timeit(‘ “-”.join(str(n) for n in range(10)) ’, number = 20)		# here 20 is the number of time this LOC got executed
+	timeit.timeit(‘ “-”.join(str(n) for n in range(10)) ’, number = 20)		# here 20 is the number of times this LOC will get executed
+
+<REGULAR EXPRESSIONS>:
+	import re
+	match = re.search(“Talat”, “Talat Parwez”)				# SRE match object If found else None
+	match.start()								# 0
+	match.end()								# 5
+	re.findall(‘match’, “Here is a match, here is another match”)		# [‘match’, ‘match’]
+	
+	There are five ways to express repetition in pattern:
+	* A pattern followed by meta character * is repeated zero or more times.
+	* Replace the * with + and pattern must appear atleast once.
+	* Using ? means the pattern zero or more times.
+	* For a specific number of occurrences, use {m} after the pattern, where m is replaced with the number of times the pattern should repeat.
+	* Use {m, n} where m is the minimum number of repetitions and n is the
 
 <QUESTIONS:>
 * Print the length of each word in sentence using map and lambda
