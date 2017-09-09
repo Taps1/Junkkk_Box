@@ -113,3 +113,23 @@ Or in the background with:
 
 With the global Luigi scheduler, We can re-run the code without the option for local scheduler:
 	$ python run_luigi.py SquaredNumbers --n 20
+
+For plain tasks, the run() method implements the task. For some subclasses of Task, I don't have to implement run() method, for JobTask subclass you implement mapper and reducer instead.
+
+Luigi comes with native Python Hadoop mapreduce support built in,
+
+	class AggregateArtistsHadoop(luigi.contrib.hadoop.JobTask):
+		date_interval = luigi.DateIntervalParameter()
+
+		def output(self):
+			return luigi.contrib.hdfs.HdfsTarget("data/artist_stream_%s.tsv" % self.date_interval)
+
+		def requires(self):
+			return [StreamHdfs(date) for date in self.date_interval]
+		
+		def mapper(self, line):
+			timestamp, artist, track = line.strip().split()
+			yield artist, 1
+
+		def reducer(self, key, values):
+			yield key, sum(values)
