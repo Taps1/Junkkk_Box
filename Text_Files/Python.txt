@@ -1148,6 +1148,9 @@ ________________________________________________________________________________
 	timeit.timeit(‘ “-”.join(str(n) for n in range(10)) ’, number = 20)		# here 20 is the number of times this LOC will get executed
 
 <REGULAR EXPRESSIONS>:
+	There are two ways to accomplish pattern matching - 
+	- Searching (search()): looking for a pattern match in any part of the string
+	- Matching (match()): match a pattern to an entire string (find all words having first letter as alphanumeric, second as an integer)
 	import re
 	match = re.search(“Talat”, “Talat Parwez”)				# SRE match object If found else None
 	match.start()								# 0
@@ -1188,12 +1191,56 @@ ________________________________________________________________________________
 		‘[A-Z][a-z]+’,			# one upper case letter followed by lower case letters
 	]
 
+	Instead of putting [0-9], [A-Z], these special characters can be used to achieve the same.
 	\d					# a digit
 	\D 					# a non-digit
 	\s					# whitespace
 	\S					# non whitespace
 	\w					# alphanumeric
 	\W					# non-alphanumeric
+	\b and \B 				# pertain to word boundary matches
+
+	
+	literal				Match literal string value 'literal'			foo
+	re1|re2				Match regular expressions re1 or re2			foo|bar
+	.				Match any character (except \n)				b.b
+	^				Match start of string					^Dear
+	$				Match end of string					/bin/*sh$
+	*				Match 0 or more occurances of preceding regex		[A-Za-z0-9]*
+	+				Match 1 or more occurances of preceding regex		[a-z]+\.com
+	?				Match 0 or 1 occurances of preceding regex		goo?
+	{N} 				Match N occurances of preceding regex			[0-9]{3}
+	{M, N}				Match from M to N occurances of preceding regex		[0-9]{5, 9}
+	[...]				Match any single character from character class		[aeiou]
+	[..x-y..]			Match any single character in range from x to y		[0-9], [A-Za-z]
+	[^...]				Don't match any character from character class,
+					including any ranges, if present			[^aeiou], [^A-Za-z0-9]
+	(*|+|?|{})?			apply 'non-greedy' versions of above occurance		.*?[a-z]
+	(...)				Match enclosed regex and save as subgroup		([0-9]{3})?, f(oo|u)
+
+	^From				# Any string that starts with From
+	/bin/tcsh$			# Any string that ends with /bin/tcsh
+	^Subject: hi$			# Any string consisting solely of the string Subject: hi
+
+	Creating character classes ([])
+		b[aeiu]t		# bat, bet, bit, but
+		[cr][23][dp][o2]	# A string of four characters: first is c or r, then 2 or 3 etc. r3p2, r2d2, c3po [] returns only 1 charatcer from charatcer class.
+		z.[0-9]			# "z" followed by any character then followed by single digit
+		[r-u][env-y][us]	# "r", 's', 't' or 'u' followed by 'e', 'n', 'v', 'w', 'x' or 'y' followed by 'u' or 's'
+		[^aeiou]		# A non-vowel charatcer
+		[^\t\n]			# Not a TAB or \n
+
+	Multiple Occurence/Repetition using Closure operators (*, +, ?, {})
+		*			# Match 0 or more occurances of regex immediately to its left
+		+			# Match 1 or more occurences of regex
+		?			# Match exactly 0 or 1 occurences of regex
+	
+		[dn]ot?			# 'd' or 'n' followed by an 'o' and atmost one 't' after that - 'do', 'no', 'dot', 'not'
+		0?[0-9]			# digit and then 0 or 1 or .. 9
+		[0-9]{15-16}		# fifteen or sixteen digits
+		</?[^>]+>		# string that match all valid/invalid HTML tags
+		
+
 
 
 <QUESTIONS:>
