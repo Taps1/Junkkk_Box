@@ -84,8 +84,7 @@ some more git commands that are used in speficied Cases:
 
 If you want to log a repository from the another directory then you can use:
 
-		git --git-dir=/repo/path/.git log -3 --pretty=oneline
-
+		git --git-dir=/repo/path/.git log -3 --pretty=oneline 
 
 If you want to revert the commit you need to reset it to the previious commit you've done; Can be done as; If you know to reset to the
 specific hash value:
@@ -103,6 +102,7 @@ If I want to have more than 1 git accounts on a single local machine, Then do
                ssh-keygen -t rsa -C "third_account@doman_name.com"
       Give different names to these RSA keys
       Now, I have to create a config file, as
+      vim ~/.ssh/config
 
       Host github.com
         HostName github.com
@@ -129,3 +129,6 @@ Now the work has been done and will be able to do stuff with github,
        To clone from first account:
           git clone git@github-first_account:/path/to/user/name
           git clone git@<Host>:<repository_paht>
+
+       	  git remote add talat2 git@talat2_account:Taps1/Junkkk_Box.git
+	  git push talat2 master
