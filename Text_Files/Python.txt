@@ -787,6 +787,42 @@ ________________________________________________________________________________
 	We can check whether the object is instance of the class or not as : isinstance(obj,class)
 	We can check whether the derived_class is subclass of base_class or not as: issubclass(derived_class,base_class)
 
+<INSTANCE METHOD vs CLASS METHOD vs STATIC METHOD>:
+        class A(object):
+            def foo(self,x):
+            print "executing foo(%s,%s)"%(self,x)
+
+            @classmethod
+            def class_foo(cls,x):
+                print "executing class_foo(%s,%s)"%(cls,x)
+
+            @staticmethod
+            def static_foo(x):
+                print "executing static_foo(%s)"%x    
+
+        a=A()
+
+	a.foo(1)			# works fine
+	A.foo(1)			# doesn't work fine
+	a.class_foo(1)			# works fine
+	A.class_foo(1)			# works fine
+	a.static_foo(1)			# works fine
+	A.static_foo(1)			# works fine
+
+    Instance/Normal methods - object of the class will be send as a first argument implicitely
+    Class methods - class name will be send as a first argument implicitly, 
+    Static methods - Neither object nor class will be send as argument.
+    Abstract methods - A method defined in base class but may not provide any implementation, the simplest way to write an abstract method in Python is:
+        
+        class Pizza(object):
+            def get_radius(self):
+                raise NotImplementedError
+
+    Any class inheriting from Pizza should implement and override the get_radius method, otherwise an exception would be raised
+
+        A().foo() is A().foo()			# False
+        A().static_foo() is A.static_foo()	# True
+        A.static_foo() is A.static_foo()	# True
 
 <SUPER>:
         Super is a keyword that is used to make a call to the super class method's along with current class method:
