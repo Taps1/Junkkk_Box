@@ -1240,6 +1240,10 @@ ________________________________________________________________________________
 		[0-9]{15-16}		# fifteen or sixteen digits
 		</?[^>]+>		# string that match all valid/invalid HTML tags
 		
+		\w+-\d+			# alphanumeric string and number separated by hyphen
+		\d{3}-\d{3}-\d{4}	# telephone numbers with area code prefix, 800-555-1212
+		\w+@\w+\.com		# xxx@yyy.com
+		
 
 
 
