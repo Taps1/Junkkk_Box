@@ -1,6 +1,8 @@
 Code refactoring is restructuring the existing code without changing its external behaviour.
 If you want to get help regarding the python via prompt; check with help() on terminal
 
+a module is a python file and package is a module which contains any other modules.
+
 If I want to check whether the sequence container is empty or not Simply Use:
 	bool(sequence)
 
@@ -1244,7 +1246,113 @@ ________________________________________________________________________________
 		\d{3}-\d{3}-\d{4}	# telephone numbers with area code prefix, 800-555-1212
 		\w+@\w+\.com		# xxx@yyy.com
 		
+<SOCKET PROGRAMMING>:
+    To create a socket, must use the socket.socket() function which has the general syntax as:
+        socket(sockt_family, socket_type, protocol=0)			# socket family is either AF_UNIX(local) or AF_INET(internet)
+									# socket_type is either SOCK_STREAM(TCP-connection oriented) or SOCK_DGRAM(UDP-connection less)
+	
+	tcpsoc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	udpsoc = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
+	SETTING UP TCP SERVER/CLIENT APPLICATION
+
+		SERVER.py
+
+			from socket import *
+			from time import ctime
+
+			HOST = ''					# '' so that it can use any available address
+			PORT = 21567					# any port to which client will point
+			BUFSIZE = 1024					# length of the data
+			ADDR = (HOST, PORT)
+
+			tcpSerSock = socket(AF_INET, SOCK_STREAM)	# a TCP connection object
+			tcpSerSock.bind(ADDR)				# this TCP object should be bound to some address
+			tcpSerSock.listen(5)				# maximum number of incoming connection requestsi, no listen() call will be there in connectionless architecture 	
+
+			while True:
+			    print "waiting for a connection..."
+    			    tcpCliSock, addr = tcpSerSock.accept()	# original server socket is free to accept new client requests and new separate client socket is returned
+    			    print "connected to...: ", addr
+
+    			    while True:
+        		        data = tcpCliSock.recv(BUFSIZE)
+        		        if not data:
+            		            break
+        		        tcpCliSock.send("[%s] %s"% (ctime(), data))
+    			    tcpCliSock.close()
+			tcpSerSock.close()
+
+		CLIENT.py
+
+			from socket import *
+
+			HOST = "localhost"				# IP on which the server is running 
+			PORT = 21567					# it must be same as of the server
+			BUFSIZ = 1024
+			ADDR = (HOST, PORT)
+
+			tcpCliSock = socket(AF_INET, SOCK_STREAM)
+			tcpCliSock.connect(ADDR)
+
+			while True:
+    			data = raw_input("> ")
+    			if not data:
+        		    break;
+    			tcpCliSock.send(data)
+    			data = tcpCliSock.recv(BUFSIZ)
+    			if not data:
+        		    break
+    			print data
+
+			tcpCliSock.close()
+
+		SETTING UP UDP CLIENT/SERVER APPLICATION
+		    SERVER.PY	
+			
+			from socket import *
+			from time import ctime
+
+			HOST = ""
+			PORT = 21567
+			BUFFSIZE = 1024
+			ADDR = (HOST, PORT)
+
+			udpSerSoc = socket(AF_INET, SOCK_DGRAM)
+			udpSerSoc.bind(ADDR)
+
+			while True:
+    			    print "waiting for a message..."
+    			    data, addr = udpSerSoc.recvfrom(BUFFSIZE)
+    			    udpSerSoc.sendto("[%s] %s" % (ctime(), data), addr)
+    			    print "received from and returned to ...", addr
+
+			udpSerSock.close()
+
+
+		    CLIENT.PY
+
+			from socket import *
+
+			HOST = "localhost"
+			PORT = 21567
+			BUFFSIZE = 1024
+			ADDR = (HOST, PORT)
+
+			udpCliSock = socket(AF_INET, SOCK_DGRAM)
+
+			while True:
+    			    data = raw_input(">")
+      			    if not data:
+        			break;
+
+    			    udpCliSock.sendto(data, ADDR)
+    			    data, ADDR = udpCliSock.recvfrom(BUFFSIZE)
+    			    if not data:
+        			break;
+    			    print data
+
+			udpCliSock.close()
 
 
 <QUESTIONS:>
