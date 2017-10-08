@@ -1355,6 +1355,15 @@ ________________________________________________________________________________
 			udpCliSock.close()
 
 
+<MULTITHREADED PROGRAMMING>:
+	We actually don't the functionality of mutli threading in python due to Global interpreter lock which ensures that only one thread is running. Execution of python code is controlled by Python virtual machine(Interpreter main loop). Python was designed in such a way that only one thread of control may be executing in this main loop. Many prorams can be in memory but only is live on the CPU at given moment. Access to Python virtual machine is is controlled by the GIL.
+	We have two ways of implementing threading in python which are in implemented in 2 modules - 
+		1. Thread (lower level threading) - Not recommended
+		2. threadingv(higher level threading) - recommended
+
+	With thread module, child thread exits without prompting/warning and without cleanup and cause main thread to exits and when main thread exits, all other thread die without cleanup.
+
+
 <QUESTIONS:>
 * Print the length of each word in sentence using map and lambda
 		map(lambda word: len(word), word.split())
