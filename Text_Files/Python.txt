@@ -1410,6 +1410,8 @@ ________________________________________________________________________________
 		    while lock1.locked():
 		        pass
 
+	DAEMON THREADS - A daemon is typically a server that waits for client requests to service. if we set daemon flag for a thread, we're basically saying that its not critical and it's okay for a process to exit without waiting for it to finish. If your main thread is ready to exit and you don't care to wait for the child the child to finish, then set their daemon flags. entire python program stay alive untill all non-daemonic threads have exited.
+
 <QUESTIONS:>
 * Print the length of each word in sentence using map and lambda
 		map(lambda word: len(word), word.split())
