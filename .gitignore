@@ -1,1 +1,5 @@
 *.class
+*.pyc
+venv/*
+db.sqlite3
+*/migrations/*
