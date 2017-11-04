@@ -1448,6 +1448,25 @@ ________________________________________________________________________________
 
 	DAEMON THREADS - A daemon is typically a server that waits for client requests to service. if we set daemon flag for a thread, we're basically saying that its not critical and it's okay for a process to exit without waiting for it to finish. If your main thread is ready to exit and you don't care to wait for the child the child to finish, then set their daemon flags. entire python program stay alive untill all non-daemonic threads have exited.
 
+We have the threading module as well which provides wide variety of synchronization mechanisms.
+	THREAD - Object that represents a single thread of execution
+	LOCK - Primitive lock object (same lock as in thread module)
+	RLOCK - re-entrant lock object provides ability for a single thread to re-acquire an already held lock
+	CONDITION - this object causes one thread to wait until a certain condition has been satisfied by another thread
+	EVENT - General version of condition variables, whereby any number of threads are waiting for some event to occur and all will awaken when the event happens
+	SEMAPHORE - Provides a 'counter' of finite resources shared between threads; block when none are available
+	BOUNDEDSEMAPHORE - Similar to semaphore but ensures that it never exceeds its initial value
+	TIMER - Similar to thread, except that it waits for an alloted period of time before running
+	BARRIER - A barrier at which a specified number of threads must all arrive before they're all allowed to continues
+
+	Due to the fact that the Python virtual machine is single threaded (GIL), greater concurrency is only possible when threading is applied to an I/O bound application (Vs. CPU bound applications,
+	which only do round-robin)
+
+<PYTHON-2 to PYTHON-3>
+	In order to convert code from python2 to python3, One can simply use 2to3 utility.
+	$ 2to3 foo.py					# only output difference 
+	$ 2to3 -w foo.py				# overwrites the file with python 3 code
+
 <QUESTIONS:>
 * Print the length of each word in sentence using map and lambda
 		map(lambda word: len(word), word.split())
