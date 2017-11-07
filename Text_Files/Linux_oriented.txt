@@ -6,13 +6,19 @@ If I want to find the location of a file whose(file) is completely known to me, 
 
 To check whether your system is 32 bit or 64 bit, check with:
 	
-	uname -a 
+	uname -a
 
 If your system is 32-bit; then it'll show as:
 	i686 i686 i386 GNU/Linux
 
 If your system is 64-bit; then it'll show as:
 	x86_64 x86_64 x86_64 GNU/Linux
+
+To know the version of your ubuntu system:
+	lsb_release -a
+
+To know the size of each and every file/folder:
+        du -sh *
 
 To Install a repo. into your system, How I can do that:???
 
@@ -24,20 +30,13 @@ To Install a repo. into your system, How I can do that:???
 		then install any package:
 		sudo yum install terminator
 
-To check which process is under root and which is in under normal user:
-	
-	ls -lart
-
 To change the ownership of the folder named Friends to stalat use :
 	
-	sudo chown -R stalat:stalat ./Friends	<Changing the ownership>[-R is used to change the ownership of folders inside folders]
+	sudo chown -R stalat:stalat ./Friends	<Changing the ownership>[-R is used to change the ownership recursively]
 	sudo chmod -R ugo ./Friends		<Giving the permission>
 
 
-If I want to check the code of python pre-defined methods, Then they can be look over into:
-		/usr/lib/python2.6 ... and their code can be seen as : z+M, z+R, z+O
-
-In python seq 10 will generate the sequence from 1 to 10, seq 10 20 will generate the sequence from 10-20
+In shell seq 10 will generate the sequence from 1 to 10, seq 10 20 will generate the sequence from 10-20
 
 cat q.txt w.txt will append the item as vertically, first q's and then w's
 
@@ -49,9 +48,6 @@ If I want to merge the commands in a single statement then I can use it by using
 
 If I want to make the sequence as in matrix form, then I can use it as:
 		seq 0 9 | xargs -n 5(number of columns)
-
-If I want to locate the location of a file, the it can be done as:
-		locate "filename"
 
 If I want to have a string splitted by specified character then It can be used by awk commands as:
 		grep "*\.mp3" | awk -F'="' '{print $NF}' | awk -F'">' '{print $1}' | wc -l
@@ -66,42 +62,7 @@ ifconfig
 internetip
 ps aux
 ps aux|grep "string"
-F6 [To go to URL bar directly]
-.source/bin/activate [To activate the things]
 find . -name "filename" [will find from the current folder]
-Ctrl+Alt+L [to lock the screen]
-Ctrl+Shift+T [to open a new tab in terminal]
-Alt+f2	[Run application]
-Ctrl+Shift+N	[New gnome Terminal]
-Ctrl+Shift+W	[Close a tab in gnome terminal]
-Ctrl+Page_Up/Page_Down	[Switch over tabs in gnome terminal]
-
-TMUX:
-		ctrl+z
-		ctrl+z+% [To open a tab vertically]
-		ctrl+z+" [To opena a tab horizontally]
-		tabnew "file_name" [To open another tab in single Terminal screen]
-		:shell [To open shell without closing the vim]
-		ctrl+e [To move downwards the vim editor screen]
-		<+m,n [To move back and forth in the terminal]
-		ctrl+z+release+<uparrwow,downarrow,rightarrow,leftarrow> [To make movement in terminal screens]
-
-VirtualEnv:
-	
-	VirtualEnv is used to install packages and use them without interrupting the system python packages.
-	The commands to install the VirtualEnv without sudo passwords are:
-		
-	    $ mkdir ~/bin
-	    $ mkdir -p ~/lib/python2.6
-	    $ mkdir -p ~/local/lib/python2.6/dist-packages
-	    $ wget http://peak.telecommunity.com/dist/virtual-python.py
-	    $ python virtual-python.py --no-site-packages
-	    $ wget http://peak.telecommunity.com/dist/ez_setup.py
-	    $ ~/bin/python ez_setup.py 
-	    ~/bin/python ez_setup.py -U setuptools
-	    /home/admin/bin/easy_install virtualenv
-	    /home/admin/bin/virtualenv . --no-site-packages
-	    ./source/bin/activate
 
 Pip:
 	
@@ -130,30 +91,6 @@ ShellScript:
 If you want to print only one line from the file; then use:
 
 	cat DEPENDENCIES.TXT | grep -i "\.db" > xyz.txt
-
-some more git commands that are used in speficied Cases:
-		git branch --set-upstream "branch_name" [The header will move to Branch "branch_name"]
-		git branch -D "branch_name" [It will delete the Branch "branch_name"]
-
-If you want to log a repository from the another directory then you can use:
-
-		git --git-dir=/repo/path/.git log -3 --pretty=oneline
-
-If you want to list the number of items in a particular directory; then use: 
-
-		#print len([name for name in os.listdir(t)])		#where t=location of the folder you want to lookup.
-		#print os.listdir(t)
-
-If you want to move to a particular directory via python code; then use:
-
-		#os.chdir("/stalat/Hello/Talat/Parwez/Hi")
-
-I want to open a pdf file by linux-terminal, use:
-		gnome-terminal "filename.pdf"
-
-
-I want to check the number of lines/words/character/bytes in a file; then use:
-		wc -<option>
 
 With Single-user-mode, remote logins are disabled, networking is disabled, and most daemons are not started used for system maintenance only; 
 To make the system run on single-user-mode; Add 1 or single @last as:
@@ -227,15 +164,6 @@ ls -l *.txt		$ls -l *.txt					#Will give all the files ending with ".txt" <* --c
 
 
 Occassionally I may need to run the command that is not in my path and not built in shell. Then It'll be best If I can add the direcotry to my path that contains the specific commands.
-
-For Loop:
-			var1=1,var2=2,var3=3
-			for var in $var1,$var2,$var3
-			do	
-			echo $var
-			done
-Executing more than one command in a single line by command separator ';':
-			ls;ps
 
 History of Commands:
 			command history

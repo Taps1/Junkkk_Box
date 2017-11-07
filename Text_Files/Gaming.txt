@@ -85,8 +85,6 @@ The Modules for PyGame are:
 	time
 	transform
 
-
-
 Now its time to start from the very Basic:
 
 	import pygame, sys				
@@ -100,8 +98,6 @@ Now its time to start from the very Basic:
 				pygame.quit()
 				sys.exit()
 		pygame.display.update()
-
-
 
 Now coming to the graphics part; it's like that only:
 

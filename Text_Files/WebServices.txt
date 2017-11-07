@@ -10,9 +10,6 @@ Stateless: Each request from a client must contain all the information required 
 Resources are identified by URI's
 
 
-
-
-
 Restful Web Services: Representational State Transfer Web Servives- Client-server seperation
 	
 specifying constraints such as uniform interface<Client server separation implementation>.
@@ -96,10 +93,6 @@ The application of flask are:
 	We Can perform it by using the Linux command curl as:
 				
 				 curl -i http://localhost:5000			Where 5000 is the port number where the code is running given by the o/p console
-
-
-
-
 
 		<Using Flask>		
 				1)import flask
