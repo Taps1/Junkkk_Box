@@ -1,0 +1,68 @@
+Development of storage hardware:
+	Puch cards were used back then
+	Punch tape
+	Magnetc Tape
+	Spinning Disks
+	- Hard Disk
+	- Floppy Disk
+	Optical Disk
+	- CD/DVD/Blu-ray
+	Solid state drive(SSD)
+
+A usually a large collection of data organised especially for rapid search and retrieval
+
+Data is stored on one or more tables (composed of rows and columns)
+row - tuple
+column - attribute
+
+Different types of databases:
+	Relational
+	Object Oriented
+	Document Based
+
+<INSTALLATION>:
+    SOURCE - https://support.rackspace.com/how-to/installing-mysql-server-on-ubuntu/
+    sudo apt-get --auto-remove purge mysql\*
+    sudo apt install mysql-server
+    /usr/bin/mysql_secure_installation
+    sudo service mysql start
+    sudo /usr/sbin/update-rc.d mysql defaults
+    /usr/bin/mysql -u root -p
+
+In SQL, -- is used for single line comments
+/* ... */ is used for multiple line comments
+
+Each table must have one column that can uniquely identify a row is known as Primary key
+If more than one table uses the same primary key, we can merge those two tables together, a table can also have a column that is classified as a Foreign key.
+A table will have a column which will have values that are primary keys in another table and will be known as Foreign key
+A foreign key links that table to another table's primary key
+
+Why not just have one table - 
+    We've a Contact database
+	First Name, Last Name, Email Addresses
+    What if one has got more than 1 email address, we can add email2 but ...
+    What if one has more than 5 email address, We can't keep on adding more and more fields for emails like email1, email2, .., 
+
+    A better solution - 
+	Make a table which will have Key, FirstName, LastName and let's create another table for email addresses
+
+        PERSON_TABLE                                    EMAIL_TABLE
+        ------------------------------                  ------------------------------
+        Key    FirstName    LastName                    Key    PersonKey    Email
+        1      Jon          Flanders                    1      2            fritz@...
+        2      Fritz        Onnion                      2      1            jon1@...
+                                                        3      1            job2@...
+
+Here, PersonKey(email_table) is a foreignKey to key(person_table)
+
+Now try to ask - what are all jon's email addresses, how many email addresses does each person has.
+
+    <COMMANDS>
+        create database <database_name>;
+	use database <database_name>;	
+        create table <table_name> (<column_name> <datatype>, <column_name> <datatype>, <column_name> <data_type>, ...);
+	select <column_name>, <column_name>, ... from <table_name>;
+
+    There are two ways to limit the number of rows in a simple SELECT statement
+	- Add additional clauses after the from clause
+	- Use DISTINCT qualifier before the SELECT list
