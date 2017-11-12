@@ -62,6 +62,10 @@ Now try to ask - what are all jon's email addresses, how many email addresses do
 	use database <database_name>;	
         create table <table_name> (<column_name> <datatype>, <column_name> <datatype>, <column_name> <data_type>, ...);
 	select <column_name>, <column_name>, ... from <table_name>;
+	select first_name, last_name from person where age BETWEEN 10 and 15;
+        select first_name, last_name from person where age IN (10, 11, 12, 13, 14, 15);
+        select first_name, last_name from person where first_name LIKE 'Tal%';
+        select first_name from person where last_name IS null; 
 
     There are two ways to limit the number of rows in a simple SELECT statement
 	- Add additional clauses after the from clause
