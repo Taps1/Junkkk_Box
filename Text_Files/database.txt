@@ -65,7 +65,24 @@ Now try to ask - what are all jon's email addresses, how many email addresses do
 	select first_name, last_name from person where age BETWEEN 10 and 15;
         select first_name, last_name from person where age IN (10, 11, 12, 13, 14, 15);
         select first_name, last_name from person where first_name LIKE 'Tal%';
-        select first_name from person where last_name IS null; 
+        select first_name from person where last_name IS null;
+        select first_name, last_name from person ORDER BY first_name, last_name;
+        
+        select COUNT(*) as NumberOfPeople from person;
+
+	set functions - 
+	    functions that help to turn column data from tables into computed values:
+                COUNT, MAX, MIN, AVG, SUM
+
+	group by clase - 
+            lets us put all the subsets together, and link those subsets up to the column(s) specified in the GROUP BY clause
+	    # give me some colleges which are in east direction, some are from west, some from north and some from south
+
+            To appear in GROUP BY clause, the column must be in select list
+            select count(gender), gender from address GROUP BY gender;
+
+	having - 
+            having clause works against result set returned with a group by clause.
 
     There are two ways to limit the number of rows in a simple SELECT statement
 	- Add additional clauses after the from clause
