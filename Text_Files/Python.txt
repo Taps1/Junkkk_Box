@@ -1463,11 +1463,11 @@ We have the threading module as well which provides wide variety of synchronizat
 	which only do round-robin)
 
 	SYNCHRONIZATION PRIMITIVES - Often times, in threaded code, we've certain codes which we don't want more than 1 thread executing. Usually this involves modifying a database, updating a file.
-	    whenever there's a race condition, synchronization is required. Synchronization is used when many number of threads can come up to one of critical sections but only one is allowed through at
+	    whenever there's a race condition, synchronization is required. Synchronization is used when many number of threads can come up to one of critical sections but only one is allowed through at.
 	    any given time. Two types of syncronization are there - Locks/Mutexes and Semaphores.
 
 	LOCKING: Two states - Locked and Unlocked, Two supported functions - Acquire and Release. As multiple thread looks for lock, the first thread to acquire one is permitted to go in and execute code
-	    in critical section. All other threads coming along are blocked until the first thread wraps up, exits the critical section and releases the lock.
+	    in critical section. All other threads coming along are blocked until the first thread wraps up, exits the critical section and releases the lock. We need locks so that no two threads can enter the critical section at same time to access the same data structure or I/O
 
 <PYTHON-2 to PYTHON-3>
 	In order to convert code from python2 to python3, One can simply use 2to3 utility.
