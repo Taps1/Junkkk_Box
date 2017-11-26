@@ -93,6 +93,7 @@ We can insert multiple rows using multiple value lists
 
 Update enables us to change one or more columns in a table.
 Delete helps us to delete one or more rows permanently
+Alter table enables us to add or change a column definition to an existing table
 
 
 JOINS are used to create a new result set from two or more tables
@@ -104,10 +105,23 @@ JOINS are used to create a new result set from two or more tables
     RIGHT OUTER JOIN - Only the rows from right table will be returned
     SELF JOIN - Joining a table against itself
 
+TRANSACTIONS - A construct that creates a 'context' around one or more SQL statements and follows the ACID propertiesc: Atomic, Consistent, Isolated, Durable 
+    Atomic - transaction either happens or it doesn't
+    Consistency - transaction leaves the database in consistent state
+    Isolated - transaction happens in serial way
+    Durable - transation will be stored permanently even in face of disaster
+
+    start transaction;
+    delete from person;
+    commit/rollback;
 
 create table person (email varchar(200), department varchar(200));
 insert into person (name, address) values ('Ankit', 'Gujrat');
 update person set name='anuj', address='ghaziabad' where address='4';
+delete from person where name='anuj';
+drop table person;
+create table email_address (email_address_id integer PRIMARY KEY, email_address varchar(200) not null, email_address_person_id integer, constraint foreign key (email_address_person_id) references person (person_id));
+alter table email_address add constraint FK_person foreign_key (email_address_person_id) references person (persn_id);
 CROSS-JOIN: select p.name, p.address, e.email_address, e.department from person p, email e;
 INNER JOIN: select p.name, p.address, e.email_address, e.address from person p INNER JOIN email e on p.person_id = e.email_address_person_id;
 LEFT OUTER JOIN: select p.name, p.address, e.email_address, e.department from person p LEFT OUTER JOIN email e on p.name = e.department;
