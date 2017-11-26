@@ -87,3 +87,28 @@ Now try to ask - what are all jon's email addresses, how many email addresses do
     There are two ways to limit the number of rows in a simple SELECT statement
 	- Add additional clauses after the from clause
 	- Use DISTINCT qualifier before the SELECT list
+
+We can insert multiple rows using multiple value lists
+    insert into person (name, address) values (3,4), (5,6);
+
+Update enables us to change one or more columns in a table.
+Delete helps us to delete one or more rows permanently
+
+
+JOINS are used to create a new result set from two or more tables
+    Mainly primary keys and foreign keys play a role in getting the result set, a join can be made between table A and table B with the keys between table where B has a foreign key which acts as a primary key in table A. There are type of Joins:
+    CROSS JOIN - join each row of one table to another table without having any relation
+    INNER JOIN - Take all the rows from table A, find all the rows from table B with the same key as of table A
+    OUTER JOIN - Inner join only joins against rows where there is a match in the joined table, but outer join works even when a row in one of the table doesn't match with a row in the joined table. We'll have entries from both the tables - matched or unmatched
+    LEFT OUTER JOIN - Only the rows from left table will be returned
+    RIGHT OUTER JOIN - Only the rows from right table will be returned
+    SELF JOIN - Joining a table against itself
+
+
+create table person (email varchar(200), department varchar(200));
+insert into person (name, address) values ('Ankit', 'Gujrat');
+update person set name='anuj', address='ghaziabad' where address='4';
+CROSS-JOIN: select p.name, p.address, e.email_address, e.department from person p, email e;
+INNER JOIN: select p.name, p.address, e.email_address, e.address from person p INNER JOIN email e on p.person_id = e.email_address_person_id;
+LEFT OUTER JOIN: select p.name, p.address, e.email_address, e.department from person p LEFT OUTER JOIN email e on p.name = e.department;
+RIGHT OUTER JOIN: select p.name, p.address, e.email_address, e.department from person p RIGHT OUTER JOIN email e on p.name = e.department;
