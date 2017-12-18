@@ -1,14 +1,9 @@
 Web Services: What I need to learn Web Services
 
-Component--> Internal state that provides the transformation of data.
-Data -->Transferred from a component, recieved by a component via connector.
-Connector --> Mediates the communication,coordination among components.
-
 Stateless: Each request from a client must contain all the information required by the server to carry out the request.
 	   In other words, the server cannot store information provided by the client in one request and use it in another request.
 
 Resources are identified by URI's
-
 
 Restful Web Services: Representational State Transfer Web Servives- Client-server seperation
 	
@@ -333,4 +328,37 @@ The application of flask are:
 
 				if __name__=="__main__":
 					app.run(debug=True)
+
+
+<DEPLOYMENT OF DJANGO APPLICATION>
+	ssh -i <filename>.pem <username>@<IP_Address>
+	sudo apt-get install apache2
+	sudo apt-get install python-setuptools
+	sudo apt-get install libapache2-mod-wsgi
+
+	Once the apache is installed, We can check it on browser by saying - <IP> or localhost on URL browser
+
+	We'll have apache folder under /etc/apache2 and it'll have all the configuration files as in - apache2.conf
+	Now default apache configuration(apache2.conf) will be looking to /var/www/ for project and this is where we need to put our codebase.
+	and the project path is been set in /etc/apache2/sites-available/*.conf file
+
+	Once apache is installed and Django codebase is in /var/www/ location, then only thing we got to do is - link our codebase with apache set-up configuration.
+
+Go to /etc/apache2/sites-available/default-ssl.conf and put the content as:
+
+	<VirtualHost *:80>
+        	ServerName mysite.com
+        	ServerAlias mysite.com
+        	ServerAdmin myaccount@gmail.com
+
+	        DocumentRoot /var/www/myproject
+        	WSGIScriptAlias / /var/www/myproject/csm/wsgi.py
+
+	        ErrorLog /var/www/logs/error.log
+	        CustomLog /var/www/logs/access.log combined
+
+	</VirtualHost>
+
+	and In apache2.conf file, put pythonpath - 
+		WSGIPythonPath /var/www/pulse_project
 
