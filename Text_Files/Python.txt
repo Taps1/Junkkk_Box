@@ -1004,12 +1004,6 @@ other), __truediv__(self, other), __mod__(self, other), __divmod__(self, other),
         __copy__(self)==shallow copy, __deepcopy__(self, dict)       
         
         For immutable objects, there's no need of for copying because the data will never change.Python uses the same data and Ids are always the same.
-        For mutable objects; Since they can potentially change, Shallow copy creates a new object.
-        For mutable objests; Since they can potentially change, Deep copy creates a new object for Main list as well as for the data containing inside in it.
-                Suppose I have a list of lists, then deep copy created the object for nested lists also; So While working with mutable data objects, 
-                Inner items will have the different ids as they are different objects. 
-        If I change the data object, It will be reflected in copied data object in case of shallow copy
-        If I change the data object, It will not be reflected in copied object in case of deep copy 
                        
                         class FunctionalTests(object):
                             def __init__(self, *values):
@@ -1156,6 +1150,18 @@ ________________________________________________________________________________
 	Dog = namedtuple(‘Dog’, ‘age breed name’)
 	sam = Dog(age=2, breed=‘lab’, name=‘samy’)
 	sam.age, sam.breed, sam.name					# So here, we can call age as sam[0] and sam.age as well
+
+SHALLOW_COPY Vs DEEP_COPY:
+    Assignment statements in python don't copy objects, but they create bindings between a target and an object
+    With shallow_copy, the ID of outer element is changed only,
+        If we change some outer indexed value, then it won't be reflected in copied item.
+        If we change values in inner indexed item, then it'll be reflected in copied item.
+    With deepcopy, the ID of inner elements are changed as well along with outer elements
+        ** any changes made to a copy of object don't reflect in another object. 
+        If we change some outer indexed value, then it won't be reflected in copied item
+        If we change vallues in inner indexed item, then it won't be reflected in copied item.
+
+FYR: [1,2,3, [4,5,6]] - (1,2,3) are outer indexed items and (4,5,6) are inner indexed items
 
 _______________________________________________________________________________________________________________________________________________________________
 
