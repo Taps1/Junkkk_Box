@@ -32,7 +32,6 @@ ________________________________________________________________________________
 Simple Complex Number:
 	x=5+6j				# Complex Number
 	dir(x)
-
 	x.real
 	x.imag
 
@@ -89,7 +88,6 @@ Joining the string:
 	' '.join(w)
 
 _______________________________________________________________________________________________________________________________________________________________
-		
 
 Range Function:
 	range(10)			#[0,1,2,3,4,5,6,7,8,9]
@@ -106,7 +104,7 @@ Simple List Functions:
 	fruits=['a','b','c']
 	fruits[0]			#'a'
 	fruits.append('d')		#['a','b','c','d']
-        fruits.append(['e'])		#['a', 'b', 'c', 'd', ['e']]
+    fruits.append(['e'])		#['a', 'b', 'c', 'd', ['e']]
 	fruits.extend(['f'])		#['a', 'b', 'c', 'd', ['e'], 'f']
 	fruits.index('a')		#0
 	fruits.index('a',1)		#It will find the element 'a' from index 1
@@ -169,7 +167,6 @@ List Comprehension:
 		first one is outer loop and second one is inner loop.
 
 _______________________________________________________________________________________________________________________________________________________________
-
 <TUPLE>
 simple tuple functions:
 
@@ -279,15 +276,6 @@ ________________________________________________________________________________
 	It will try to perform all oprations defined in try block and if it catches the ValueError, Then will print the eror message
         
         If I want that this statement should be executed under all circumstances then, use finally block
-                try:
-                    f=open("file.txt",'w')
-                    t=12/0
-                except ZeroDivisionError:
-                    print "Can't be divided by Zero"
-                finally:
-                    f.close()
-                    print "Closing the File object"
-
 
 The Last printed expression will be assigned to the variable _ (underscore)
 
@@ -422,28 +410,12 @@ ________________________________________________________________________________
 		apply(add,4,5)
 		apply(sub,4,5)
 
-
-8)	Outer and Inner function
-		def outer():
-			x=1
-			def inner():
-				print x
-			return inner				//when you put parentheses around it the function gets executed whereas if you don’t put parenthesis around 									  it then it can be passed around and can be assigned to other variables without executing it.
-		foo=outer()
-		foo			#function inner at one position
-		foo()			#It will return the value from inner function
-
-
-
 9)	Variable number of Arguments
 		def foo(*args):
 			print args			// It will print the recieved arguments in form of Tuples
-
-		def foo(*args);
-   			print args
 		
 		ll = [1,2,3,4]
-		foo(*ll) 				// (1,2,3,4)
+	    foo(*ll) 				// (1,2,3,4)
 		foo([1,2,3,4])				// ([1,2,3,4],)
 
 	Another use of *(asterisk):
@@ -454,7 +426,7 @@ ________________________________________________________________________________
 		foo(*l)					//elements of list will go one by one
 
 
-10) 	Variable Number of Arguments in Key-Value pair
+10) Variable Number of Arguments in Key-Value pair
 		def foo(**kwargs):
 			print kwargs			//will return {x:1,y:2}
 		foo(x=1,y=2)
@@ -472,11 +444,11 @@ ________________________________________________________________________________
 	
 	Iterators have the special property to keep the one value @once. 
 			
-			iter(sequence)
-			number='123456789'
-			n=iter(number)
-			n.next(),n.next()..... after reaching out the last element, It will throw an StopIteration Exception.
-		We don’t get StopIteration error with for loop, because for loop automatically catches the exception and stops calling next() on iterable.
+	iter(sequence)
+	number='123456789'
+	n=iter(number)
+	n.next(),n.next()..... after reaching out the last element, It will throw an StopIteration Exception.
+	We don’t get StopIteration error with for loop, because for loop automatically catches the exception and stops calling next() on iterable.
 
 
 If I want to check whether the file is having syntax file or not:
@@ -490,107 +462,105 @@ ________________________________________________________________________________
 
 <FUNCTIONS WITHIN FUNCTIONS>
 	def hello(name="Jose"):
-            print "The hell() function has been executed"
-            def greet():
-                return "Inside greet() function"
-            def welcome():
-                return "Inside welcome() function"
-            print greet()
-            print welcome()
+        print "The hell() function has been executed"
+        def greet():
+            return "Inside greet() function"
+        def welcome():
+            return "Inside welcome() function"
+        print greet()
+        print welcome()
 
-hello(): 
-The hell() function has been executed
-Inside greet() function
-Inside welcome() function
+    hello()
+    The hell() function has been executed
+    Inside greet() function
+    Inside welcome() function
 _______________________________________________________________________________________________________________________________________________________________
 
 <DECORATOR>
 	A decorator is just a callable that takes a function as an Argument and return a replacement function. These are simply wrappers to existing functions.
 
-					"""def foo(bar):
-					    return bar + 1
+	"""def foo(bar):
+	       return bar + 1
 
-					print foo(2) == 3
-					-------------------------------------------------------------
-					Nested Function:
+	print foo(2) == 3
+-------------------------------------------------------------
+Nested Function:
 					--------------------------------------------------------------
 
-					def parent(number):
-					    print "Printing from parent function"
+	def parent(number):
+		print "Printing from parent function"
 
-					    def first():
-					        print "first child"
-					    def second():
-					        print "second child"
-					    def third():
-					        print "third child"
+		def first():
+		    print "first child"
+		def second():
+			print "second child"
+		def third():
+		    print "third child"
 
-					    try:
-					       assert number == 10
-					       return first()
-					    except AssertionError:
-					       return second()
+		try:
+		    assert number == 10
+			return first()
+		except AssertionError:
+		    return second()
 
-					parent(18)
+	parent(18)
 
 
-					------------------------------------------------------------
-					Decorator Call to function
-					------------------------------------------------------------
+------------------------------------------------------------
+Decorator Call to function
+------------------------------------------------------------
 
-					def my_decorator(some_func):
-					    def wrapper():
-					        print "Something is happening before some_function() is called"
-					        some_func()
-					        print "Something is happening after some_function() is called"
+    def my_decorator(some_func):
+        def wrapper():
+		    print "Something is happening before some_function() is called"
+			some_func()
+			print "Something is happening after some_function() is called"
 					    
-					    return wrapper
+		return wrapper
 
-					def just_some_function():
-					    print "Wwheee!!"
-
-
-					just_some_function = my_decorator(just_some_function)()
-					#just_some_function()
+	def just_some_function():
+	    print "Wwheee!!"
 
 
-					-------------------------------------------------------
-					Decorator Call to function with "PIE" syntax
-					-------------------------------------------------------
-					"""
-					def my_decorator(some_func):
-					    def wrapper():
-					        print "Something is happening before some_function() is called"
-					        some_func()
-					        print "Something is happening after some_function() is called"
+	just_some_function = my_decorator(just_some_function)()
+	#just_some_function()
+
+
+-------------------------------------------------------
+Decorator Call to function with "PIE" syntax
+-------------------------------------------------------
+"""
+    def my_decorator(some_func):
+        def wrapper():
+            print "Something is happening before some_function() is called"
+            some_func()
+            print "Something is happening after some_function() is called"
 					    
-					    return wrapper
+        return wrapper
 
-					@my_decorator
-					def just_some_function():
-					    print "Wwheee!!"
+    @my_decorator
+    def just_some_function():
+        print "Wwheee!!"
 
+    just_some_function()
 
-					just_some_function()
+-------------------------------------------------------
+Some real word examples
+-------------------------------------------------------
+"""
+    from time import sleep
 
+    def sleep_decorator(function):
+        def wrapper(*args, **kwargs):
+            sleep(2)
+            return function(*args, **kwargs)
+        return wrapper
 
-					-------------------------------------------------------
-					Some real word examples
-					-------------------------------------------------------
-					"""
-					from time import sleep
+    @sleep_decorator
+    def print_number(num):
+        print num
 
-					def sleep_decorator(function):
-					    def wrapper(*args, **kwargs):
-					        sleep(2)
-					        return function(*args, **kwargs)
-					    return wrapper
-
-					@sleep_decorator
-					def print_number(num):
-					    print num
-
-					print_number(10)
+    print_number(10)
 
 _______________________________________________________________________________________________________________________________________________________________
 
@@ -620,15 +590,13 @@ ________________________________________________________________________________
 	Generators are like normal functions but whenever they need to generate the value, They dont return but yield them.
 		One value is generated from the generator, To get the next generated value, We use __next__() method 
 
-
-
-		def foo():
-			1.print "I am in First Yield"
-			2.yield 1
-			3.print "I am in Second Yield"
-			4.yield 2
-			5.print "I am in Third Yield"
-			6.yield 3
+    def foo():
+        1.print "I am in First Yield"
+        2.yield 1
+        3.print "I am in Second Yield"
+        4.yield 2
+        5.print "I am in Third Yield"
+        6.yield 3
 
 		o=foo()
 		o.next()			#It will go to line 1 and start execute untill the first yield is reached
@@ -654,55 +622,55 @@ ________________________________________________________________________________
 	object.attribute=value
 	del object.attribute
 	
-		class MyClass:
-	       	"""A simple example class"""
-		    i = 12345
-		    def f(self):
-		        return 'hello world'
+    class MyClass:
+        """A simple example class"""
+        i = 12345
+        def f(self):
+            return 'hello world'
 	Here i and f are the attributes of the class and can be accessed as MyClass.i and MyClass.f
 
-        If there is a __init__() defined then we've to use the self keyword mandataroly to access that varaible.        
+    If there is a __init__() defined then we've to use the self keyword mandataroly to access that varaible.        
                 
-        class A(object):
-	i,j=11,21
-	def __init__(self):
-		self.i=10
-		self.j=20
-	def f(self):
-		print A.i                               #11
-		print self.j                            #20
+    class A(object):
+	    i,j=11,21
+	    def __init__(self):
+		    self.i=10
+		    self.j=20
+    	def f(self):
+	    	print A.i                               #11
+		    print self.j                            #20
 
 	class A(object):
-    ...:     d = 123
-    ...:     def __init__(self, a):
-    ...:         self.a = a
-    ...:         print self.a
-    ...:         print A.d
-    ...:         print self.d
+    d = 123
+    def __init__(self, a):
+        self.a = a
+        print self.a
+        print A.d
+        print self.d
 
 	obj = A(234)
 	234, 123, 123
 	
 	class A(object):
-    ...:     d = 123
-    ...:     def __init__(self, a):
-    ...:         self.a = a
-    ...:         print self.a
-    ...:         self.d = 456
-    ...:         print A.d
-    ...:         print self.d
+        d = 123
+        def __init__(self, a):
+            self.a = a
+            print self.a
+            self.d = 456
+            print A.d
+            print self.d
 	obj = A(234)
 	234, 123, 456
 
 	
 	class A(object):
-    ...:     d = 123
-    ...:     def __init__(self, a):
-    ...:         self.a = a
-    ...:         print self.a
-    ...:         A.d = 456
-    ...:         print A.d
-    ...:         print self.d
+        d = 123
+        def __init__(self, a):
+            self.a = a
+            print self.a
+            A.d = 456
+            print A.d
+            print self.d
 	
 	obj = A(234)
 	234, 456, 456
@@ -710,23 +678,22 @@ ________________________________________________________________________________
 
 	If you want to make an object of it then you need to define it as:	
 		
-		obj_name=class_name()
+    obj_name=class_name()
 
 	A class also have the magic method named as: __init__(self,arguments)
 	While instantiating a class(@time of creation of object), If we pass the arguments as:
 		
-		obj_name=class_name(arg1,arg2,...)
+    obj_name=class_name(arg1,arg2,...)
 
 	They will always be recieved by __init__ method.
 	
 
-		class A(object):
-			def __init__(self,x,y):
-				self.x=x
-				self.y=y
-		
+    class A(object):
+        def __init__(self,x,y):
+            self.x=x
+            self.y=y
 
-		t=A(1,2)
+        t=A(1,2)
 		t.x				#1
 		t.y				#2
 
@@ -735,38 +702,33 @@ ________________________________________________________________________________
 	Because, When we say x=A(), Here ,,, Object is passed as an argument to the function.
 	Its is like 
 				
-				x.f()==MyClass.f(x)
+        x.f()==MyClass.f(x)
 	
 	self is the object_name that is passed to function.
 
+    class A():
+        i=12345						#shared by all instances of the class
+        def __init__(self,name):
+            self.name=name				#shared by specific instance
+
+    x=A()
+    x.i								#12345
 
 
-		class A():
-			i=12345						#shared by all instances of the class
-			def __init__(self,name):
-				self.name=name				#shared by specific instance
-
-			
-
-		x=A()
-		x.i								#12345
-
-
-		class A():
+    class A():
 		name1="Python"
-		def __init__(self,name,age):
-		    self.name=name
+        def __init__(self,name,age):
+            self.name=name
 		    self.age=age
 		    self.name1="TP"
         
-		x=A("Talat",22)					#Create the instance of class A
-		print x.age						#22
-		print x.name					#"Talat"	
-		print x.name1					#"TP"
+    x=A("Talat",22)					#Create the instance of class A
+    print x.age						#22
+    print x.name					#"Talat"	
+    print x.name1					#"TP"
 
 	If self with name1 was not given, then In lack of self keyword, name1 will not engaged with x object and will find to the upper most class. 
 	And will take the name1 as "Python".
-
 
 	If I want to derive a baseclass into derivedclass i.e. Inheritance Concept. The syntax for Inheritance is as follows:
 		
@@ -775,8 +737,8 @@ ________________________________________________________________________________
 	
 	If the class is defined in another module, Then also it can be inherited as:
 		
-		class derived_class(object,module_name.base_class):
-			//statements
+    class derived_class(object,module_name.base_class):
+        //statements
 
 
 	If some attribute is not found in the class<derived>; Then It'll move forward to the BaseClass in searching of that requested Attribute and 
@@ -788,17 +750,17 @@ ________________________________________________________________________________
 	We can check whether the derived_class is subclass of base_class or not as: issubclass(derived_class,base_class)
 
 <INSTANCE METHOD vs CLASS METHOD vs STATIC METHOD>:
-        class A(object):
-            def foo(self,x):
+    class A(object):
+        def foo(self,x):
             print "executing foo(%s,%s)"%(self,x)
 
-            @classmethod
-            def class_foo(cls,x):
-                print "executing class_foo(%s,%s)"%(cls,x)
+        @classmethod
+        def class_foo(cls,x):
+            print "executing class_foo(%s,%s)"%(cls,x)
 
-            @staticmethod
-            def static_foo(x):
-                print "executing static_foo(%s)"%x    
+        @staticmethod
+        def static_foo(x):
+            print "executing static_foo(%s)"%x    
 
         a=A()
 
@@ -814,90 +776,89 @@ ________________________________________________________________________________
     Static methods - Neither object nor class will be send as argument.
     Abstract methods - A method defined in base class but may not provide any implementation, the simplest way to write an abstract method in Python is:
         
-        class Pizza(object):
-            def get_radius(self):
-                raise NotImplementedError
+    class Pizza(object):
+        def get_radius(self):
+            raise NotImplementedError
 
     Any class inheriting from Pizza should implement and override the get_radius method, otherwise an exception would be raised
 
-        A().foo() is A().foo()			# False
-        A().static_foo() is A.static_foo()	# True
-        A.static_foo() is A.static_foo()	# True
+    A().foo() is A().foo()			# False
+    A().static_foo() is A.static_foo()	# True
+    A.static_foo() is A.static_foo()	# True
 
 <SUPER>:
-        Super is a keyword that is used to make a call to the super class method's along with current class method:
-        suppose there is a class that is been inherited by child class and both of them have the __init__() methods, So without using the super keyword we can;t 
-        call the parent class's __init__(), we need to put super keyword in child class that while initializing the current class; the parent class of it also 
-        needs to be initialized.
-        It's more like How can I call the method of parent class if both child and parent class has the same method name
+    Super is a keyword that is used to make a call to the super class method's along with current class method:
+    suppose there is a class that is been inherited by child class and both of them have the __init__() methods, So without using the super keyword we can;t 
+    call the parent class's __init__(), we need to put super keyword in child class that while initializing the current class; the parent class of it also 
+    needs to be initialized.
+    It's more like How can I call the method of parent class if both child and parent class has the same method name
 
 NOTE: "super() argument 1 must be type, not classobj - If baseclass doesn't have Object class inherited"
         e.g.
            
-                                        class A(object):
-                                            def __init__(self, a):
-                                                self.a = a
-                                                print "Class A's constructor"
-                                            def foo(self):
-                                                print "I'm in class A"
-                                            def fo1(self):
-                                                print "Class A"
+    class A(object):
+        def __init__(self, a):
+            self.a = a
+            print "Class A's constructor"
+        def foo(self):
+            print "I'm in class A"
+        def fo1(self):
+            print "Class A"
 
-                                        class C(A):
-                                            def __init__(self, a):
-                                                self.a = a
-                                                print "Class C's constructor"
-                                                super(C, self).__init__(self.a)
-                                            def foo(self):
-                                                print "I'm in class C"
+    class C(A):
+        def __init__(self, a):
+            self.a = a
+            print "Class C's constructor"
+            super(C, self).__init__(self.a)
+        def foo(self):
+            print "I'm in class C"
 
 
-                                        class A(object):
-                                            #def __init__(self):
-                                            #    print "contructor of class A"
-                                            #    super(A, self).__init__()
-                                            def foo(self, a=5, b=10):
-                                                print a+b
-                                        class B(A):
-                                            def __init__(self):
-                                                print "constructor of class B"
-                                                super(B, self).foo()
-                                        class C(A):
-                                            #def __init__(self):
-                                            #   print "Consructor for class C"
-                                            #    super(C, self).__init__()
-                                            def __str__(self):
-                                                print "This is an object of class C"
-                                            def __call__(self, a, b):
-                                                self.a = a
-                                                self.b = b
-                                            def foo(self):
-                                                super(C, self).foo(self.a, self.b)
+    class A(object):
+        #def __init__(self):
+        #    print "contructor of class A"
+        #    super(A, self).__init__()
+        def foo(self, a=5, b=10):
+            print a+b
+    class B(A):
+        def __init__(self):
+            print "constructor of class B"
+            super(B, self).foo()
+    class C(A):
+        #def __init__(self):
+        #   print "Consructor for class C"
+        #   super(C, self).__init__()
+        def __str__(self):
+            print "This is an object of class C"
+        def __call__(self, a, b):
+            self.a = a
+            self.b = b
+        def foo(self):
+            super(C, self).foo(self.a, self.b)
 
         
-        We can check the mro for the class; as 
-                                        class_name.mro()
+    We can check the mro for the class; as 
+            class_name.mro()
 
 
-        When an object is created for a class C; then it'll also call the constructor method of parent class i.e. of class A
-                                        obj = C(10)
-                                                                o/p will be "Class C's constructor" and then "Class B's constructor"
-        Whatever method we'll call in super method's line then it'll be called
+    When an object is created for a class C; then it'll also call the constructor method of parent class i.e. of class A
+        obj = C(10)
+    o/p will be "Class C's constructor" and then "Class B's constructor"
+    Whatever method we'll call in super method's line then it'll be called
 	Multiple Inheritance:
 		
-		class B(object):
-			name="Python"
+    class B(object):
+        name="Python"
 
-		class A(B):
-			def __init__(self,name,age):
-				#self.name=name
-				self.age=age
+    class A(B):
+        def __init__(self,name,age):
+            #self.name=name
+            self.age=age
 				
-		x=A("Talat",22)
-		print x.age									#22
-		print x.name								#Python
-		print issubclass(A,object)
-
+    x=A("Talat",22)
+    print x.age									#22
+    print x.name								#Python
+    print issubclass(A,object)
 
 	If there is another class that has the same attribute as name, Then which name to call, which class will be looking first,
 
@@ -909,15 +870,15 @@ NOTE: "super() argument 1 must be type, not classobj - If baseclass doesn't have
 
 	Look at the example:
 
-		class Employee:
-			pass
+	class Employee:
+        pass
 
-		john = Employee() # Create an empty employee record
+    john = Employee() # Create an empty employee record
 
-		# Fill the fields of the record
-		john.name = 'John Doe'
-		john.dept = 'computer lab'
-		john.salary = 1000
+    # Fill the fields of the record
+    john.name = 'John Doe'
+    john.dept = 'computer lab'
+    john.salary = 1000
 
 	class A():
 		def foo(self):
@@ -942,59 +903,60 @@ NOTE: "super() argument 1 must be type, not classobj - If baseclass doesn't have
 
 
 
-        class Person(object):
-                """
-                Returns a ```Person``` object with given name.
-                """
-                def __init__(self, name):
-                        self.name = name
-                def get_details(self):
-                        "Returns a string containing name of the person"
-                        return self.name
-        class Student(Person):
-                """
-                Returns a ```Student``` object, takes 3 arguments, name, branch, year.
-                """
-                def __init__(self, name, branch, year):
-                        Person.__init__(self, name)
-                        self.branch = branch
-                        self.year = year
-                def get_details(self):
-                        "Returns a string containing student's details."
-                        return "%s studies %s and is in %s year." % (self.name, self.branch, self.year)
-        class Teacher(Person):
-                """
-                Returns a ```Teacher``` object, takes a list of strings (list of papers) as
-                argument.
-                """
-                def __init__(self, name, papers):
-                        Person.__init__(self, name)
-                        self.papers = papers
-                def get_details(self):
-                        return "%s teaches %s" % (self.name, ','.join(self.papers))
+    class Person(object):
+        """
+        Returns a ```Person``` object with given name.
+        """
+        def __init__(self, name):
+            self.name = name
+        def get_details(self):
+            "Returns a string containing name of the person"
+            return self.name
+    class Student(Person):
+        """
+        Returns a ```Student``` object, takes 3 arguments, name, branch, year.
+        """
+        def __init__(self, name, branch, year):
+        Person.__init__(self, name)
+        self.branch = branch
+        self.year = year
+        def get_details(self):
+            "Returns a string containing student's details."
+            return "%s studies %s and is in %s year." % (self.name, self.branch, self.year)
+
+    class Teacher(Person):
+        """
+        Returns a ```Teacher``` object, takes a list of strings (list of papers) as
+        argument.
+        """
+        def __init__(self, name, papers):
+            Person.__init__(self, name)
+            self.papers = papers
+        def get_details(self):
+            return "%s teaches %s" % (self.name, ','.join(self.papers))
 
         __call__():
-                Call method is used to make the object as a Callable; Like when an Object is created; It goes to __init__ method; But what if I need to 
-                modify the content of arguments, In this case I need to create another object; So, In this case; I can make the Object as callable say:
-                a=A(1, 2, 3)                            #It goes to __init__() method and instantiate the object
-                a(1,2,3)                                #I can't do if I havn't make the Object as callable
+            Call method is used to make the object as a Callable; Like when an Object is created; It goes to __init__ method; But what if I need to 
+            modify the content of arguments, In this case I need to create another object; So, In this case; I can make the Object as callable say:
+            a=A(1, 2, 3)                            #It goes to __init__() method and instantiate the object
+            a(1,2,3)                                #I can't do if I havn't make the Object as callable
 
-                For Example:
-                        class A(object):
-                            def __init__(self,a,b,c):
-                                self.a=a
-                                self.b=b
-                                self.c=c
-                            def __call__(self,a,b,c):
-                                self.a=a
-                                self.b=b
-                                self.c=c
-                                print "Hello; Talat Parwez"
+            For Example:
+                class A(object):
+                    def __init__(self,a,b,c):
+                        self.a=a
+                        self.b=b
+                        self.c=c
+                    def __call__(self,a,b,c):
+                        self.a=a
+                        self.b=b
+                        self.c=c
+                        print "Hello; Talat Parwez"
 
                1. a=test.A(1,2,3)                         #Will Instantiate the object
                2. a(1,2,3)                                #Will go to the __call__() method as Now our Object is callable
 
-                        Without __call__ method I couldn't be able to execute the 2nd line
+        Without __call__ method I couldn't be able to execute the 2nd line
 
 
 <ACCESSING OBJECT ELEMENT>
