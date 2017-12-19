@@ -958,6 +958,22 @@ NOTE: "super() argument 1 must be type, not classobj - If baseclass doesn't have
 
         Without __call__ method I couldn't be able to execute the 2nd line
 
+ In case of multiple parents having the same method and you want to call method of specific parent, then it can be achieved by:
+    class Parent1(object):
+         def foo(self):
+             print "I am a method from Parent1 class"
+
+    class Parent2(object):
+        def foo(self):
+            print "I am a method from Parent2 class"
+
+    class Child(Parent1, Parent2):
+        def foo(self):
+            print "I am a method from child class"
+            super(Child, self).foo()
+            Parent1.foo(self)
+            Parent2.foo(self)
+
 
 <ACCESSING OBJECT ELEMENT>
     If there's an object and want to know the elements associated with this object the We can use,
