@@ -782,10 +782,6 @@ ________________________________________________________________________________
 
     Any class inheriting from Pizza should implement and override the get_radius method, otherwise an exception would be raised
 
-    A().foo() is A().foo()			# False
-    A().static_foo() is A.static_foo()	# True
-    A.static_foo() is A.static_foo()	# True
-
 <SUPER>:
     Super is a keyword that is used to make a call to the super class method's along with current class method:
     suppose there is a class that is been inherited by child class and both of them have the __init__() methods, So without using the super keyword we can;t 
@@ -1452,6 +1448,10 @@ We have the threading module as well which provides wide variety of synchronizat
 
 	LOCKING: Two states - Locked and Unlocked, Two supported functions - Acquire and Release. As multiple thread looks for lock, the first thread to acquire one is permitted to go in and execute code
 	    in critical section. All other threads coming along are blocked until the first thread wraps up, exits the critical section and releases the lock. We need locks so that no two threads can enter the critical section at same time to access the same data structure or I/O
+
+    Locks are pretty simple to understand and implement and also easy to decide when should we use them, but might need a powerful synchronisation when situation is more complex. Applications with finite resources, using semaphores is good
+
+    We can think of semaphores representing their resources as either available or unavailable (they're basically counters that decrement when a resource being consumed and increment again when resource is released)
 
 <PYTHON-2 to PYTHON-3>
 	In order to convert code from python2 to python3, One can simply use 2to3 utility.
