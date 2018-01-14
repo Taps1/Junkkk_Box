@@ -697,7 +697,7 @@ ________________________________________________________________________________
 		t.x				#1
 		t.y				#2
 
-	Object is passed as a self argument to the function and self is used to bind all the class things to that p       particular Object Instance.
+	Object is passed as a self argument to the function and self is used to bind all the class things to that particular Object Instance.
 	One thing, Why self is used in every method of the class:
 	Because, When we say x=A(), Here ,,, Object is passed as an argument to the function.
 	Its is like 
@@ -772,8 +772,47 @@ ________________________________________________________________________________
 	A.static_foo(1)			# works fine
 
     Instance/Normal methods - object of the class will be send as a first argument implicitely
-    Class methods - class name will be send as a first argument implicitly, 
+        class A(object):
+            def foo(self):
+                pass
+
+        A.foo --> <unbound method A.foo>
+        A().foo --> <bound method A.foo of <__main__.A object at 0x7fe08567b690>>
+
+    Class methods - class name will be send as a first argument implicitly, not bound to an object but to a class.
+        class A(object):
+            @classmethod
+            def foo(cls):
+                pass
+
+        A.foo --> <bound method type.foo of <class '__main__.A'>>
+        A().foo --> <bound method type.foo of <class '__main__.A'>>
+         
     Static methods - Neither object nor class will be send as argument.
+        class A(object):
+            @staticmethod
+            def foo():
+                pass
+        A.foo -->  <function __main__.foo> 
+        A().foo -->  <function __main__.foo>
+
+        static methods are methods that belongs to a class but doesn't use the object itself. Static methods can be overwritten in subclasses.
+
+        class Pizza(object):
+            @staticmethod
+            def mix_ingredients(x, y):
+                return x + y
+                 
+            def cook(self):
+                return self.mix_ingredients(self.cheese, self.vegetables)
+
+    >>> Pizza().cook is Pizza().cook
+    False
+    >>> Pizza().mix_ingredients is Pizza.mix_ingredients
+    True
+    >>> Pizza().mix_ingredients is Pizza().mix_ingredients
+    True
+
     Abstract methods - A method defined in base class but may not provide any implementation, the simplest way to write an abstract method in Python is:
         
     class Pizza(object):
@@ -781,6 +820,23 @@ ________________________________________________________________________________
             raise NotImplementedError
 
     Any class inheriting from Pizza should implement and override the get_radius method, otherwise an exception would be raised
+
+    In order to make it restrict, we have abc module which ensures that any abstract_method must be implemented in child class.
+
+    import abc
+
+    class A(object):
+        __metaclass__ = abc.ABCMeta
+        @abc.abstractmethod
+        def get_radius(self):
+            print "Voila"
+
+    class B(A):
+        def get_radius(self):
+            print "I am in class B"
+
+    No classmethod/staticmethod decorator can be applied on top of abstract method in base class (True for 2.x but not for 3.x)
+    But abstract methods can be implemented by regular/class or static method.
 
 <SUPER>:
     Super is a keyword that is used to make a call to the super class method's along with current class method:
@@ -930,6 +986,8 @@ NOTE: "super() argument 1 must be type, not classobj - If baseclass doesn't have
             self.papers = papers
         def get_details(self):
             return "%s teaches %s" % (self.name, ','.join(self.papers))
+
+Python doesn't support method overloading, Although we can have same name of methods in a class but only the last defined method will be considered while calling via class object.
 
         __call__():
             Call method is used to make the object as a Callable; Like when an Object is created; It goes to __init__ method; But what if I need to 
@@ -1452,6 +1510,9 @@ We have the threading module as well which provides wide variety of synchronizat
     Locks are pretty simple to understand and implement and also easy to decide when should we use them, but might need a powerful synchronisation when situation is more complex. Applications with finite resources, using semaphores is good
 
     We can think of semaphores representing their resources as either available or unavailable (they're basically counters that decrement when a resource being consumed and increment again when resource is released)
+
+<EXTENDING PYTHON>:
+   Any code that can be integerated or imported into another python script can be considered as an extension. 
 
 <PYTHON-2 to PYTHON-3>
 	In order to convert code from python2 to python3, One can simply use 2to3 utility.
