@@ -1,0 +1,34 @@
+Machine learning is all like find patterns in data and use those patterns to predict the future.
+    Detecting credit card fraud
+    Determining whether a customer is likely to switch to a competitor
+
+We need to have some sample data and from that raw data, we'd need to identify some pattern and once the pattern is identified correctly, then we can use that pattern to predic the future.
+We have some data containing patterns, now this data will be passed to machine learning algorithms which will generate the model after identifying the correct pattern. and now this model recognises those patterns in new data.
+
+Machine learning process: we have lots of raw data (might be incomplete), So in order to get prepared data, we preprocess rawlogs with data preprocessing modules (kind of ingestion). Once data is prepared - apply learning algorithm to data using machine learning algorithms and it'll generate a model - Candidate model(not the final one) and we'll keep on applying ML algorithms to prepared data until we get the best model, Once we have the best model (or say chosen model), applications can use this model to supply new data to recognise patterns.
+
+Training data - The prepared data used to create a model, Creating a model is called training a model
+    Supervised learning: the value you want to predict is in the training data (most common)
+    Unsupervised learning: The value you want to predict is not in training data
+
+Creating training data(prepared data) is the most common task as raw data might have duplicates, missing values, corrupt data and can also contain some data which we know that it won't be of much useful while creating a model. (While working with US IBP, we know FR data won't be of much useful so we can omit FR data)
+
+Categorising machine learning problems:
+ 1. Regression: We have data and we would like to find a line/curve that best fits the data
+    Query: How many units of this product will we sell next month?
+
+ 2. Classification: We have data and we want to group this data into classes, when new data comes in - we want to know which class this new data belongs to.
+    Query: Is this credit card fraudulent?
+
+ 3. Clustering: We have data and want to find out cluster in that data.
+    Query: What are our customer segments?
+
+
+Core python libraries needed - 
+- Numpy Provides the foundation data structures and operations for scipy. These are arrays which are efficient to define and manipulate
+- Matplotlib Used for creating charts and plots
+- Pandas Provides data structures and functionality to quickly manipulate and analyze data. It is consisting of two things:
+- Scikit-learn ML algorithms used for data analysis and data mining tasks
+    Series: one dimensional array where rows and columns can be labelled
+    Dataframes: multi dimensional array where rows and columns can be labelled
+	
