@@ -48,6 +48,21 @@ dataframe.isnull().values.any()                                     # returns Tr
 We may need to delete the NULL value columns and correlated columns from the dataset and in order to check if dataframe contains any correlated column, we may plot a chart by which we'll get to know if any two columns are having correlation and once such type of columns are identified, we can delete them using command:
     del dataframe['some_column_name']
 
+Now we have non-correlated data, null value freed data and we can mould this dataset according to our need (we may need to change data type or we may need to add some column), Say we want to change True to 1, False to 0 for some column.
+
+dataframe.loc[dataframe['diabetes']==True]                          # will give all records where diabetes is True
+
+Once the data is prepared, it's time to select an algorithm. We need to consider features -  Supervised/Non-Supervised, Some Value or True/False and it goes on, Once the initial algorithm is selected we can start training process.
+Machine Learning Training: Letting specific data teach a machine learning algorithm to create a specific prediction. 
+
+While creating a model or while training a model, We split prepared data into 2 parts - 70% data for training purpose and 30% for testing purpose.
+Scikit-learn helps us to train the model and designed to work with numpy, scipy and pandas and is comfortable doing below mentioned tasks:
+ 1. Data splitting
+ 2. Pre processing
+ 3. Feature selection
+ 4. Model training
+ 5. Model tuning
+
 Asking a right question would be like: Use the machine learning workflow to process and transform PIMA indian data to create a prediction model. This model must predict which people are likely to develop diabetes with 70% or greater accuracy.
 
 Get the data and convert it into tidy datasets (easy to manipulate, model and visualize and have a specific structure).
@@ -62,6 +77,13 @@ Style of Machine learning algorithms:
  3. Bayesian algorithms
  4. K-means algorithms
 
+Ensemble algorithms are those algorithms which contain other algorithms and have multiple child algorithms to boost performance.
+
+Candidate algorithms:
+ 1. Naive Bayes algorithms- based on likelihood and probability, every feature has the same weight, requires smaller amount of data
+ 2. Logistic Regression
+ 3. Decision tree - Binary tree and each comparision will lead to another path and goes on
+
 Using a model: Application will call a model with values for features the model requires and model will return the predicted values using the featuresfsup
 
 Core python libraries needed - 
@@ -71,4 +93,3 @@ Core python libraries needed -
 - SCIKIT-LEARN ML algorithms used for data analysis and data mining tasks
     Series: one dimensional array where rows and columns can be labelled
     Dataframes: multi dimensional array where rows and columns can be labelled
-	s
