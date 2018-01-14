@@ -23,12 +23,52 @@ Categorising machine learning problems:
  3. Clustering: We have data and want to find out cluster in that data.
     Query: What are our customer segments?
 
+(ASKING_THE_RIGHT_QUESTION) -> (PREPARING_DATA) -> (SELECTING_ALGORITHM) -> (TRAINING_THE_MODEL) -> (TESTING_THE_MODEL)
+
+Predict if a person will develop diabetes:
+    Understand the features in data
+    Identify critical features
+    Select data source
+
+import numpy
+import pandas
+from matplotlib import pyplot
+
+dataframe = pandas.read_csv("/path/to/csv/file")
+dataframe.shape                                                     # will show the number of rows and columns in a tuple
+dataframe.head(5)                                                   # will show top 5 records
+dataframe.tail(5)                                                   # will show last 5 records
+dataframe.get('some_column_name').head(5)                           # will work as a dictionary where some_column_name is column for dataframe type table
+
+While creating a dataset, we may want to eliminate some columns which are not of used, which doesn't contain any value or which contains duplicates
+Correlated columns contains same information in different format like ID and value associated with ID and doesn't add much information and may cause algorithm to get confused
+
+dataframe.isnull().values.any()                                     # returns True if NULL values are present else will return False
+
+We may need to delete the NULL value columns and correlated columns from the dataset and in order to check if dataframe contains any correlated column, we may plot a chart by which we'll get to know if any two columns are having correlation and once such type of columns are identified, we can delete them using command:
+    del dataframe['some_column_name']
+
+Asking a right question would be like: Use the machine learning workflow to process and transform PIMA indian data to create a prediction model. This model must predict which people are likely to develop diabetes with 70% or greater accuracy.
+
+Get the data and convert it into tidy datasets (easy to manipulate, model and visualize and have a specific structure).
+    Each variable is column
+    Each observation is a row
+    Each type of observational unit is table
+    
+
+Style of Machine learning algorithms:
+ 1. Decision trees
+ 2. Neural networks
+ 3. Bayesian algorithms
+ 4. K-means algorithms
+
+Using a model: Application will call a model with values for features the model requires and model will return the predicted values using the featuresfsup
 
 Core python libraries needed - 
-- Numpy Provides the foundation data structures and operations for scipy. These are arrays which are efficient to define and manipulate
-- Matplotlib Used for creating charts and plots
-- Pandas Provides data structures and functionality to quickly manipulate and analyze data. It is consisting of two things:
-- Scikit-learn ML algorithms used for data analysis and data mining tasks
+- NUMPY Provides the foundation data structures and operations for scipy. These are arrays which are efficient to define and manipulate
+- MATPLOTLIB Used for creating charts and plots
+- PANDAS Provides data structures and functionality to quickly manipulate and analyze data. It is consisting of two things:
+- SCIKIT-LEARN ML algorithms used for data analysis and data mining tasks
     Series: one dimensional array where rows and columns can be labelled
     Dataframes: multi dimensional array where rows and columns can be labelled
-	
+	s
