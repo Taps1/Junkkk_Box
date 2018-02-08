@@ -952,9 +952,6 @@ NOTE: "super() argument 1 must be type, not classobj - If baseclass doesn't have
 	a.foo()					#10 \n 20
 	hasttr(a,'b')			#True
 
-
-
-
     class Person(object):
         """
         Returns a ```Person``` object with given name.
@@ -1037,6 +1034,76 @@ Python doesn't support method overloading, Although we can have same name of met
         obj.__dict__
         from pprint import pprint 
         pprin(dir(obj)), pprint(vars(obj))
+
+Method resolution order
+    class A:
+        pass
+
+    class B:
+        pass
+
+    class C(A, B):
+        pass
+
+C instances will use the old method resolution order  algorithm because none of the classes are derived from python object root class.
+
+Now, MRO will follow new algorithm mechanism
+    class A(object):
+        pass
+
+    class B(object):
+        pass
+
+    class A:
+        def who_am_i(self):
+            print "A"
+
+
+How classes are followed:
+    class B(A):
+        def who_am_i(self):
+            print "B"
+
+    class C(A):
+        def who_am_i(self):
+            print "C"
+
+    class D(B, C):
+        def who_am_i(self):
+            print "D"
+
+D --> B --> A --> C --> object
+
+    class A1(object):
+        def who_am_i(self):
+            print "A1"
+
+    class A2(object):
+        def who_am_i(self):
+            print "A2"
+
+    class A3():
+        def who_am_i(self):
+            print "A3"
+
+    class B(A1, A2):
+        def who_am_i(self):
+            print "B"
+
+    class C(A3):
+        def who_am_i(self):
+            print "C"
+
+    class D(B, C):
+        def who_am_i(self):
+            print "D"
+
+D --> B --> A1 --> A2 --> C --> A3,
+but if C inherits from  A2, then it MRO would work like this:
+D --> B --> A1 --> C --> A2 --> Object
+
+New type classes are the ones which inherits from object root class, and only difference is: Each time a class is found in built search path, Python asked the question - Is it a good head and if not - it removes the class from the final search path.
+As class is said as a good head if there's no other class in tail of the search path which inherits from it - If some class appeare two or more times before the child class in search path, then remove the first occurance of the parent classes.
 
 _______________________________________________________________________________________________________________________________________________________________
                 
