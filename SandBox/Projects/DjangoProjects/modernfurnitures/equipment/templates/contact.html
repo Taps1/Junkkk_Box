@@ -1,0 +1,83 @@
+{% extends "smp_site/base.html" %}
+{% block title %}Contact Us !!!{% endblock %}
+
+{% block content %}
+
+
+
+    <header id="head" class="secondary">
+        <div class="container">
+            <h1>Contact Us</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing eliras scele!</p>
+        </div>
+    </header>
+<section class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h3 class="section-title">Your Message </h3>
+            {% if messages %}
+            {% for message in messages %}
+            <h3 class="section-title">{{ message }}</h3>
+            {% endfor %}
+            {% endif %}
+            <p>
+            We want to know more about you. So please fill up the complete information here...<br>
+                (else no information will be saved)
+            </p>
+            <div style="width: 80%; float:left">
+                <span>
+                <form name="theform" class="form-light mt-20" action="." role="form" method="post" id="theform">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" name="name" value="" id="name" placeholder="What's your name?"/>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" class="form-control" name="email" value="" id="email" placeholder="john@example.com"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="text" class="form-control" name="phone" value="" id="phone"
+                                       placeholder="Your Phone number to call You!!"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Who are You?</label>
+                        {{ form.asker }}
+                    </div>
+                    <div class="form-group">
+                        <label>Subject</label>
+                         <input type="text" class="form-control" name="subject" value="" id="subject" placeholder="Topic of Question"/>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                         <input rows="4" cols="50" type="text" class="form-control" name="message" value="" id="message" style="height:100px;" placeholder="Your Message to us."/>
+                        <!--<textarea name="Text1" cols="40" rows="5" type="text" class="form-control" name="message" id="message" style="height:100px;" placeholder="Your Message to us."></textarea>-->
+
+                    </div>
+
+                    <button type="submit" class="btn btn-two">Send message</button><p><br/></p>
+                </form>
+            </span>
+            </div>
+
+    <div style="width: 0%; float:right">
+        <span>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d14009.330071115532!2d77.36115475!3d28.61979465!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1517495953571" width="300" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+    </span>
+    </div>
+                    </div>
+    </div>
+
+</section>
+
+
+{% endblock %}
