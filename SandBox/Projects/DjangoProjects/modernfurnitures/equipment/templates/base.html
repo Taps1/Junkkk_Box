@@ -30,11 +30,11 @@
 			<div class="navbar-collapse collapse">
                 {% block nav %}
 				<ul class="nav navbar-nav pull-right mainNav">
-                    <li>{% block nav-home %}<a href="{% url 'smp_site:home' %}">Home</a>{% endblock %}</li>
-                    <li>{% block nav-mission %}<a href="{% url 'smp_site:mission' %}">About Us</a>{% endblock %}</li>
-                    <li>{% block nav-subjects %}<a href="{% url 'smp_site:subjects' %}">Our Services</a>{% endblock %}</li>
-                    <li>{% block nav-gallery %}<a href="{% url 'smp_site:gallery' %}">Gallery</a>{% endblock %}</li>
-                    <li>{% block nav-contact %}<a href="{% url 'smp_site:contact' %}">Contact</a>{% endblock %}</li>
+                    <li>{% block nav-home %}<a href="{% url 'equipment:home' %}">Home</a>{% endblock %}</li>
+                    <li>{% block nav-mission %}<a href="{% url 'equipment:mission' %}">About Us</a>{% endblock %}</li>
+                    <li>{% block nav-subjects %}<a href="{% url 'equipment:subjects' %}">Our Services</a>{% endblock %}</li>
+                    <li>{% block nav-gallery %}<a href="{% url 'equipment:gallery' %}">Gallery</a>{% endblock %}</li>
+                    <li>{% block nav-contact %}<a href="{% url 'equipment:contact' %}">Contact</a>{% endblock %}</li>
 				</ul>
                 {% endblock %}
 			</div>
@@ -161,11 +161,11 @@
 						<div class="panel-body">
 							<p class="simplenav">
 
-                                <a href="{% url 'smp_site:home' %}">Home </a> |
-                                <a href="{% url 'smp_site:mission' %}">About Us</a> |
-                                <a href="{% url 'smp_site:subjects' %}">Our Services</a> |
-                                <a href="{% url 'smp_site:gallery' %}">Gallery</a> |
-                                <a href="{% url 'smp_site:contact' %}">Contact</a> |
+                                <a href="{% url 'equipment:home' %}">Home </a> |
+                                <a href="{% url 'equipment:mission' %}">About Us</a> |
+                                <a href="{% url 'equipment:subjects' %}">Our Services</a> |
+                                <a href="{% url 'equipment:gallery' %}">Gallery</a> |
+                                <a href="{% url 'equipment:contact' %}">Contact</a> |
 							</p>
 						</div>
 					</div>
