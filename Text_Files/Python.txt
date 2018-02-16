@@ -1586,6 +1586,14 @@ We have the threading module as well which provides wide variety of synchronizat
 	$ 2to3 foo.py					# only output difference 
 	$ 2to3 -w foo.py				# overwrites the file with python 3 code
 
+In order to check where is the source code for particular method is been written:
+    import os
+    os.__file__
+
+    import inspect
+    inspect.getfile(os)
+    inspect.getsource(os.makedirs)
+
 <QUESTIONS:>
 * Print the length of each word in sentence using map and lambda
 		map(lambda word: len(word), word.split())
