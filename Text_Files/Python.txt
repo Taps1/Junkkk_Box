@@ -336,12 +336,18 @@ ________________________________________________________________________________
 			print map(square, l)
 			map(g, [1,2,3,4], [4,3,2,1])
 
+            li1 = [1,2,3], li2 = [4,5,6], li3 = [7,8,9]
+            map(lambda a,b,c: a+b+c, li1, li2, li3)                     # will take same indexed values from each sequence
+
 <REDUCE>
 	It takes one function and an iterator as an Input and execution goes in this way: Take 2 elements of the sequence and perform operate on them and keeps going on in the same manner.
 		find the maximum value from the sequence:
 		lst = [12, 32, 1, 87, 9, 5, 43]
 		
 		reduce(lambda a, b: a if a>b else b, lst)
+
+    If the sequence is empty, then set initial default value as:
+        reduce(lambda x, y: x+y, [], 1)                                 # will always return 1 if sequnce is empty
 
 <FILTER>
 	It offers a convenient way to filter out all the elements of an iterable, for which the function returns True
@@ -449,6 +455,10 @@ ________________________________________________________________________________
 	n=iter(number)
 	n.next(),n.next()..... after reaching out the last element, It will throw an StopIteration Exception.
 	We don’t get StopIteration error with for loop, because for loop automatically catches the exception and stops calling next() on iterable.
+    String objects, List objects supports iteration but it can't directly iterate over it as we are able to do with generators
+    To check, what all data type supports Iteration, I can check with:
+        from collections import Iterable
+        isinstance('Hey, I am a string', Iterable)                  # returns Bool
 
 
 If I want to check whether the file is having syntax file or not:
@@ -570,6 +580,8 @@ ________________________________________________________________________________
     Generator is a function that returns an object on which we can perform next() operation
 	Generators are a tool for creating iterators.They use to YIELD the data whenever they want to return the data
 	Each time the next() is called, Generator resumes from where it left-off
+    When a generator function is compiled they become an object that support an iteration protocol.
+    The generator functions can be suspended and this feature is known as state suspension.
 
 
 	With generators, __iter__() and next() method got created automatically;
