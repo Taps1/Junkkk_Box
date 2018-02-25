@@ -2,10 +2,25 @@
 from __future__ import unicode_literals
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView, FormView
-from .models import PostMessage, ContactInfo
+from .models import ContactInfo
 from .forms import ContactusForm
 from django.shortcuts import render, redirect
 from django.contrib import messages
+
+class Home(TemplateView):
+    template_name = 'home.html'
+
+    def get(self, request):
+        contact_info = ContactInfo.objects.all()
+        return render(request, self.template_name, {'contact_info': contact_info})
+
+class AboutUs(TemplateView):
+    template_name = 'about_us.html'
+
+    def get(self, request):
+        contact_info = ContactInfo.objects.all()
+        return render(request, self.template_name, {'contact_info': contact_info})
+
 
 class ContactUs(TemplateView):
     template_name = 'contact.html'
@@ -29,15 +44,6 @@ class ContactUs(TemplateView):
         args = {'form': form}
         return render(request, self.template_name, args)"""
 
-
-class Home(TemplateView):
-    template_name = 'home.html'
-
-    def get(self, request):
-        contact_info = ContactInfo.objects.all()
-        return render(request, self.template_name, {'contact_info': contact_info})
-
-
 class Gallery(TemplateView):
     template_name = 'gallery.html'
 
@@ -46,16 +52,8 @@ class Gallery(TemplateView):
         return render(request, self.template_name, {'contact_info': contact_info})
 
 
-class Mission(TemplateView):
-    template_name = 'mission.html'
-
-    def get(self, request):
-        contact_info = ContactInfo.objects.all()
-        return render(request, self.template_name, {'contact_info': contact_info})
-
-
-class Subject(TemplateView):
-    template_name = 'subjects.html'
+class Services(TemplateView):
+    template_name = 'services.html'
 
     def get(self, request):
         contact_info = ContactInfo.objects.all()

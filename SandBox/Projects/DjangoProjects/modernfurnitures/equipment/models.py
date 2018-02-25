@@ -11,6 +11,10 @@ ASKER_CHOICES = [
     ('others', 'Others'),
     ]
 
+class HomeContentPictures(models.Model):
+    name = models.CharField(max_length=200)
+    image_home = models.ImageField(upload_to='static/')
+
 
 class PostMessage(models.Model):
     name = models.CharField(max_length=50)
