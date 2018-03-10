@@ -4,6 +4,20 @@ Used for CI & CD (Contiuous Integeration & Continuous Development)
 	Developer -> Checks in code to repo -> Source Control (Git) -> Jenkins grabs latest code -> Build artifacts -> Run tests -> Publish O/P to Live server -> Report back
 
 General Scenario: Lots of developers are working on a same project and later we get to know that there's some Exception raised into the codebase that we didn't handled and we need to search that thing where it failed or what caused it, fix it and then release the new code. Now it'd be great if we release the already tested code in order to avoid this situation - Here comes Jenkins as a saviour and played an important role:
-    As soon as the developer checks in his code into shared repository, Jenkins create a build with the new code, If there's an issue with that build - We get notified ASAP, So there are no chances that wrong code with exception is going to production. Also - If build is successful but new code introduce some issue, we need to run our own testcases, unit testcases to check if codeflow is not disturbed. Once all the build is successful and testcases are fine, then we can let new code to be in production environment.
+    As soon as the developer checks in his code into shared repository, Jenkins create a build with the new code, If there's an issue with that build - We get notified ASAP, So there are no chances that wrong code with exception is going to production. Also - If build is successful but new code introduce some issue, we can run our own testcases, unit testcases to check if codeflow is not disturbed. Once all the build is successful and testcases are fine, then we can let new code to be in production environment.
 
 #Download the Jenkins and place the war file under some location
+
+Setting up the Jenkins via CLI:
+    wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
+    sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+    sudo apt-get update
+    sudo apt-get install jenkins
+
+This package installation will:
+
+    Setup Jenkins as a daemon launched on start. See /etc/init.d/jenkins for more details.
+    Create a jenkins user to run this service.
+    Direct console log output to the file /var/log/jenkins/jenkins.log. Check this file if you are troubleshooting Jenkins.
+    Populate /etc/default/jenkins with configuration parameters for the launch, e.g JENKINS_HOME
+    Set Jenkins to listen on port 8080. Access this port with your browser to start configuration.
