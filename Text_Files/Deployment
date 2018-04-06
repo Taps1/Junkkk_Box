@@ -1,0 +1,93 @@
+root@TP
+
+Launch a new EC2 instance
+sudo chmod 400 some_name.pem.txt
+Took an Ubuntu image where I can login like:
+ssh -i ~/Downloads/talat.pem.txt ubuntu@13.123.41.135
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install git
+sudo apt-get install python-pip python-dev build-essential
+sudo apt-get install python-mysqldb
+sudo apt-get install mysql-server
+sudo apt-get install apache2
+
+-- Now install mod_wsgi which will serve python app from apache server
+sudo apt-get install libapache2-mod-wsgi
+pip install virtualenvwrapper
+
+sudo -i
+sudo vim /home/ubuntu/.profile
+export WORKON_HOME=/var/www/.virtualenvs
+source /usr/local/bin/virtualenvwrapper.sh
+source /home/ubuntu/.profile
+mkvirtualenv talatenv --system-site-packages
+workon 								# will return all virtualenv available
+cd /var/www/
+pip freeze > requirements.txt
+cd /etc/apache2/sites-available/
+sudo touch example.conf
+sudo vim example.conf
+			<VirtualHost *:80>
+			ServerAdmin webmaster@talat.com
+			ServerName talat.com
+			ServerAlias www.talat.com
+			WSGIScriptAlias / /var/www/example.wsgi
+			 
+			Alias /static/ /var/www/example/static/
+			        <Location "/static/">
+			            Options -Indexes
+			        </Location> 
+			 
+			<Directory /var/www/example>
+			Order deny,allow    
+			Allow from all
+			</Directory>
+			</VirtualHost>
+
+git clone https://github.com/AjeetK/example.git
+a2nesite example.conf				# will enable the site - example
+service apache2 reload
+
+Create wsgi file which we have given in example.conf
+sudo touch /var/www/example.wsgi
+
+			import os
+			import sys
+			import site
+			# Add the site-packages of the chosen virtualenv to work with
+			site.addsitedir('/var/www/.virtualenvs/exampleenv/local/lib/python2.7/site-packages')
+			# Add the app's directory to the PYTHONPATH
+			sys.path.append('/var/www/example')
+			sys.path.append('/var/www/example/example')
+			os.environ['DJANGO_SETTINGS_MODULE'] = 'example.settings'
+			# Activate your virtual env
+			activate_env=os.path.expanduser("/var/www/.virtualenvs/exampleenv/bin/activate_this.py")
+			execfile(activate_env, dict(__file__=activate_env))
+			from django.core.wsgi import get_wsgi_application
+			application = get_wsgi_application()
+
+mysql -uroot -p
+create database example_db;
+exit;
+
+cd /var/www/example
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+
+Make sure to open 80 ports in order to acces it via Internet
+sudo chmod -R 755 /var/www/example
+sudo chown -R www-data:www-data /var/www/example
+sudo vim /etc/hosts
+			127.0.0.1 localhost
+			127.0.0.1 www.talat.com
+			13.123.41.135 talat.com
+
+Add these two lines in settings.py:
+			STATIC_URL = '/static/'
+
+			STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+python manage.py collectstatic					# this will copy all static files to /var/www/example/static location
+sudo service apache2 restart					# now you can open your server
