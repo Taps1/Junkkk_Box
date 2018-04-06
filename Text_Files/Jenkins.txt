@@ -35,3 +35,12 @@ This package installation will:
         * sudo chmod a+x *.sh
         * start tomcat: ./startup.sh            # Change port inside tomcat/conf/server.xml if needed
         * localhost:8081/jenkins                # provides the Jenkins deployed on tomcat server
+
+After setting up Jenkins, Jenkins by default create a .jenkins folder inside user's home folder which contains all jobs, logs, plugins. We might need to change it to some other location and the reason for this would be the less space in home directory. 
+
+Go to browser --> Manage Jenkins --> Configure system --> home_dir (to see what's your home directory)
+
+In order to change home directory - create a folder JenkinsHome where your Jenkins.war is placed and copy everything from ~/.jenkins to new folder. and set your JENKINS_HOME to new folder in .bash_rc/bash_profile.
+
+127.0.0.1:8081/jenkins/restart
+127.0.0.1:8081/jenkins/systemInfo
