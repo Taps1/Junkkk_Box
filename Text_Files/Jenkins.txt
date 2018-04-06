@@ -44,3 +44,10 @@ In order to change home directory - create a folder JenkinsHome where your Jenki
 
 127.0.0.1:8081/jenkins/restart
 127.0.0.1:8081/jenkins/systemInfo
+
+In order to use Jenkins via CLI, goto http://localhost:8081/jenkins/cli/ and download jenkins-cli.jar and run below command:
+
+        java -jar jenkins-cli.jar -s http://127.0.0.1:8081/jenkins/ help --username admin --password cbb2240ad032149fc868fc9b07a8bf1e3
+        java -jar jenkins-cli.jar -s http://127.0.0.1:8081/jenkins/ version                                     # all CLI command will work now
+
+
