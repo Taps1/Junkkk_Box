@@ -76,4 +76,21 @@ and Build now will execute the build and will produce the O/P.
 Once we're able to execute the Python build, we can simply fetch the codebase from github. In order to do that install the "git plugin" and set the repository in Source Code Management section of jenkins project and set the crontab after checking Poll SCM.
 It'll itself fetch the latest code.
 
-Catlight is used to notify when builds, bugs and tasks need our attention. Simply download catlight and install it and after launching it - just provide Jenkins URL
+Catlight is used to notify when builds, bugs and tasks need our attention. Simply download catlight and install it and after launching it - just provide Jenkins URL.
+
+    Build --> Deploy --> Test --> Release
+
+(All respective jobs will be chained, Once a job completes only then other jobs execute)
+
+For deployment process in Jenkins, install  deploy plugin (deploy to container). This plugin will take a war/ear file and deploys that to a running remote application server. Supported containers are:
+    Tomcat
+    JBoss
+    GlassFish
+
+Once the plugin is installed, create a new project inside Jenkins dash board. Make sure to add Post Build Action - deploy war/ear to container.
+Upload a war/ear file in post build action - Go to configure jenkins - advanced - workspace root directory and now put the downloaded war/ear file into this JENKINS_HOME/workspace/project_name/ directory.
+In Jenkins project - In context path field - give your war file name.
+and select Tomcat-x.x as a container. and provider username, password - you may need to set the username and password as same as: /apache-tomcat-8.5.29/conf/tomcat-users.xml -->
+             <user username="deployer" password="deployer" roles="manager-script"/>
+
+And restart the tomcat and jenkins and try to execute the build.
