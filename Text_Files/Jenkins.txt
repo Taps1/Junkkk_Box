@@ -75,3 +75,5 @@ In order to execute any python projects, I will simply create a new item in Jenk
 and Build now will execute the build and will produce the O/P.
 Once we're able to execute the Python build, we can simply fetch the codebase from github. In order to do that install the "git plugin" and set the repository in Source Code Management section of jenkins project and set the crontab after checking Poll SCM.
 It'll itself fetch the latest code.
+
+Catlight is used to notify when builds, bugs and tasks need our attention. Simply download catlight and install it and after launching it - just provide Jenkins URL
