@@ -48,6 +48,15 @@ In order to change home directory - create a folder JenkinsHome where your Jenki
 In order to use Jenkins via CLI, goto http://localhost:8081/jenkins/cli/ and download jenkins-cli.jar and run below command:
 
         java -jar jenkins-cli.jar -s http://127.0.0.1:8081/jenkins/ help --username admin --password cbb2240ad032149fc868fc9b07a8bf1e3
-        java -jar jenkins-cli.jar -s http://127.0.0.1:8081/jenkins/ version                                     # all CLI command will work now
+        java -jar jenkins-cli.jar -s http://127.0.0.1:8081/jenkins/ version                                     # all CLI command will work
 
+Even new users can be added and can be given the roles/permission using an add-on plugin named as role-strategy-plugin (Download it and put them in plugins folder under JenkinsHome - Talat/Tools/apache-tomcat-8.5.29/webapps/JenkinsHome/plugins/)
 
+Once the plugin is added using manage plugin option, restart the Jenkins and now role-based strategy is listed on Manage-Jenkins / Configure Global Security / Authorization / Role-Based Strategy (As an Admin).
+Now other users won't be able to do anything until the role is assigned to them that we can assign in manage_Jenkins/Manage_Roles - Global roles/Slave Roles/Project Roles, assign these users to roles and voila.
+(ManageJenkins --> ManageNodes): # of executors - The maximum number of concurrent builds that Jenkins may perform. (Nodes/Agents can be added to distribute the work of build)
+
+Under projects, we can restrict where the project can be run by assigning the labels (Usage of Labels).
+Quiet Period: Number of seconds the instance should wait before triggering the job (to create the build) when code is pushed to any SCM
+SCM checkout retry count: Maximum retries to fetch code from SCM in case it fails to pull the latest codebase.
+Environment variables can be added under configure/GlobalProperties that will be available through out the jobs.    
