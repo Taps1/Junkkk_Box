@@ -63,3 +63,5 @@ Environment variables can be added under configure/GlobalProperties that will be
 
 Once all the ocnfigurations are setup then we can create a new item(project) and set all the required parameters say - when do I want to execute the command (crontab), shell script, post build actions. and then we can start building our builds -
     Project --> BuildNow --> GotoBuild --> ConsoleOutput
+
+Apart from building the jobs periodically using crontab, one can trigger builds remotely - for that as soon as we check Trigger builds remotely, it gives us an option to provide token and a URL which we need to call from browser - http://127.0.0.1:8081/jenkins/job/DevProject1/build?token=1234 (As soon as I hit the URL, the build will get triggered)
