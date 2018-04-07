@@ -65,3 +65,5 @@ Once all the ocnfigurations are setup then we can create a new item(project) and
     Project --> BuildNow --> GotoBuild --> ConsoleOutput
 
 Apart from building the jobs periodically using crontab, one can trigger builds remotely - for that as soon as we check Trigger builds remotely, it gives us an option to provide token and a URL which we need to call from browser - http://127.0.0.1:8081/jenkins/job/DevProject1/build?token=1234 (As soon as I hit the URL, the build will get triggered)
+
+We can even chain the jobs - create some other projects - Build After other projects are build - post build actions (maintain the dependency) and start executing the jobs and it'll chain the dependency of the various builds
