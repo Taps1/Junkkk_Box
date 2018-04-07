@@ -173,3 +173,10 @@ History of Commands:
 !n									#Refers to the nth command from the history 
 !string									#refers to the recent command started with the string
 ^string1^string2							#refers to the last command and change the string1 with string2
+
+
+Installing downloaded deb packages:
+    Using dpkg:
+        sudo dpkg -i /path/to/deb/file
+    If broken - use apt:
+        sudo apt install -f ./path/to/deb/file
