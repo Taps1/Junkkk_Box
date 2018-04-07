@@ -59,4 +59,7 @@ Now other users won't be able to do anything until the role is assigned to them 
 Under projects, we can restrict where the project can be run by assigning the labels (Usage of Labels).
 Quiet Period: Number of seconds the instance should wait before triggering the job (to create the build) when code is pushed to any SCM
 SCM checkout retry count: Maximum retries to fetch code from SCM in case it fails to pull the latest codebase.
-Environment variables can be added under configure/GlobalProperties that will be available through out the jobs.    
+Environment variables can be added under configure/GlobalProperties that will be available through out the jobs.
+
+Once all the ocnfigurations are setup then we can create a new item(project) and set all the required parameters say - when do I want to execute the command (crontab), shell script, post build actions. and then we can start building our builds -
+    Project --> BuildNow --> GotoBuild --> ConsoleOutput
