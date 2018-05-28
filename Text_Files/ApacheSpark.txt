@@ -1,0 +1,20 @@
+$ spark-shell                               # for scala
+$ pyspark                                     # for Python
+
+scala> var a = 10
+scala> a = 20
+scala> a = "abc"                        # error
+scala> var b = 20                       
+scala> var b = 30                       # error, val is constant in scala
+scala> val number = sc.textFile("a.txt")
+scala> number.collect               # will return an array from memory
+
+pip install pyspark
+sudo pyspark
+>>> sc.version
+ number = sc.textFile("file:///home/talat/Talat/Projects/ApacheSpark/a.txt")
+number.collect()                    # [u'1', u'2', u'3', u'4', u'5', u'6', u'7', u'8', u'9', u'10']
+export PYSPARK_DRIVER_PYTHON=ipython                                    # inside ~/.bashrc for interactive shell in Spark
+fi_filter =  fi.filter(lambda line: "Talat" in line)                                            # will filter the data on basis of condition
+fi.filter(lambda line: "Talat" in line).count()                                                # will give you count of filtered records
+Project: Download the rawlogs in form of gzipped file from https://archive.org/download/stackexchange and upload them to HDFS.
