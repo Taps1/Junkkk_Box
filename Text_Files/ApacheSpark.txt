@@ -18,3 +18,25 @@ export PYSPARK_DRIVER_PYTHON=ipython                                    # inside
 fi_filter =  fi.filter(lambda line: "Talat" in line)                                            # will filter the data on basis of condition
 fi.filter(lambda line: "Talat" in line).count()                                                # will give you count of filtered records
 Project: Download the rawlogs in form of gzipped file from https://archive.org/download/stackexchange and upload them to HDFS.
+
+Download apache & hadoop combined file from Apache.org
+        tar -xzvf <tar_file>
+        export SPARK_HOME="/home/ubuntu/spark-2.3.0-bin-hadoop2.7"
+        export PATH=$SPARK_HOME:$PATH
+        export PYTHONPATH=$SPARK_HOME/python:$PYTHONPATH
+        export PYSPARK_DRIVER_PYTHON="jupyter"
+        export PYSPARK_DRIVER_PYTHON=OPTS="notebook"
+        export PYSPARK_PYTHON=python3
+
+        sudo chmod 777 spark-2.3.0-bin-hadoop2.7
+        cd spark-2.3.0-bin-hadoop2.7/python
+        python3
+        cd spark-2.3.0-bin-hadoop2.7/
+        sudo chmod 777 pyspark
+
+Launch Jupyter notebook
+
+        Once all are done, start project: analysing twitter APIs
+        Create a twitter app, and get the tokes and authorized keys
+
+
