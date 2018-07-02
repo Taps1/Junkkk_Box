@@ -33,25 +33,6 @@ python manage.py shell
 
 python manage.py createsuperuser
 
-mysite/settings.py
-
-	TEMPLATES = [
-	    {
-		'BACKEND': 'django.template.backends.django.DjangoTemplates',
-		'DIRS': [os.path.join(BASE_DIR, 'templates')],
-		'APP_DIRS': True,
-		'OPTIONS': {
-		    'context_processors': [
-		        'django.template.context_processors.debug',
-		        'django.template.context_processors.request',
-		        'django.contrib.auth.context_processors.auth',
-		        'django.contrib.messages.context_processors.messages',
-		    ],
-		},
-	    },
-	]
-
-
 Where are the Django files:
 	$ python -c "
 	import sys
@@ -168,3 +149,59 @@ It is mainly used to execute queries on the database:
     Create and save an object in db             Board.objects.create(name='...', description='...')
     List all objects                            Board.objects.all()
     Get a single obj identified by a field      Board.objects.get(id=1)
+
+    TEMPLATES = [
+                    {
+                    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+                    'DIRS': [os.path.join(BASE_DIR, 'awa/templates')],
+                    'APP_DIRS': True,
+                    'OPTIONS': {
+                    'context_processors': [
+                    'django.template.context_processors.debug',
+                    'django.template.context_processors.request',
+                    'django.contrib.auth.context_processors.auth',
+                    'django.contrib.messages.context_processors.messages',
+                                         ],
+                                },
+                     },                                                                                 ]
+
+    >>> from django.conf import settings
+    >>> settings.BASE_DIR
+        '/Users/vitorfs/Development/myproject'
+    >>> import os
+    >>> os.path.join(settings.BASE_DIR, 'templates')
+        '/path/till/the/templates/'
+
+    And then write a view which will render the response in HTML format
+
+    apps/boards/test.py
+    from django.core.urlresolvers import reverse
+    from django.test import TestCase
+
+    class HomeTests(TestCase):
+        def test_home_view_status_code(self):
+            url = reverse('home')
+            response = self.client.get(url)
+            self.assertEquals(response.status_code, 200)
+
+    $ python manage.py test
+    $ python manage.py test --verbosity=2 (To see more verbosity)
+
+    create a 'static' directory inside the project and all the css/js content will be coming over there.
+    project/settings.py
+    STATIC_URL = '/static/'
+
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'awa/static'),
+            ]
+
+    $ python manage.py createsuperuser
+    
+    apps/boards/admin.py
+    # -*- coding: utf-8 -*-
+    from __future__ import unicode_literals
+
+    from django.contrib import admin
+    from models import Board
+
+    admin.site.register(Board)
