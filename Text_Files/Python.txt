@@ -23,8 +23,9 @@ Simple Integer Functions:
 	max(sequence)			#Return the Maximum Value from the sequence
 	min(sequence)			#Return the Minimum value from the sequence
 	>>>1,00,000			#(1,0,0) Python will take it as comma separated Integers.	
-	>>>z=0123			#Octal Value
-	>>>z=0128			#Syntax Errors
+	>>>z=0123			# Octal Value
+	>>>z=0128			# Syntax Errors
+    >>>x=0x123          # Hexa decimal values
 
 _______________________________________________________________________________________________________________________________________________________________
 	
@@ -48,6 +49,7 @@ Simple Strings:
 	s.lstrip()			#"I went there	"
 	s.rstrip()			#"  I went there"
 	s.strip()			#"I went there"
+    s.strip('I we')      # "ent ther"
 	'I' in s			#True
 	s="Hello Talat"		
 	s.split()			#["Hello","Talat"]
@@ -64,10 +66,10 @@ Simple Strings:
 	s.find('y')			#Return the first occurance Index of 'y'
 	s.rfind('y')			#Return the Last occurance index of 'y'
 	s.title				#Will Capitalize the first letter of the string.
-	s.rjust(10,' ')			#Will shift the string to 10 characters right.
-	s.ljust(10,' ')			#Will shift the string to 10 characters left
-	len('\t')			#1
-	len(r'\t')			#2
+	s.rjust(15,'#')			# 'I went there###'
+	s.ljust(15,'#')			# '###I went there'
+	len('\t')			    #1
+	len(r'\t')			    #2
 	s.count(g)
 	s='xyz'
 	max(s)				#will return z
@@ -112,7 +114,6 @@ Simple List Functions:
 	a=[1,2,3],b=[4,5,6]
 	zip(a, b)--> [(1,4),(2,5),(3,6)]
 	In Python2, xrange() act as Generator and In python2, range() act as Generator
-	
 
 To delete an object:
 	del "object_name"
@@ -163,7 +164,8 @@ List Comprehension:
 	But better to use the List Comprehension As It will reduce the code.
 		x=[item for item in sequence]
 		x=[item for item in sequence condition]
-		x=[item for element in sequence for item in element ]
+		x=[item for element in sequence for item in element]
+        [item if item%2==0 else "Yo" for item in range(10)]
 		first one is outer loop and second one is inner loop.
 
 _______________________________________________________________________________________________________________________________________________________________

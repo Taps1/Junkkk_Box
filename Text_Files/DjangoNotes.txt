@@ -63,8 +63,6 @@ python manage.py createsuperuser
 	    # ...
 	    list_display = ('question_text', 'pub_date')
 
-
-
 mysite/settings.py
 
 	TEMPLATES = [
@@ -91,7 +89,6 @@ Where are the Django files:
 	import django
 	print(django.__path__)"
 
-
 <PRIMARY KEY AND FOREIGN KEY MODELS>:
 	class A():
 		aa = '123'
@@ -116,5 +113,30 @@ Where are the Django files:
     obj_B.A_set.all()[0].aa
     obj_B.A_set.all()[0].bb
 
+<CLASS BASED VIEWS>:
+    If the request is a POST, it will execute the post() method inside the view, if the request is a GET, it will execute the get() method inside the view.
 
+from django.views import View
 
+    class ContactView(View):
+        def get(self, request):
+            # Code block for GET request
+
+        def post(self, request):
+            # Code block for POST request
+
+    urlpatterns = [
+        url(r'contact/$', views.ContactView.as_view(), name='contact'),
+        ]
+
+<FUNCTION BASED VIEWS>:
+    In function-based views, this logic is handled with if statements:
+    def contact(request):
+        if request.method == 'POST':
+            # Code block for POST request
+        else:
+            # Code block for GET request (will also match PUT, HEAD, DELETE, etc) 
+
+    urlpatterns = [
+        url(r'contact/$', views.contact, name='contact'),
+        ]

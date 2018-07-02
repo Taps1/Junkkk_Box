@@ -280,9 +280,9 @@ RIGHT OUTER JOIN:
 	+----------------+-----------------+-----------------+----------------+
 
 Second highest salary from the table:
-    select tutorial_count from (select distinct tutorial_count from tcount_tbl order by tutorial_count desc limit 2) as temp order by tutorial_count limit 1;
-    select max(tutorial_count) from tcount_tbl where tutorial_count <  (select max(tutorial_count) from tcount_tbl order by tutorial_count desc);
-    select tutorial_count from tcount_tbl t1 where N-1=(select count(distinct tutorial_count) from tcount_tbl t2 where t2.tutorial_count > t1.tutorial_count);
+    --> select tutorial_count from (select distinct tutorial_count from tcount_tbl order by tutorial_count desc limit 2) as temp order by tutorial_count limit 1;
+    --> select max(tutorial_count) from tcount_tbl where tutorial_count <  (select max(tutorial_count) from tcount_tbl order by tutorial_count desc);
+    --> select tutorial_count from tcount_tbl t1 where N-1=(select count(distinct tutorial_count) from tcount_tbl t2 where t2.tutorial_count > t1.tutorial_count);
     # set N=2 for 2nd highest, 3 for 3rd highest
     select tutorial_count from tcount_tbl order by tutorial_count desc limit N-1, 1;
         
