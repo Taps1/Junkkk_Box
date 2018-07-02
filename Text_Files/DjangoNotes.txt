@@ -1,3 +1,9 @@
+app.py: this is a configuration file of the app itself.
+
+tests.py: this file is used to write unit tests for the app.
+
+In URLs.py: url(r'^$', views.home, name='home') checks for an empty path
+
 sudo pip insall django
 django-admin startproject my_project
 django-admin 
@@ -15,32 +21,8 @@ python manage.py runserver
 python manage.py startapp app_name
 
 
-	class Question(models.Model):
-	    question_text = models.CharField(max_length=200)
-	    pub_date = models.DateTimeField('date published')
-
-
-	class Choice(models.Model):
-	    question = models.ForeignKey(Question)
-	    choice_text = models.CharField(max_length=200)
-	    votes = models.IntegerField(default=0)
-
-Each choice is related to a single question.
-
-Python manage.py makemigrations
-python manage.py migrate
 python manage.py check -- will check if there's no problem in project without touching database.
 python manage.py shell
-from app.models import modelClass
-	ClassName.objects.all()
-	q = ClassName(arg1, arg2, arg3, ...)
-	q.save()
-	q.id
-	q.arg1, q.arg2, q.arg3, ...
-	q.arg1 = "Some_Value"
-	q.save()
-	ClassName.objects.filter(name__startswith="")
-	ClassName.objects.filter(pub_date__year="")
 	q = Question.objects.get(pk=1)
 	q.choice_set.all()
 	q.choice_set.create(arg1="", arg2="")
@@ -50,18 +32,6 @@ from app.models import modelClass
 	Choice.objects.filter(choice_text__startswith="")
 
 python manage.py createsuperuser
-
-	from django.contrib import admin
-	from .models import Question
-	admin.site.register(Question)
-
-	class QuestionAdmin(admin.ModelAdmin):
-	    fields = ['pub_date', 'question_text']
-	admin.site.register(Question, QuestionAdmin)
-
-	class QuestionAdmin(admin.ModelAdmin):
-	    # ...
-	    list_display = ('question_text', 'pub_date')
 
 mysite/settings.py
 
@@ -140,3 +110,61 @@ from django.views import View
     urlpatterns = [
         url(r'contact/$', views.contact, name='contact'),
         ]
+
+    # -*- coding: utf-8 -*-
+    from __future__ import unicode_literals
+
+    from django.db import models
+    from django.contrib.auth.models import User
+
+    # Create your models here.
+    class Board(models.Model):
+        name = models.CharField(max_length=30, unique=True)
+        description = models.CharField(max_length=100)
+
+        def __str__(self):
+            return self.name        # will give self.name when accessed
+
+    class Topic(models.Model):
+        subject = models.CharField(max_length=255)
+        last_updated = models.DateTimeField(auto_now_add=True)
+        board = models.ForeignKey(Board, related_name='topics')
+        starter = models.ForeignKey(User, related_name='topics')
+
+    class Post(models.Model):
+        message = models.TextField(max_length=4000)
+        topic = models.ForeignKey(Topic, related_name='posts')
+        created_at=models.DateTimeField(auto_now_add=True)
+        updated_at = models.DateTimeField(null=True)
+        created_by = models.ForeignKey(User, related_name='posts')
+        updated_by = models.ForeignKey(User, null=True, related_name='+')
+
+    >>> from apps.boards.models import Board
+    >>> board = Board(name="Django", description="This is a board about Django")
+    >>> board.save()
+    >>> board.id
+        1
+    >>> board.name
+        'Django'
+    >>> board.description
+        'This is a board about Django'
+    >>> board.description = 'Django discussion board.'
+    >>> board.save()
+
+Every django model comes with a Model manager attribute, we can access it via python attribute objects.
+It is mainly used to execute queries on the database: 
+    >>> board = Board.objects.create(name="Python", description="General discussion")
+    >>> board.id
+        1
+    >>> board.name
+        "Python"
+
+    >>> board = Board.objects.all()
+    >>> board = Board.objects.get(id=2)
+
+
+    Create an object without saving:            board = Board()
+    Save an object (create or update)           board.save()
+    Create and save an object in db             Board.objects.create(name='...', description='...')
+    List all objects                            Board.objects.all()
+    Get a single obj identified by a field      Board.objects.get(id=1)
