@@ -205,3 +205,28 @@ It is mainly used to execute queries on the database:
     from models import Board
 
     admin.site.register(Board)
+
+This is the anatomy of the url function:
+    def url(regex, view, kwargs=None, name=None)
+
+regex: A regular expression for matching URL patterns in strings. Note that these regular expressions do not search GET or POST parameters. In a request to http://127.0.0.1:8000/boards/?page=2 only /boards/ will be processed.
+
+urlpatterns = [
+    url(r'^$', home, name='home'),
+        url(r'(?P<pk>\d+)/$', board_topics, name='board_topics'),
+            ]
+
+view: A view function used to process the user request for a matched URL
+
+The regex \d+ will match an integer of arbitrary size. This integer will be used to retrieve the Board from the database. Now observe that we wrote the regex as (?P<pk>\d+), this is telling Django to capture the value into a keyword argument named pk.        
+        url(r'(?P<pk>\d+)/$', board_topics, name='board_topics'),
+
+Here's how we write a view function for it:
+
+    def board_topics(request, pk):
+        # do something...
+
+Because, we use r'^boards/(?P<pk>\d+)/$' regex, the keyword argument in view must be named pk,
+
+If we wanted to use any name, we could do it like this:
+    r'^boards/(\d+)/$'
