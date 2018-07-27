@@ -46,8 +46,11 @@ sudo vim example.conf
 			</VirtualHost>
 
 git clone https://github.com/AjeetK/example.git
-a2nesite example.conf				# will enable the site - example
+a2ensite example.conf				# will enable the site - example
+sudo a2enmod wsgi
+
 service apache2 reload
+systemctl status apache2.service	# if anything goes wrong
 
 Create wsgi file which we have given in example.conf
 sudo touch /var/www/example.wsgi
