@@ -62,3 +62,21 @@ STEPS:
     Publish a message to an exchange.
     Consume a message from a queue.
     Close the channel and connection.
+
+Client/Server Architecture:
+    Server: a piece of software providing service that is needed by one or more clients.
+    Client: Contacting server for a particular request, send over necessary data and then wait for server to reply.
+
+    All they need is communication endpoint i.e. Socket (computer networking data structures).
+    Sockets were  first created for interprocess communication where a process communicates with another process in same computer. These are of two types:
+    1. File based (AF_local) - runs on the same computer
+    2. Netword base (AF_Inet)
+
+    If socket is like a telephone jack then hostname & port is an area code and telephone number combination.
+
+    Regardless of which family we use, there are 2 styles of socket connection:
+
+    CONNECTION ORIENTED: connection must be established before communication can occur e.g. telephone call. Each message can be broken in multiple parts which are all guaranteed to arrive at destination, put back together and in order and deliver to waiting application.
+    Protocol that implements such connection is TCP. Socket type: SOCK_STREAM
+
+    CONNECTIONLESS: No connection is necessary before communication can begin. No guarantee of sequencing, reliability or non-duplication in process of data delivery. less expensive and protocol that implement such connections us UDP. Socket type: SOCK_DGRAM
