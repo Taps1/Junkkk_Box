@@ -112,6 +112,47 @@ ORDER BY
     'Disputed',
     'Shipped');
 
+CREATE TABLE t1 (id INT PRIMARY KEY, pattern VARCHAR(50) NOT NULL);
+CREATE TABLE t2 (id VARCHAR(50) PRIMARY KEY, pattern VARCHAR(50) NOT NULL);
+
+INSERT INTO t1(id, pattern) VALUES(1,'Divot'), (2,'Brick'), (3,'Grid');
+INSERT INTO t2(id, pattern) VALUES('A','Brick'), ('B','Grid'), ('C','Diamond');
+
+CROSS-JOIN:
+    SELECT t1.ID, t2.ID FROM t1 CROSS JOIN t2;
+INNER JOIN:
+    SELECT t1.ID, t2.ID, t1.PATTERN, t2.PATTERN FROM t1 INNER JOIN t2 ON t1.PATTERN=t2.PATTERN;
+    SELECT t1.ID, t2.ID, t1.PATTERN, t2.PATTERN FROM t1 INNER JOIN t2 USING (PATTERN);
+    SELECT t1.ORDERNUMBER, t1.STATUS, SUM(t2.QUANTITYORDERED*t2.PRICEEACH) TOTAL FROM orders t1 JOIN orderdetails t2  USING (ORDERNUMBER) GROUP BY t1.ORDERNUMBER;
+LEFT JOIN:
+    SELECT t1.ID, t2.ID, t1.PATTERN, t2.PATTERN FROM t1 LEFT JOIN t2 ON t1.PATTERN=t2.PATTERN;
+    SELECT c.CUSTOMERNUMBER, c.CUSTOMERNAME, ORDERNUMBER, o.STATUS FROM customers c LEFT JOIN orders o ON c.CUSTOMERNUMBER = o.CUSTOMERNUMBER;
+    SELECT c.CUSTOMERNUMBER,  c.CUSTOMERNAME, ORDERNUMBER, o.STATUS FROM customers c LEFT JOIN orders o ON c.CUSTOMERNUMBER = o.CUSTOMERNUMBER WHERE ORDERNUMBER IS NULL;
+RIGHT JOIN:
+    SELECT t1.ID, t2.ID, t1.PATTERN, t2.PATTERN FROM t1 RIGHT JOIN t2 ON t1.PATTERN=t2.PATTERN;
+    SELECT CONCAT(FIRSTNAME, LASTNAME), CUSTOMERNAME FROM employees RIGHT JOIN customers ON employees.EMPLOYEENUMBER=customers.SALESREPEMPLOYEENUMBER WHERE EMPLOYEENUMBER IS NULL;
+    (find all customers who don't have dedicated sales representative employee)
+SELF JOIN:
+    select employeenumber, concat(lastname, '-', firstname), reportsto, jobtitle from employees limit 5;
++----------------+----------------------------------+-----------+----------------------+
+| employeenumber | concat(lastname, '-', firstname) | reportsto | jobtitle             |
++----------------+----------------------------------+-----------+----------------------+
+|           1002 | Murphy-Diane                     |      NULL | President            |
+|           1056 | Patterson-Mary                   |      1002 | VP Sales             |
+|           1076 | Firrelli-Jeff                    |      1002 | VP Marketing         |
+|           1088 | Patterson-William                |      1056 | Sales Manager (APAC) |
+|           1102 | Bondur-Gerard                    |      1056 | Sale Manager (EMEA)  |
++----------------+----------------------------------+-----------+----------------------+
+    Find who all are reporting to Bonder-Gerard?
+        SELECT m.employeenumber FROM employees e INNER JOIN employees m ON e.employeenumber=m.reportsto WHERE e.firstname='gerard' AND e.lastname='bondur';
+    Find to whom Bonder-Gerard is reporting to?
+        SELECT e.employeenumber FROM employees e INNER JOIN employees m ON e.employeenumber=m.reportsto WHERE m.firstname='gerard' AND m.lastname='bondur';
+    Find all direct reporting managers:
+        SELECT CONCAT(m.lastname, m.firstname) AS 'Mgr', CONCAT(e.lastname ,e.firstname) AS 'rpt' FROM employees e INNER JOIN employees m ON m.employeeNumber = e.reportsto ORDER BY manager;
+
+ * When you use a subquery in the FROM clause, the result set returned from a subquery is used as a temporary table. This table is referred to as a derived table or materialized subquery.
+ * Unlike a standalone subquery, a correlated subquery is a subquery that uses the data from the outer query. In other words, a correlated subquery depends on the outer query. A correlated subquery is evaluated once for each row in the outer query.
+
 Setting up a new mysql user:
     open the mysql shell;
     use mysql;
