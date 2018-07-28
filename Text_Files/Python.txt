@@ -1351,6 +1351,24 @@ ________________________________________________________________________________
 <TIMEIT>:
 	import timeit									# this will give the time taken in execution of any LOC
 	timeit.timeit(‘ “-”.join(str(n) for n in range(10)) ’, number = 20)		# here 20 is the number of times this LOC will get executed
+	# importing the required module
+	import timeit
+ 
+	# code snippet to be executed only once
+	mysetup = "from math import sqrt"
+ 
+	# code snippet whose execution time is to be measured
+	mycode = '''
+			def example():
+    			mylist = []
+    			for x in range(100):
+        		mylist.append(sqrt(x))
+			'''
+ 
+	# timeit statement
+	timeit.timeit(setup = mysetup, stmt = mycode, number = 10000)
+	timeit.repeat(stmt=cc, repeat=3, setup='pass', number = 1000000)		# returns list
+
 
 <REGULAR EXPRESSIONS>:
 	There are two ways to accomplish pattern matching - 
@@ -1362,7 +1380,8 @@ ________________________________________________________________________________
 	match.end()								# 5
 	re.findall(‘match’, “Here is a match, here is another match”)		# [‘match’, ‘match’]
 	
-	There are five ways to express repetition in pattern:
+	are five ways to express repetition in pattern:
+	timeit.repeat(stmt=cc, repeat=3, setup='pass', number = 1000000)		# returns list
 	* A pattern followed by meta character * is repeated zero or more times.
 	* Replace the * with + and pattern must appear atleast once.
 	* Using ? means the pattern zero or more times.
