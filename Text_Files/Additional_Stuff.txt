@@ -10,7 +10,7 @@ Containers on which services can be deployed like Jenkins:
     Liberty profile
 
 <RabbitMQ>:
-	It is a message queueing software called a message broker or queue manager. It is a software where queues cam be defined.
+	It is a message queueing software called a message broker or queue manager. It is a software where queues can be defined.
 	Applications may connect to queue and transfer a message onto it.
 	A message can be anything - information about a task that should start on another application or can be a simple text message.
 	The queue manager software stores the message until a receiving application connects and takes a message off the queue and then the receiving application process the message in an appropriate manner.
@@ -53,6 +53,22 @@ The exchange receives the message and is now responsible for the routing of the 
     Vhost, virtual host: A Virtual host provides a way to segregate applications using the same RabbitMQ instance. Different users can have different access privileges to different vhost and queues and exchanges can be created so they only exist in one vhost.
 
 RabbitMQ speaks a  protocol called AMQP by default. To be able to communicate with RabbitMQ we need a library that understands the same protocol as RabbitMQ. we may need to download the client library for language of choice - Python. it's methods should be used when we connect to RabbitMQ broker(using given parameters, hostname, portnumber etc) or when we declare a queue or an exchange.
+
+<CELERY>: An asynchronous task queue. Can be used for everything that needs to be run asynchronously. RabbitMQ message broker is widely used with Celery.
+    Why do we need broker - Because Celery doesn't construct a message queue.
+
+    $ pip install celery
+    $ sudo apt-get install rabbitmq-server
+    # rabbitmq-server
+
+    # add user 'talat' with password 'talat123'
+    $ rabbitmqctl add_user talat talat123
+    # add virtual host 'talat_vhost'
+    $ rabbitmqctl add_vhost talat_vhost
+    # add user tag 'talat_tag' for user 'talat'
+    $ rabbitmqctl set_user_tags talat talat_tag
+    # set permission for user 'talat' on virtual host 'talat_vhost'
+    $ rabbitmqctl set_permissions -p talat_vhost talat ".*" ".*" ".*"
 
 STEPS:
     Establish a connection(hostname, portnumber)
