@@ -1170,6 +1170,10 @@ setattr(dd, "name", "Parwez")               # A.name --> Talat, A().name --> Tal
 _______________________________________________________________________________________________________________________________________________________________
                 
 <MAGIC METHODS> :
+	repr(x) calls x.__repr__() : a representation of x . eval will usually convert the result of this function back to the original object.
+	str(x) calls x.__str__() : a human-readable string that describes the object.
+	difference between this and repr(object) is that str(object) does not always attempt to return a string that is acceptable to eval()
+
     These are those methods which can be used as built-in methods and listed as follows:
         __eq__,__ne__, __gt__, __le__, __ge__, __pos__(self), __neg__(self), __abs__(self), __invert__(self) [NOT operator], __round__(self, n),
         __floor__(self), __ceil__(self), __trunc__(self), __add__(self, other), __sub__(self, other), __mul__(self, other), __floordiv(self, other), __div__(self,
@@ -1369,6 +1373,8 @@ ________________________________________________________________________________
 	timeit.timeit(setup = mysetup, stmt = mycode, number = 10000)
 	timeit.repeat(stmt=cc, repeat=3, setup='pass', number = 1000000)		# returns list
 
+Python memory is managed by Python private heap space. All Python objects and data structures are located in a private heap. The programmer does not have an access to this private heap and interpreter takes care of this Python private heap.
+
 
 <REGULAR EXPRESSIONS>:
 	There are two ways to accomplish pattern matching - 
@@ -1473,7 +1479,7 @@ ________________________________________________________________________________
 	IP address is a numerical label assigned to each device connected to a computer network.
 	IPv4 - 32 bits (172.16.254.1)
 	IPv6 - 128 bits (2001:db8:0:1234:0:567:8:1)
-	
+
     To create a socket, must use the socket.socket() function which has the general syntax as:
         socket(sockt_family, socket_type, protocol=0)			# socket family is either AF_UNIX(local) or AF_INET(internet)
 									# socket_type is either SOCK_STREAM(TCP-connection oriented) or SOCK_DGRAM(UDP-connection less)
@@ -1584,6 +1590,7 @@ ________________________________________________________________________________
 
 <MULTITHREADED PROGRAMMING>:
 	We actually don't the functionality of mutli threading in python due to Global interpreter lock which ensures that only one thread is running. Execution of python code is controlled by Python virtual machine(Interpreter main loop). Python was designed in such a way that only one thread of control may be executing in this main loop. Many prorams can be in memory but only is live on the CPU at given moment. Access to Python virtual machine is is controlled by the GIL.
+	The GIL makes sure that only one of your 'threads' can execute at any one time. A thread acquires the GIL, does a little work, then passes the GIL onto the next thread. This happens very quickly so to the human eye it may seem like your threads are executing in parallel, but they are really just taking turns using the same CPU cores
 	We have two ways of implementing threading in python which are in implemented in 2 modules - 
 		1. Thread (lower level threading) - Not recommended
 		2. threadingv(higher level threading) - recommended
