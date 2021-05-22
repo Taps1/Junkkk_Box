@@ -1,0 +1,9 @@
+The key components of AWS are as follows:
+
+Route 53: It is a DNS (Domain Name Server) web-based service platform.
+Simple E-mail Service: Sending of e-mail is done by using a RESTFUL API call or via regular SMTP (Simple Mail Transfer Protocol).
+Identity and Access Management: Improvised security and identity management are provided for an AWS account.
+Simple Storage Device (S3): It is a huge storage medium, widely used for AWS services.
+Elastic Compute Cloud (EC2): It allows on-demand computing resources for hosting applications and essentially useful for unpredictable workloads.
+Elastic Block Stores (EBS): They are storage volumes attached to EC2 and allow the data lifespan of a single EC2.
+CloudWatch: It is used to monitor AWS resources, and it allows administrators to view and collect keys required. Access is provided so that one can set a notification alarm in the case of trouble.
