@@ -103,21 +103,21 @@ If I want to have more than 1 git accounts on a single local machine, Then do
       Give different names to these RSA keys
       Now, I have to create a config file, as
       vim ~/.ssh/config
-
+-------------------------------------------------------------------------------------------
       Host github.com
         HostName github.com
         User git
         IdentityFile ~/.ssh/id_rsa
-
-     Host github-first_account
+--------------------------------------------------------------------------------------------
+     Host github-first_account/github_27
         HostName github.com
         User git
-        IdentityFile ~/.ssh/id_rsa_first_account
+        IdentityFile ~/.ssh/id_rsa_27
 
-    Host github-second_account
+    Host github-second_account/github_2
         HostName github.com
         User git
-        IdentityFile ~/.ssh/id_rsa_second_account
+        IdentityFile ~/.ssh/id_rsa_2
 
 
 Once, the config file is been created, I have to add these Identity keys as:
