@@ -1078,6 +1078,90 @@ NOTE: "super() argument 1 must be type, not classobj - If baseclass doesn't have
 	std.hello()				# Hey
 	std.hello('Nicholas')	# Hey Nicholas
 
+	Overriding:
+	An ability that allows a child class to provide a redfined implementation of a method that is already provided by one of it's super class. When a method in subclass has the same name, same parameters and same return type as method in super-class, then the method in subclass is said to override the method in super class.
+
+	Example:
+		class Parent():
+		    def __init__(self):
+		        self.value = "Inside Parent"
+		          
+		    def show(self):
+		        print(self.value)
+          
+		class Child(Parent):
+		    def __init__(self):
+		        self.value = "Inside Child"
+		 
+		    def show(self):
+		        print(self.value)
+          
+		obj1 = Parent()
+		obj2 = Child()
+		  
+		obj1.show()
+		obj2.show()
+
+	Example:
+		class Parent1():
+		    def show(self):
+		        print("Inside Parent1")
+          
+		class Parent2():
+		    def display(self):
+		        print("Inside Parent2")
+		          
+		class Child(Parent1, Parent2):
+		    def show(self):
+		        print("Inside Child")
+		     
+		obj = Child()
+		obj.show()		# Inside Child
+		obj.display()	# Inside Parent2
+
+	Example:
+		class Parent(): 
+		    def display(self):
+		        print("Inside Parent")
+
+		class Child(Parent): 
+		    def show(self):
+		        print("Inside Child")
+		    
+		class GrandChild(Child): 
+		    def show(self):
+		        print("Inside GrandChild")         
+		    
+		g = GrandChild()   
+		g.show()		# Inside GrandChild
+		g.display()		# Inside Parent
+
+	Example:
+		class Parent():  
+		    def show(self):
+		        print("Inside Parent")
+		          
+		class Child(Parent):
+		    def show(self):
+		        Parent.show(self)
+		        print("Inside Child")
+		          
+		obj = Child()
+		obj.show()		# Inside Parent\nInside Child
+
+	Example:
+		class Parent():
+		    def show(self):
+		        print("Inside Parent")
+		          
+		class Child(Parent):
+		    def show(self):
+		        super(Child, self).show()	# super().show()
+		        print("Inside Child")
+		          
+		obj = Child()
+		obj.show()		# Inside Parent\nInside Child
+
 <ACCESSING OBJECT ELEMENT>
     If there's an object and want to know the elements associated with this object the We can use,
         dir(obj)
