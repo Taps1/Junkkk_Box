@@ -998,8 +998,6 @@ NOTE: "super() argument 1 must be type, not classobj - If baseclass doesn't have
         def get_details(self):
             return "%s teaches %s" % (self.name, ','.join(self.papers))
 
-Python doesn't support method overloading, Although we can have same name of methods in a class but only the last defined method will be considered while calling via class object.
-
         __call__():
             Call method is used to make the object as a Callable; Like when an Object is created; It goes to __init__ method; But what if I need to 
             modify the content of arguments, In this case I need to create another object; So, In this case; I can make the Object as callable say:
@@ -1039,6 +1037,46 @@ Python doesn't support method overloading, Although we can have same name of met
             Parent1.foo(self)
             Parent2.foo(self)
 
+<OBJECT ORIENTED PROGRAMMING CONCEPTS>:
+	Overloading: ability of function or an operator to behave in different ways depending on parameters that are passed to function, 
+	Python doesn't support method overloading(by default), Although we can have same name of methods in a class but only the last defined method will be considered while calling via class object.
+
+	It is possible to change the default behaviour of Python's built-in function. We only have to define the corresponding special method in our class.
+	Example:
+		class Purchase(object):
+			def __init__(self, basket,buyer):
+				self.basket = list(basket)
+				self.buyer = buyer
+
+			def __len__(self):
+				print("this is an overloaded built-in function")
+				return len(self.basket)
+
+		purchase = Purchase(['pen', 'book', 'pencil'], 'Python')
+		print(len(purchase))
+
+	Example:
+		class Purchase(object):
+			def __init__(self, basket,buyer):
+				self.basket = list(basket)
+				self.buyer = buyer
+
+		purchase = Purchase(['pen', 'book', 'pencil'], 'Python')
+		print(len(purchase))		# TypeError: object of type 'Purchase' has no len()
+
+	To overload a user defined function, we need to write a function logic in such a way that depending upon the params passed, a different piece of code executes inside the function
+
+	Example:
+		class Student:
+	    def hello(self, name=None):
+	        if name is not None:
+	            print('Hey ' + name)
+	        else:
+	            print('Hey ')
+
+	std = Student()
+	std.hello()				# Hey
+	std.hello('Nicholas')	# Hey Nicholas
 
 <ACCESSING OBJECT ELEMENT>
     If there's an object and want to know the elements associated with this object the We can use,
