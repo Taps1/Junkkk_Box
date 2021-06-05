@@ -1,73 +1,3 @@
-Django is a python framework:
-        To install the Django say:
-                sudo pip install django==version
-                sudo pip install django==1.7.1
-
-To check which version of Django is installed
-                python -c "import django;print(django.get_version())"
-
-For the very first application Database configuration, application specific settings are needed; That can be done by this command; just go to your Project folder and:
-                django-admin.py startproject mysite
-
-
-It'll create the folders as follows:
-                Mysite/
-                    manage.py
-                    mysite/
-                        __init__.py
-                        urls.py
-                        wsgi.py
-                        settings.py
-
-In settings.py file; All the settings are listed and can be used to configure database and we need to change the ENGINE section of the DATABASE dictionary as per the db chosen by us:
-                DATABASES = {
-                            'default': {
-                                        'ENGINE': 'django.db.backends.sqlite3',
-                                        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-                                       }
-                            }
-
-for postgress: 'django.db.backends.postgresql_psycopg2'
-
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mydatabase',
-        'USER': 'mydatabaseuser',
-        'PASSWORD': 'mypassword',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-                }
-               }
-
-for mysql:     'django.db.backends.mysql'
-for sqlite3:   'django.db.backends.sqlite3'
-for oracle:    'django.db.backends.oracle'
-
-MongoDB configuration:
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django_mongodb_engine',
-        'NAME': 'mydatabase',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '27017',
-        'SUPPORTS_TRANSACTIONS': False,
-                },
-               }
-
-It will create the mysqlite db file:
-        python manage.py migrate
-
-        In manage.py file; We've a os.environ variable In which we can set the DJANGO_SETINGS_MODULE as the setting of my own project as:
-                import os;os.environ.set_default("DJANGO_SETINGS_MODULE", ' mysite.settings')
-
-    The migrate command looks at the installed_apps setting and creates all necessary db tables acc. to db settings in mysql/settings.py
-    MIGRATE functionallity come in django_1.7; Whenever we make changes in our models They need to be reflected in the database schema So MIGRATE do this.
-
-    We make the changes in our models and makemigration command will package up our model changes into individual migration files and migration will apply these
-    changes to Database Schema.[Updating your DB schema accn. to the latest change--GITHUB]
     For better understanding of Migrations, let's take an example;
         We already have a db schema and we make some changes to our model file So after performing the migrations on a file, the basic functionallity is like:
             
@@ -85,21 +15,6 @@ It will create the mysqlite db file:
     Everytime I change the model file and makemirations over manage.py file; It'll create a new migraion file under migrations folder
     Instead of Zero we can also give other value so migration will be rolled back to that particular migrations.
     app_name/migrations/0001_initial.py is the file where the migration code is generated
-
-                MODELS.PY:
-                        from django.db import models
-
-                        # Create your models here.
-                        class Question(models.Model):                           #Question and Choie will be the class name
-                            question_text = models.CharField(max_length=200)    #quetion_txt and pub_date will be the columns for this table
-                            pub_date = models.DateTimeField('date published')
-
-
-                        class Choice(models.Model):
-                            question = models.ForeignKey(Question)
-                            choice_text = models.CharField(max_length=200)
-                            votes = models.IntegerField(default=0)
-
 
 To check whether the server is running or not
         python manage.py runserver
