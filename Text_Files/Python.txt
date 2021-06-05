@@ -1,3 +1,19 @@
+MEMORY LEAK:
+	When some program starts execution, it consumes some memory (RAM), and when it's done - it is supposed to release the occupied memory, when the occupied memory is not released even after program terminates, then it is known as Memory leak and no other
+	program will be able to use it unless it is released.
+	To avoid memory leaks, memory allocated on heap should always be freed when no longer needed.
+RACE CONDITION - 
+	It occurs when two threads try to access a shared variable simultaneously. The first thread reads the value from shared variable as second thread does. Then both thread try to change the value of shared variable.
+CPU Bound Programs:
+	These pushes the CPU to its limit, this includes program that do mathematical computations like matrix multiplication, searching,
+	imaging processing etc.
+I/O Bound Programs:
+	These spend time waiting for I/O which can come from User/Database/file/network etc. I/O-bound programs sometimes have to wait
+	for a significant amount of time till they get what they need from the source due to the fact that the source may need to do its
+	own processing before the input/output is ready, for example, a user thinking about what to enter into an input prompt or a
+	database query running in its own process.
+
+
 Code refactoring is restructuring the existing code without changing its external behaviour.
 If you want to get help regarding the python via prompt; check with help() on terminal
 
@@ -281,6 +297,36 @@ ________________________________________________________________________________
 
 The Last printed expression will be assigned to the variable _ (underscore)
 
+	Custom Exceptions:
+		class TooYoung(Exception):
+		    def __init__(self, msg):
+		        self.msg = msg
+
+		class TooOld(Exception):
+		    def __init__(self, msg):
+		        self.msg = msg
+
+		age = int(input("Enter your age: "))
+		if age < 18:
+		    raise TooYoung("You're too young")
+		elif age > 60:
+		    raise TooOld("You're too old")
+		print("You're good to go")
+
+
+_______________________________________________________________________________________________________________________________________________________________
+
+<DATABASE CONNECTION>
+
+	import cx_Oracle
+	con = cx_Oracle.connect('scott/tiger@localhost')
+	cursor = con.cursor()
+	cursor.execute('select * from employees')
+	records = cursor.fetchall()
+	for row in records;
+	    print(row[0], '\t', row[1], '\t', row[2])
+
+	cursor.execute("insert into employees values(123, 'Vijay', 'HYderabad')")
 _______________________________________________________________________________________________________________________________________________________________
 
 <SETS>
@@ -1162,6 +1208,9 @@ NOTE: "super() argument 1 must be type, not classobj - If baseclass doesn't have
 		obj = Child()
 		obj.show()		# Inside Parent\nInside Child
 
+	Polymorphims:
+		Means having many forms, polymorphims means same function name (but different signature) being used for different types.
+
 <ACCESSING OBJECT ELEMENT>
     If there's an object and want to know the elements associated with this object the We can use,
         dir(obj)
@@ -1792,6 +1841,8 @@ We have the threading module as well which provides wide variety of synchronizat
     Locks are pretty simple to understand and implement and also easy to decide when should we use them, but might need a powerful synchronisation when situation is more complex. Applications with finite resources, using semaphores is good
 
     We can think of semaphores representing their resources as either available or unavailable (they're basically counters that decrement when a resource being consumed and increment again when resource is released)
+
+    Python's global interpreter lock or GIL is a mutex that allows only one thread to hold the control of Python interpreter. Only one thread can be in state of execution at any point of time.
 
 <EXTENDING PYTHON>:
    Any code that can be integerated or imported into another python script can be considered as an extension. 
