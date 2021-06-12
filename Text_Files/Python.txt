@@ -1557,6 +1557,50 @@ ________________________________________________________________________________
 	obj.lname = "Khanna"			# changed
 	obj.email 						# it's changed to - rakhi.khanna@mail.com
 
+	We may also need to set or delete the email as well,
+	but we won't be able to do that, unless we have setter & deleter implemented for email. The code goes like this:
+
+		class Employee(object):
+		    def __init__(self, fname, lname):
+		        self.fname = fname
+		        self.lname = lname
+
+		    @property
+		    def email(self):
+		        if self.fname == None or self.lname == None:
+		            return "Email is not set, set it first"
+		        return f"{self.fname}.{self.lname}@mail.com"
+
+		    @email.setter
+		    def email(self, string):
+		        names = string.split('@')
+		        self.fname, self.lname = names[0].split('.')
+
+		    @email.deleter
+		    def email(self):
+		        self.fname = None
+		        self.lname = None
+
+		    def get_details(self):
+		        print("Employee is {0} {1}".format(self.fname, self.lname))
+
+		obj = Employee("Rakhi", "Taneja")
+		obj.get_details()
+		print(obj.email)
+		obj.lname = "Khanna"
+		print(obj.lname)
+		print(obj.email)
+		obj.email = "this.that@mail.com"
+		print(obj.email)
+		del obj.email
+		print(obj.email)
+
+		Employee is Rakhi Taneja
+		Rakhi.Taneja@mail.com
+		Khanna
+		Rakhi.Khanna@mail.com
+		this.that@mail.com
+		Email is not set, set it first
 _______________________________________________________________________________________________________________________________________________________________
 
 <COLLECTIONS>
