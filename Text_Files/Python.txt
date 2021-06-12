@@ -1495,7 +1495,68 @@ from <module_name> import <class_name> —> foo()/_foo1() are accessible but __f
 _______________________________________________________________________________________________________________________________________________________________
 
 <PROPERTY>:
+	We instantiate a class having fname & lname & email (combination of fname.lname@mail.com), We instantiate an object with 
+	fname = "Rakhi", lname = "Taneja", then email will become rakhi.taneja@mail.com,  Now we changed the surname of object, and
+	tried to access email (obj.email), we would see that fname is changed but not the email because we instantiate email in __init__ 
+	class and we didn't call init again so email doesn't change. Let's see:
+
+	class Employee(object):
+		def __init__(self, fname, lname):
+			self.fname = fname
+			self.lname = lname
+			self.email = "{}.{}@mail.com".format(fname, lname)
+
+		def get_details(self):
+			return "Employee details - {0} {1}".format(self.fname, self.lname)
+
+	obj = Employee("Rakhi", "Taneja")
+	obj.get_details()		--> Employee details - Rakhi Taneja
+
+	# Now, I am changing lname to some other value, and will see if there's any change
+	obj.lname = "Khanna"		# changed
+	obj.email 					# it's still - rakhi.tanja@mail.com
+
 	
+	#To solve this problem, we can do
+	class Employee(object):
+		def __init__(self, fname, lname):
+			self.fname = fname
+			self.lname = lname
+
+		def email(self):
+			return "{}.{}@mail.com".format(fname, lname)
+
+		def get_details(self):
+			return "Employee details - {0} {1}".format(self.fname, self.lname)
+
+	obj = Employee("Rakhi", "Taneja")
+	obj.get_details()		--> Employee details - Rakhi Taneja
+
+	# Now, I am changing lname to some other value, and will see if there's any change
+	obj.lname = "Khanna"			# changed
+	obj.email() 					# it's changed to - rakhi.khanna@mail.com
+
+	
+	#But, fetching email(obj.email) as a method looks wierd, So we can modify it as:
+	class Employee(object):
+		def __init__(self, fname, lname):
+			self.fname = fname
+			self.lname = lname
+
+		@property
+		def email(self):
+			return "{}.{}@mail.com".format(fname, lname)
+
+		def get_details(self):
+			return "Employee details - {0} {1}".format(self.fname, self.lname)
+
+	obj = Employee("Rakhi", "Taneja")
+	obj.get_details()		--> Employee details - Rakhi Taneja
+
+	# Now, I am changing lname to some other value, and will see if there's any change
+	obj.lname = "Khanna"			# changed
+	obj.email 						# it's changed to - rakhi.khanna@mail.com
+
 _______________________________________________________________________________________________________________________________________________________________
 
 <COLLECTIONS>
