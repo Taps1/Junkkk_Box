@@ -6,6 +6,9 @@ Databases -- Postgresql, Mysql, Mssql |
 Queueing -- Celery                    | -- Backing Services
 Cache -- Memcached                    |
 
+WSGI.py --> 
+    Web server gateway interface
+
 The word on Imports:
 All packages and files should be imported in following order:
 Standard Library Imports -- Python imports

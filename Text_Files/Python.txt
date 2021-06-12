@@ -898,6 +898,27 @@ ________________________________________________________________________________
     No classmethod/staticmethod decorator can be applied on top of abstract method in base class (True for 2.x but not for 3.x)
     But abstract methods can be implemented by regular/class or static method.
 
+    class Shape(abc.ABC):
+    	@abc.abstractmethod
+    	def print_area(self):
+    		return 0
+
+    class Rectangle(Shape):
+    	type = "rectangle"
+    	sides = 4
+    	def __init__(self):
+    		self.length = 6
+    		self.breadth = 7
+
+    	def printarea(self):
+    		return self.length * self.breadth
+
+    	rect1 = Rectangle()
+    	print(rect1.printarea())
+
+    We cannot directly create Objects of Abstract classes.
+    try_obj = Shape()	# Cannot instantiate abstarct class Shape with abstract method printarea
+
 <SUPER>:
     Super is a keyword that is used to make a call to the super class method's along with current class method:
     suppose there is a class that is been inherited by child class and both of them have the __init__() methods, So without using the super keyword we can;t 
