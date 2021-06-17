@@ -4,6 +4,12 @@ tests.py: this file is used to write unit tests for the app.
 
 In URLs.py: url(r'^$', views.home, name='home') checks for an empty path
 
+start project.
+start application.
+create template dir & template files.
+create static directory & corresponding files.
+perform activities related to settings.py file.
+
 sudo pip insall django
 django-admin startproject my_project
 django-admin 
@@ -230,3 +236,141 @@ Because, we use r'^boards/(?P<pk>\d+)/$' regex, the keyword argument in view mus
 
 If we wanted to use any name, we could do it like this:
     r'^boards/(\d+)/$'
+
+
+$ django-admin startproject practice_project
+$ python manage.py makemigrations
+$ python manage.py migrate
+$ python manage.py startapp testApp
+Add the testApp to INSTALLED_APPS dictionary
+
+views.py
+1. function based views
+2. class based views
+
+Create an application level URLs.py
+Calling application level URLs from project level urls.py file
+
+* Setting up templates for the project
+--------------------------------------------------------------------------
+    Create templates named folder within your project's Base directory
+    Create testApp named folder inside BASE_DIR/templates folder (will hold testApp related templates)
+    Add templates folder to settings.py file so Django is aware of our templates.
+
+    DIRS key needs to be popullated with our templates folder (os.path.join(BASE_DIR,  'templates'))
+        TEMPLATES = [
+            {
+                'BACKEND': 'django.template.backends.django.DjangoTemplates',
+                'DIRS': [os.path.join(BASE_DIR,  'templates')],
+                'APP_DIRS': True,
+                'OPTIONS': {
+                    'context_processors': [
+                        'django.template.context_processors.debug',
+                        'django.template.context_processors.request',
+                        'django.contrib.auth.context_processors.auth',
+                        'django.contrib.messages.context_processors.messages',
+                    ],
+                },
+            },
+        ]
+
+* Setting up static content for the project
+--------------------------------------------------------------------------
+    Inside,  main project folder, create a folder named static
+    WIthin static folder --> images/css/js folder will be created as well
+
+    We  have added TEMPLATE_DIR inside settings.py file, In the same manner we'll add static path settings.
+
+TEMPLATE_DIR = os.path.join(Path(__file__).resolve().parent, 'templates')
+STATIC_DIR = os.path.join(Path(__file__).resolve().parent, 'static')
+
+    STATIC_URL = '/static/'
+    STATICFILES_DIRS = [STATIC_DIR, ]
+
+To include static files into templates
+--------------------------------------
+    {% load static %} --> All static files will be available to our html template.
+
+To include css files into template
+--------------------------------------
+    <link rel='stylesheet' href='demo.css'>                     # general manner
+    <link rel="stylesheet" href="{% static 'css/demo.css' %}">  # Django manner
+
+{{ msg }} --> template tag to insert simple data
+{%  %} --> 
+
+To insert images:
+--------------------------------------
+    <img src="{% static 'images/jenkins.png' %}">
+
+Navigating to different page:
+--------------------------------------
+    <a href="/staticView">Click here for image</a>
+
+Admin Panel:
+
+When I want to display some columns in admin panel
+--------------------------------------------------
+    class StudentAdmin(admin.ModelAdmin):
+        list_display = ['name', 'marks']
+
+    admin.site.register(Student, StudentAdmin)
+
+Django forms:
+--------------------------------------------------
+1. Validations are very easy with forms
+2. Creation of forms, based on models are very easy
+3. HTML form widgets
+    
+    Inside models.py file - 
+    class Student(models.Model):
+        name = models.CharField(max_length=100)
+        marks = models.IntegerField()
+
+    Inside forms.py file - 
+    from django import forms
+    class StudentForm(forms.Form):
+        name = forms.CharField()
+        marks = forms.IntegerField()
+
+    Inside views.py - 
+    form = forms.StudentForm()
+
+    - Send it to template file
+    context_dict = {'form': form}
+    return render(request, 'testApp/student_regitration.html', context=context_dict)
+
+    Inside template.html - 
+    <body>
+        {{ form }}
+    </body>
+
+With this method, a form will be generated when we'll navigate to respective URL
+    <body>
+        {{ form.as_p }}
+    </body>
+
+    This will make all the text fields display vertically and not horizontally.
+
+    Form is now available and we may need to submit the data filled in text boxes:
+
+    <body>
+    <form method="POST">
+        {{ form.as_p }}
+        {% csrf_token %}                # this will be changing at every request and django will take care of it.
+                                        # In our form, django will add one hidden form field
+    <input type="submit" value="Register">
+    </form>
+    </body>    
+
+We didn't specify any action (such as when button is clicked then where the request will go, so it'll automatically
+be going to the same views function), which we can capture from request.POST and will use form to save the data
+
+    def studentFeedback(request):
+        form = StudentFeedbackForm()
+        if request.method == "POST":
+            form = StudentFeedbackForm(request.POST)
+            if form.is_valid():
+                print("Form validation success, printing feedback information")
+                print(form.cleaned_data)
+        return render(request, 'testApp/student_feedback.html', {'form': form})

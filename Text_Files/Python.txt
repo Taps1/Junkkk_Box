@@ -1601,6 +1601,39 @@ ________________________________________________________________________________
 		Rakhi.Khanna@mail.com
 		this.that@mail.com
 		Email is not set, set it first
+
+    TRAP_ARTISTS = ["a", "b", "c"]
+    
+    class Employee(object):
+    	_hits = ["d", "e", "f"]
+
+    	def __init__(self, name):
+    	    self._name = name
+
+    	@property
+    	def name(self):
+    	    return self._name
+
+    	@name.setter
+    	def name(self, name):
+    	    if name not in TRAP_ARTISTS:
+    	    	raise ValueError("%s is not a trap artist" % name)
+    	    self._name = name
+
+    	@staticmethod
+    	def random_artist():
+    	    return TrapArtist(random.choice(TRAP_ARTISTS))
+
+    	@classmethod
+    	def hits(cls):
+    	    return cls._hits
+
+    rr = Employee('Rick Ross')
+    rr.name = "Martin"			# will fail,  ValueError
+    rr.name = "a"			# will work
+    rr.hits()				# returns ["d", "e", "f"]
+    rr._hits = ['pur', 'red', 'gre']	# won't work but rr.__class__._hits will work, return ['pur', 'red', 'gre']
+    print(rr.hits)			# it'll still return ["d", "e", "f"]
 _______________________________________________________________________________________________________________________________________________________________
 
 <COLLECTIONS>
