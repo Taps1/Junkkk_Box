@@ -366,6 +366,9 @@ With this method, a form will be generated when we'll navigate to respective URL
 We didn't specify any action (such as when button is clicked then where the request will go, so it'll automatically
 be going to the same views function), which we can capture from request.POST and will use form to save the data
 
+    def thankyou_view(request):
+        return render(request, 'testApp/thankyou.html')
+
     def studentFeedback(request):
         form = StudentFeedbackForm()
         if request.method == "POST":
@@ -373,4 +376,27 @@ be going to the same views function), which we can capture from request.POST and
             if form.is_valid():
                 print("Form validation success, printing feedback information")
                 print(form.cleaned_data)
+                return thankyou_view(request)
         return render(request, 'testApp/student_feedback.html', {'form': form})
+
+We can now apply the restrictions/validation on data such that:
+    Email should be in proper format
+    Age cannot greater than 100 years like that
+
+Inside forms.py file, there are 2 types of validations available:
+    1. Explicit validation by developer using clean methods
+    2. Implicit validation by Django.
+
+    I want to put a validation that name should always be atleast 4 characters then, we'll be writing clean method
+    for name attribute such as: def clean_name(self)
+
+    from django import forms
+    class StudentForm(forms.Form):
+        name = forms.CharField()
+        marks = forms.IntegerField()
+
+        def clean_name(self):
+            inputname = self.cleaned_data['name']
+            if len(inputname) < 4:
+                raise forms.validationError('Name should atleast be 4 characters')
+            return inputname

@@ -206,7 +206,7 @@ ________________________________________________________________________________
 	q=d.get(key, default_value)	#will return the Value for the Key-->  <request.get("params",0)>
 	q=d.get(key,'Message')		#Will return the Message if value for key was not returned
 	d[i][j]				#Dictionaries can be indexed with their keys
-	d.has_key(key)			#Will return True or False if key was found or not
+	"person" in d.keys()		#Will return True or False if key was found or not
 	d.update(d1)			#It will update the d by adding key-values of d1 and If keys are same both dictionaries then keys of d1 will be given the priority
 	d.setdefault("key",value)	#Will set a default value to the key If key is not present already
 	d.setdefault("key",[]).append("value")	#{"key":""}
