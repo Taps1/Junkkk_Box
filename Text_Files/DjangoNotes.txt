@@ -504,3 +504,54 @@ If request is coming from BOT, then form should not be submitted.
 
     This will not proceed the request further and will return with form validation for bot_handler field.
     To test: Go to html form, inspect, go to hidden field, add attribute, put some value and submit - it'll return
+
+Model Forms:
+----------------------------------------------------------
+We can implement a form class and can mention - On which model, this form class is based of.
+
+        class RegisterForm(forms.ModelForm):
+            # fields declaration
+
+            class Meta:
+                model = Student
+                fields = '__all__'      # fields = ('field1', 'field2', 'field3')
+
+If we require fields validation, then we need to use fields_declaration else not.
+
+fields = '__all__'
+fields = ('field1', 'field2', 'field3')
+exclude = ['field4', 'field5']
+
+views.py:
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save(commit=True)
+
+forms.py
+-----------------------------------
+        class StudentForm(forms.ModelForm):
+            class Meta:
+                model = Student
+                fields = '__all__'
+
+register.html
+-----------------------------------
+        <body>
+            <div class="container" align="center">
+            <form method="POST">
+            <h1>This is Student Registration Portal using Model form</h1><br>
+            {{ form.as_p }}
+            {% csrf_token %}
+            <input type="submit" class="btn btn-primary btn-lg" value="Register">
+        </form></div></body>
+
+views.py
+----------------------------------
+        def student_view(request):
+            form = StudentForm()
+            if request.method == "POST":
+                form = StudentForm(request.POST)
+                if form.is_valid():
+                    form.save(commit=True)
+            return render(request, 'testApp/register.html', {'form': form})
