@@ -394,9 +394,76 @@ Inside forms.py file, there are 2 types of validations available:
     class StudentForm(forms.Form):
         name = forms.CharField()
         marks = forms.IntegerField()
+        feedback = forms.CharField(widget=forms.Textarea)   # widget=forms.Textarea makes feedback as TextArea
 
         def clean_name(self):
             inputname = self.cleaned_data['name']
             if len(inputname) < 4:
                 raise forms.validationError('Name should atleast be 4 characters')
             return inputname
+
+    In the same manner, we can write explicit clean method for all the attributes
+
+We can also use Implicit validations, say --> feedback can max be of 40 characters
+
+        from django.core import validators
+        from django import forms
+        class StudentForm(forms.Form):
+            name = forms.CharField()
+            marks = forms.IntegerField()
+            forms.CharField(widget=forms.Textarea, validators=[validators.MaxLengthValidator(40), 
+        validators.MinLengthValidator(10)])
+
+We can also write our own validators too. 
+
+        from django.core import validators
+        from django import forms
+
+        def starts_with_t(value):
+            if value[0] != 't'
+                raise forms.validationError('Name should start with t')
+
+        class StudentForm(forms.Form):
+            name = forms.CharField(validators=[starts_with_t])
+            marks = forms.IntegerField()
+            forms.CharField(widget=forms.Textarea)
+
+Now, rather than writing various clean method for each & every field, we can write a single clean method for the 
+whole form.
+
+        class StudentFeedbackForm(forms.Form):
+            name = forms.CharField()
+            rollno = forms.IntegerField()
+            email = forms.EmailField()
+            password  = 
+            feedback = forms.CharField(widget=forms.Textarea)
+            
+            def clean(self):
+                cleaned_data = super(StudentFeedbackForm, self).clean()
+                inputname = cleaned_data['name']
+                if len(inputname) < 4:
+                    raise forms.ValidationError('Name should atleast be 4 characters')
+
+                inputfeedback = cleaned_data['feedback']
+                if 'feedback' not in inputfeedback:
+                    raise forms.ValidationError('Feedback keyword is expected')
+
+                return cleaned_data
+
+We can also compare 2 input fields within the clean method as below:
+
+        class StudentFeedbackForm(forms.Form):
+            name = forms.CharField()
+            rollno = forms.IntegerField()
+            email = forms.EmailField()
+            password  = forms.CharField(widget=forms.PasswordInput)
+            rpassword = forms.CharField(widget=forms.PasswordInput)
+            feedback = forms.CharField(widget=forms.Textarea)
+
+            def clean(self):
+                inputpwd = cleaned_data['password']
+                inputrpwd = cleaned_data['rpassword']
+                if inputpwd != inputrpwd:
+                    raise forms.ValidationError('Passwords does not match!')
+
+                return cleaned_data
