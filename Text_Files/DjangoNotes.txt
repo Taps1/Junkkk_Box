@@ -467,3 +467,40 @@ We can also compare 2 input fields within the clean method as below:
                     raise forms.ValidationError('Passwords does not match!')
 
                 return cleaned_data
+
+We're seeing default labels on HTML page, If we want to use our own label, then use:
+
+        class StudentFeedbackForm(forms.Form):
+            name = forms.CharField()
+            rollno = forms.IntegerField()
+            email = forms.EmailField(label='Email Account')
+            password  = forms.CharField(label='Password', widget=forms.PasswordInput)
+            rpassword = forms.CharField(label='Password (again)', widget=forms.PasswordInput)
+            feedback = forms.CharField()
+
+    and we'll see Password & Password (again) on html page.
+
+If request is coming from BOT, then form should not be submitted.
+        class StudentFeedbackForm(forms.Form):
+            name = forms.CharField()
+            rollno = forms.IntegerField()
+            email = forms.EmailField(label='Email Account')
+            password  = forms.CharField(label='Password', widget=forms.PasswordInput)
+            rpassword = forms.CharField(label='Password (again)', widget=forms.PasswordInput)
+            feedback = forms.CharField(widget=forms.Textarea, validators=[validators.MaxLengthValidator(40), 
+                validators.MinLengthValidator(10)])
+            bot_handler = forms.CharField(required=False, widget=forms.HiddenInput)
+
+            def clean(self):
+                cleaned_data = super(StudentFeedbackForm, self).clean()s
+                inputbot = cleaned_data['bot_handler']
+                if len(inputbot) > 0:
+                    raise forms.ValidationError('Bot send this request')
+
+    Because we have introduced a hidden field, it means it'll not be visible to end-user and user will not be
+    filling it and we won't receive it in request parameters. If bot tries to submit the form, it'll fill this field
+    and if we receive this hidden field in request, then we can know that their is some suspicious activity which 
+    submit this form.
+
+    This will not proceed the request further and will return with form validation for bot_handler field.
+    To test: Go to html form, inspect, go to hidden field, add attribute, put some value and submit - it'll return
