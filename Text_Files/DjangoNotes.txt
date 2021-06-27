@@ -584,3 +584,63 @@ Write a base html page such as:
         {% block body_block %}
         <h1>Welcome to News Portal</h1>
         {% endblock %}
+
+Inside Views.py:
+        def display_view(request):
+            name = "mangesh"
+            subject = "Python"
+            my_dict = {'name': name,'subject': subject}
+            return render(request, 'testApp/display.html', context_dict=my_dict)
+
+Inside display.html file:
+    Name: {{ name|upper }} --> Mangesh
+    Subject: {{ subject }}
+
+    There are builtin filters that we can use in html files on our data received from views.py
+We can also create our own Django filters using
+- We need to create templatetags folder in our application folder
+- __init__.py file
+- cust_filters.py file
+
+After setting up the files, we can then write some code in cust_filters.py file
+
+        from django import template
+        register = template.Library()
+
+        def truncate5(value):
+            result = value[0:5]
+            return result
+
+        register.filter('truncate5', truncate5)
+
+Now, truncate5 function is registered as a filter and can be applied to template as:
+    We need to load this filter file inside our template and use the filter on value
+
+    {% load cust_filters %}
+    {{ movie.moviename| truncate5 }}
+
+Here, we have hardcoded the value as 5, we can also have a dynamic value on basis of which filter will be applied.
+
+        from django import template
+        register = template.Library()
+
+        def truncateN(value, n):
+            result = value[0:n]
+            return result
+
+        register.filter('truncateN', truncateN)
+
+        {{ movie.actor | truncateN:3 }}
+
+Syntax: {{ value | filtername:arguments }}  
+
+register.filter('truncateN', truncateN) can further be optimised as: 
+        
+        @register.filter(name='truncateN')
+        def truncateN(value, n):
+            result = value[0:n]
+            return result
+
+        {{ movie.actor | truncateN:3 }}
+        register.filter('truncateN', truncateN)
+        
