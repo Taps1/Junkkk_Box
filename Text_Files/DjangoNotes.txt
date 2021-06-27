@@ -555,3 +555,32 @@ views.py
                 if form.is_valid():
                     form.save(commit=True)
             return render(request, 'testApp/register.html', {'form': form})
+
+Create a Project where we add the movies & list the added movies.
+
+Advanced Templates:
+---------------------------------
+    Template Inheritance
+    Template Filters
+
+        {% extends 'testApp/base.html' %}
+            {% block child_block %}
+                Child HTML specific code
+            {% endblock %}
+
+Write a base html page such as:
+    base.html
+        {% load static %}
+        <body>
+        // some html code, maybe header/footer/menu bar
+        {% block body_block %}
+        // will be empty in base html to use in child html pages
+        {% endblock %}
+        </body>
+
+    child.html
+        <!DOCTYPE html>
+        {% extends 'testApp/news_portal/base.html' %}
+        {% block body_block %}
+        <h1>Welcome to News Portal</h1>
+        {% endblock %}
