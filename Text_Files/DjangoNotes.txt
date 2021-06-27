@@ -643,4 +643,30 @@ register.filter('truncateN', truncateN) can further be optimised as:
 
         {{ movie.actor | truncateN:3 }}
         register.filter('truncateN', truncateN)
-        
+
+
+Session Management:
+------------------------------------------
+Requests are stateless, how do we make sure that server remembers the last request.
+By Cookies: When there's a first request,  server will return the response as Response + Cookies. The same cookie 
+will be send in every consecutive request by client, so that server can identify the client. Issues:
+    1. Network (not suitable for huge chunk of data)
+    2. Security (what if virus gets attached to cookie)
+    3. Cookies are plain text
+
+This is how we set cookie in response
+    response.set_cookie(cookiename, cookievalue)
+
+    request.COOKIES.get('cookiename', 'default_value')
+
+Example to count page hits on basis of cookies:
+    We're setting one cookie named count and will try to fetch count named cookie at every request, We'll set it's
+    value incremented by 1 and will display the count.
+
+        def count_view(request):
+            count = int(request.COOKIES.get('count', 0))
+            updated_count = count + 1
+            response = render(request, 'testApp/session_manage/count_view.html', context={'count': updated_count})
+            response.set_cookie('count', updated_count)
+            return response
+
