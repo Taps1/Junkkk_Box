@@ -670,3 +670,11 @@ Example to count page hits on basis of cookies:
             response.set_cookie('count', updated_count)
             return response
 
+Temporary cookies & persistent cookies:
+------------------------------------------
+If we're not setting max_age, then they're temporary cookies and will be vanished as soon as browser is closed,
+These are saved in browser's cache.
+
+response.set_cookie('cookie', updated_count, max_age=180)
+
+# it'll persist for 10 seconds since it was hit last time even if the browser is closed.
