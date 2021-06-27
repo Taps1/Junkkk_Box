@@ -678,3 +678,74 @@ These are saved in browser's cache.
 response.set_cookie('cookie', updated_count, max_age=180)
 
 # it'll persist for 10 seconds since it was hit last time even if the browser is closed.
+
+Scenario: If we keep on submitting the data to a page and then navigate to other page, and On other page we again
+submit the data and then navigate to another page and so on...Will our server be able to remember the data that we
+submitted in first/second/.. pages ?  
+    We will create 3 pages -
+        Save Name, Save Age, Save Qualification
+
+        views.py
+        def save_name(request):
+            return render(request, 'testApp/session_manage/save_name.html')
+
+        def save_age(request):
+            return render(request, 'testApp/session_manage/save_age.html')
+
+        def save_qualification(request):
+            return render(request, 'testApp/session_manage/save_qualification.html')
+
+        <body>
+            <h1>Enter your Name</h1>
+            <form action='/save_age'>
+            Enter Name: <input type="text" name="name" value=""><br><br>
+            <input type="submit" name="" value="Submit Name">
+            </form>
+        </body>
+
+        <body>
+            <h1>Enter your Age (In years)</h1>
+            <form action='/save_qualification'>
+            Enter Age: <input type="text" name="age" value=""><br><br>
+            <input type="submit" name="" value="Submit Age">
+            </form> 
+        </body>
+
+        <body>
+            <h1>Enter your maximum Qualification</h1>
+            <form action='/display_results'>
+            Enter Degree: <input type="text" name="qualification" value=""><br><br>
+            <input type="submit" name="" value="Submit Qualification">
+            </form> 
+        </body>
+
+Job of save_age view:
+----------------------------
+1. Read name entered by end-user in previous html page 
+2. Save that name for the future use inside cookie
+3. Display age form after submitting age
+
+        def save_name(request):
+            return render(request, 'testApp/session_manage/save_name.html')
+
+        def save_age(request):
+            name = request.GET['name']
+            response = render(request, 'testApp/session_manage/save_age.html')
+            response.set_cookie('name', name)
+            return response
+
+        def save_qualification(request):
+            age = request.GET['age']
+            # <input type="text" name="age" value=""> is the one from where we set name as age and fetch
+            # in request.GET params
+
+            response = render(request, 'testApp/session_manage/save_qualification.html')
+            response.set_cookie('age', age)
+            return response
+
+        def display_results(request):
+            name = request.COOKIES.get('name')
+            age = request.COOKIES.get('age')
+            qualification = request.GET['qualification']
+            context_dict = {'name': name, 'age': age, 'qualification': qualification}
+            return render(request, 'testApp/session_manage/display_results.html', context=context_dict)
