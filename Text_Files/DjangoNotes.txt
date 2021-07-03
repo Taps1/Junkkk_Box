@@ -910,3 +910,16 @@ templates for accounts application as well.
             {% endblock %}
 
     and we'll have a login form which is provided by auth module.
+
+Now, as soon as we click on pages for JavaExams, it will ask to login and once we're logged in, we will be navigated
+to JavaExams page. Now if we just directly click on login button, then by default - it'll go to accounts/profile page
+which doesn't exist, So we need to tell where django should land when login happens.
+
+        LOGIN_REDIRECT_URL = '/'
+
+In the same manner,  after logging out:
+        LOGOUT_REDIRECT_URL = '/Some/Logout/Information/Page'
+
+So, it'll logout from portal and will navigate the page to '/Some/Logout/Information/Page' and it's content will be loaded to portal.
+
+For Sign-Up, we can use Users model to get all the input text fields and then submit this form on registration.
