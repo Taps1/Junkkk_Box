@@ -948,3 +948,54 @@ For Sign-Up, we can use Users model to get all the input text fields and then su
                     # return render(request, 'registration/registration_successful.html', {'form': form})
                     return HttpResponseRedirect('/accounts/login')
                 return render(request, 'registration/signup.html', {'form': form})
+
+PASSWORD_HASHERS are explained in 78 Django
+
+We can now want to update/delete the data that we're displaying on web page
+
+            movies_list.html
+            {% for movie in movies %}
+              <tr>
+                <td>{{ movie.rdate }}</td>
+                <td>{{ movie.moviename| truncate5 }}</td>
+                <td>{{ movie.actor | truncateN:10 }}</td>
+                <td>
+                    <a href="/movie_update/{{ movie.id }}">Update</a>
+                    <a href="/movie_delete/{{ movie.id }}">Delete</a></td>
+              </tr>
+            {% endfor %}
+
+            urls.py
+            url(r'^movie_delete/(?P<id>\d+)/$',  views.movie_delete),
+
+            views.py
+            def movie_delete(request, id):
+                movie = Movie.objects.get(id=id)
+                movie.delete()
+                return redirect('/movie_list')
+
+
+When we want to update the record, then it'd go like this:
+            urls.py
+            url(r'^movie_update/(?P<id>\d+)/$',  views.movie_update),
+
+            views.py
+            def movie_update(request, id):
+                movie = Movie.objects.get(id=id)
+                if request.method=="POST":
+                    form = MovieForm(request.POST, instance=movie)
+                    if form.is_valid():
+                        form.save(commit=True)
+                    return redirect('/movie_list')
+                return render(request, 'testApp/movie_update.html', {'movie': movie})
+
+            movie_update.html
+                <form method="POST">
+                    {% csrf_token %}
+                        Release Date: <input type="text" name="rdate" value="{{ movie.rdate }}">
+                        Movie Name: <input type="text" name="moviename" value="{{ movie.moviename }}">
+                        Movie Actor: <input type="text" name="actor" value="{{ movie.actor }}">
+                        Movie Actress: <input type="text" name="actress" value="{{ movie.actress }}">
+                        Movie Rating: <input type="text" name="rating" value="{{ movie.rating }}">
+                    <input type="submit" name="" value="Update Record">
+                </form>
