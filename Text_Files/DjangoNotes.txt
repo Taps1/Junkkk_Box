@@ -876,3 +876,37 @@ We can create an exam portal which has various tabs such as:
                     </div>
                 </div>
             {% endblock %}
+
+    from django.contrib.auth.decorators import login_required
+
+    @login_required
+    def java_exams_view(request):
+        return render(request, 'testApp/auth_templates/javaexams.html')
+
+    If user is authenticated, page will be shown else user will be thrown to login page 
+    http://localhost:8000/accounts/login/?next=/java_exams
+
+    As acccounts & auth pages are not configured yet, So we'll have to configure this is in our URLS.py file
+
+            urlpatterns = [
+                            path('admin/', admin.site.urls),
+                            path('accounts/', include('django.contrib.auth.urls')),
+                            path('', include('testApp.urls')),
+                        ]
+
+Now, this will rediret to login page, but it doesn't contain the template for login so we need to include the 
+templates for accounts application as well.
+    Create a folder named registration inside templates folder and login.html inside this html should contain:
+
+            <!DOCTYPE html>
+            {% extends 'testApp/auth_templates/base.html' %}
+            {% block body_block %}
+            <h1>Login to write exams</h1>
+            <form method="POST">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <input type="submit" name="" value="Login">
+            </form>
+            {% endblock %}
+
+    and we'll have a login form which is provided by auth module.
