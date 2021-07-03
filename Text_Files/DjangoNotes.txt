@@ -923,3 +923,28 @@ In the same manner,  after logging out:
 So, it'll logout from portal and will navigate the page to '/Some/Logout/Information/Page' and it's content will be loaded to portal.
 
 For Sign-Up, we can use Users model to get all the input text fields and then submit this form on registration.
+
+            signup.html
+            <form method="POST">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <input type="submit" class="btn btn-primary btn-lg" name="" value="Register now!">
+            </form>
+
+            forms.py
+            class SignUpForm(forms.ModelForm):
+                class Meta:
+                    model = User
+                    fields = ['username',  'password', 'email', 'first_name', 'last_name']
+
+            views.py
+            def SignupView(request):
+                form = SignUpForm()
+                if request.method == "POST":
+                    form = SignUpForm(request.POST)
+                    user = form.save()
+                    user.set_password(user.password)
+                    user.save()
+                    # return render(request, 'registration/registration_successful.html', {'form': form})
+                    return HttpResponseRedirect('/accounts/login')
+                return render(request, 'registration/signup.html', {'form': form})
