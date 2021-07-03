@@ -749,3 +749,25 @@ Job of save_age view:
             qualification = request.GET['qualification']
             context_dict = {'name': name, 'age': age, 'qualification': qualification}
             return render(request, 'testApp/session_manage/display_results.html', context=context_dict)
+
+Django Session Framework: 
+    Cookies Example: RMP Doctor
+    Session Example: Bank Locker -- Client is only responsible to maintain the token/session-ID
+
+    Client requests for some data, server returns response + cookie, and Server doesn't have to maintain anything.
+    Client again sends a request but request params contain: request+cookie this time.
+    Here, Client is responsible to maintain all the cookie data
+
+    Client requests for some data, if server wants to remember any information for future purpose, it creates a 
+    session object and put all information in this session object and returns response + session_id.
+    Client again sends a request but request params contain: reqeust+session_id this time.
+    Here, Client is responsible to maintain only the session_id
+
+        def page_count_view(request):
+            count = request.session.get('count', 0)
+            updated_count = count + 1
+            print(request.session.get_expiry_age())
+            print(request.session.get_expiry_date())
+            response = render(request, 'testApp/session_manage/count_view.html', context={'count': updated_count})
+            request.session['count'] = updated_count
+            return response
