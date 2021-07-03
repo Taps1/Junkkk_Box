@@ -771,3 +771,36 @@ Django Session Framework:
             response = render(request, 'testApp/session_manage/count_view.html', context={'count': updated_count})
             request.session['count'] = updated_count
             return response
+
+We now want to replicate the same example, as we did with cookies. Enter one information, then other and then finally
+display the results:, We will fecth the values from previous page, and will set them to session.
+        def NameView(request):
+            form = NameForm()
+            return render(request, 'testApp/session_manage/save_name_form.html', {'form': form})
+
+        def AgeView(request):
+            name = request.GET['name']
+            request.session['name'] = name
+            form = AgeForm()
+            return render(request, 'testApp/session_manage/save_age_form.html', {'form': form})
+
+        def QualificationView(request):
+            age = request.GET['age']
+            request.session['age'] = age
+            form = QualificationForm()
+            return render(request, 'testApp/session_manage/save_qualification_form.html', {'form': form})
+
+        def ResultView(request):
+            qualification = request.GET['qualification']
+            request.session['qualification'] = qualification
+            return render(request, 'testApp/session_manage/session_form_result.html')
+
+        On final result HTML page:
+        <body>
+            <h1>Thanks for providing information</h1>
+                <ul>
+                    {% for key, value in request.session.items %}
+                    <li>{{ key|upper }}: {{ value|title }}</li>
+                    {% endfor %}
+                </ul>
+        </body>
