@@ -804,3 +804,35 @@ display the results:, We will fecth the values from previous page, and will set 
                     {% endfor %}
                 </ul>
         </body>
+
+Adding keys & values into Session
+        def add_item_view(request):
+            form = AddItemForm()
+            if request.method == "POST":
+                name = request.POST['name']
+                quantity = request.POST['quantity']
+                request.session[name] = quantity
+            return render(request, 'testApp/session_manage/session_additem.html', {'form': form})
+
+            request.session.set_expiry(120)
+
+    If we're not performing any operation on session for specified amount of time (max inactive internal), then session will be expired automatically.
+
+    get_expiry_date()
+    get_expiry_age()
+
+        def session_info_view(request):
+            session = request.session
+            age = session.get_expiry_age()
+            date =  session.get_expiry_date()
+
+Deleting session data:
+    del request.session[session_key]
+
+    for key in request.session.keys()
+        del request.session[key]
+
+User Authentication:
+----------------------------
+User signup
+We have to read data entered by enduser and store permanently
