@@ -1013,7 +1013,7 @@ Class Based Views:
 
     Class based views automatically identifies if request is GET/POST and then respective method is called
     def get(self, request) or def post(self, request)
-
+        Example: 1
             urls.py
             url(r'^c_helloword',  cbf_views.HelloWorldView.as_view()),
 
@@ -1024,5 +1024,71 @@ Class Based Views:
                 def get(self, request):
                     return HttpResponse('<h1>This is from class Based views</h1>')
 
+        Example: 2
+        # It will render whatever the template is mentioned in 'template_name' variable
+            views.py
+            class HelloWorldTemplateView(TemplateView):
+                template_name = "testApp/cbf_templates/results.html"
 
-    
+        Example: 3
+        # If I wish to send some data to HTML page in above example, then We will write get_context_data which
+        will return context_dict and this context_dict will be rendered on said HTML page.
+
+        views.py
+        class HelloWorldTemplateContext(TemplateView):
+            template_name = "testApp/cbf_templates/info.html"
+
+            def get_context_data(self, **kwargs):
+                context = super().get_context_data(**kwargs)
+                context['name'] = "Rahul"
+                context['subject'] = "Python"
+                return context
+
+        Now, whatever we return in this get_context_data, the same can be used in template.
+
+        info.html
+            <body>
+                <h1>Student Information</h1>
+                <h3>Name: {{ name }}</h3>
+                <h3>Subject: {{ subject }}</h3>
+            </body>
+
+
+Normal CBV:
+------------------
+View
+TemplateView
+
+Model Related CBV:
+-------------------
+    ListView
+    DetailView
+    CreateView
+    DeleteView
+    UpdateView
+
+        views.py
+        class MovieListView(ListView):
+            model = Movie
+            # default template will be <model_name>_list.html, In our case: movie_list.html
+            # default context object will be movie_list
+
+
+        movie_list.html <Inside Template Directory>
+        <!DOCTYPE html>
+        {% extends 'testApp/cbf_templates/base.html' %}
+        {% block body_block %}
+            <h1>
+                Movies Information
+            </h1>
+            {% for movie in movie_list %}
+                <ul><li class="list-group-item">Movie Name: {{ movie.moviename }}</li>
+                    <li class="list-group-item">Movie Actor: {{ movie.actor }}</li></ul>
+            {% endfor %}
+        {% endblock %}
+
+We can also change the name of default template name & of default context dictionary
+        class MovieListView(ListView):
+            model = Movie
+            template_name = 'testApp/movies.html'
+            context_object_name = 'list_of_books'
