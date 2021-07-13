@@ -1092,3 +1092,32 @@ We can also change the name of default template name & of default context dictio
             model = Movie
             template_name = 'testApp/movies.html'
             context_object_name = 'list_of_books'
+
+DetailedView:
+        views.py
+        class MovieDetailView(DetailView):
+            model = Movie
+            # default template will be movie_detail.html
+            # default context object will be movie or object
+
+        movie_detail.html
+        {% extends 'testApp/cbf_templates/base.html' %}
+        {% block body_block %}
+            <h1>{{ movie.moviename }} Information</h1>
+                <ul><li class="list-group-item">Movie Name: {{ movie.moviename }}</li>
+                    <li class="list-group-item">Movie Actor: {{ movie.actor }}</li>
+                    <li class="list-group-item">Release Date : {{ movie.rdate }}</li>
+                </ul>
+        {% endblock %}
+
+        urls.py
+        url(r'^c_movieDetail/(?P<pk>\d+)/$',  cbf_views.MovieDetailView.as_view()),
+
+        movie_list.html
+        {% for movie in movie_list %}
+        <ul>
+            <li class="list-group-item">
+                Movie Name:<a href="/c_movieDetail/{{ movie.id }}"> {{ movie.moviename }}</a>
+            </li>
+        </ul>
+        {% endfor %}
