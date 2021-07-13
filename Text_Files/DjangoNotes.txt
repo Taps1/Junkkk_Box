@@ -984,6 +984,9 @@ When we want to update the record, then it'd go like this:
                 movie = Movie.objects.get(id=id)
                 if request.method=="POST":
                     form = MovieForm(request.POST, instance=movie)
+
+                    # here, we've sent instance along with request.POST, if we don't send this then it'll create
+                    # a new duplicate record rather than updating it.
                     if form.is_valid():
                         form.save(commit=True)
                     return redirect('/movie_list')
@@ -999,3 +1002,27 @@ When we want to update the record, then it'd go like this:
                         Movie Rating: <input type="text" name="rating" value="{{ movie.rating }}">
                     <input type="submit" name="" value="Update Record">
                 </form>
+
+Class Based Views:
+    When we have simple operations such - Listing/View/DetailedView/Update/Delete/Create - then we can use
+    already implemented views which are class based views and function based views gets executed behind the 
+    scenes.
+
+    So, If we require to List the data from a single Model, we can use class based views. But when we need to
+    create the data from many table, do some manipulations then we can go for function based views.
+
+    Class based views automatically identifies if request is GET/POST and then respective method is called
+    def get(self, request) or def post(self, request)
+
+            urls.py
+            url(r'^c_helloword',  cbf_views.HelloWorldView.as_view()),
+
+            views.py
+            from django.views.generic import View, TemplateView
+
+            class HelloWorldView(View):
+                def get(self, request):
+                    return HttpResponse('<h1>This is from class Based views</h1>')
+
+
+    
