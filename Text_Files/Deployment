@@ -94,3 +94,10 @@ Add these two lines in settings.py:
 
 python manage.py collectstatic					# this will copy all static files to /var/www/example/static location
 sudo service apache2 restart					# now you can open your server
+
+------------------------------------------------------------------------------------------------
+Create a Django Project
+Create a Dockerfile
+Create a requirements.txt file
+Create a docker-compose.yml file
+docker-compose up
