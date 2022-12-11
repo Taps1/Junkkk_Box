@@ -1,0 +1,104 @@
+console.log("This is my first ever Java Script program")
+
+let a = prompt("What is your age")
+console.log("Your age is: ", a)
+alert("Age is: ", a)
+typeof a
+a = Number.parseInt(a)
+if (a>0){
+    alert("This is a valid age")
+}
+
+<For Loop>:
+for loop - loop a block of code number of times
+for in loop - loop through the keys of an object
+for of loop - loop through the values of an object
+while loop - loops a block based on a specific condition 
+do while loop - while loop variant which runs atleast once
+
+    for(let i=0; i<10; i++)
+        {
+            console.log(i)
+        }
+
+---------------------------------------------------------------------
+    let n = prompt("Enter a number")
+    let sum = 0
+    for(i=1; i<=n; i++)
+    {
+    sum += i
+    }
+    console.log("Sum of " + n " natural numbers is " + sum)
+---------------------------------------------------------------------
+    let n = prompt("Enter a number")
+    let a = 0
+    let b = 1
+    series = [a, b]
+    for(i=0; i<n; i++)
+    {   
+        console.log(a)
+        temp = a
+        a = b
+        b = temp + b
+    }
+---------------------------------------------------------------------
+    let obj = {
+        harry: 90,
+        shubh: 45,
+        shivika: 56,
+        ritika: 57,
+        shiv: 23
+    }
+    for(let a in obj){
+        console.log("Marks of "+a+" are "+obj[a])
+    }
+
+    Marks of harry are 90
+    Marks of shubh are 45
+    Marks of shivika are 56
+    Marks of ritika are 57
+    Marks of shiv are 23
+--------------------------------------------------------------------------
+    for(let b of "JavaScript"){
+        console.log(b)
+    }
+
+    prints each character of given sequence
+--------------------------------------------------------------------------
+<WHILE Loop>:
+    let n = prompt("Enter a number: ")
+    n = Number.parseInt(n)
+    let i = 0
+    while (i<n){
+        console.log(i)
+        i++
+    }
+--------------------------------------------------------------------------
+<DO WHILE Loop>:
+    let n = prompt("Enter a number: ")
+    n = Number.parseInt(n)
+    let i = 0
+    do {
+        console.log(i)
+        i++
+    }while (i>n)
+--------------------------------------------------------------------------
+<FUNCTIONS>:
+    function foo(a, b){
+        return Math.round((a+b)/2)
+    }
+    foo(1, 5)
+
+    const sum=(p, q)=>{
+        return p+q
+    }
+--------------------------------------------------------------------------
+    let marks = {
+        "a": 10,
+        "b": 20,
+        "c": 30,
+        "d": 40
+    }
+    for(let i=0; i<Object.keys(marks).length; i++){
+        console.log("Marks of "+ Object.keys(marks)[i] + " are " + marks[Object.keys(marks)[i]])
+    }
