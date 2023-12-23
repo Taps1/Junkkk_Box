@@ -1,0 +1,45 @@
+Celery is a task queue implementation for python web applications used to asynhronously execute work outside the
+HTTP request response cycle.
+Celeryd will execute tasks until there are no more tasks to put in front of it.
+Celerybeat is used to execute a task at time intervals.
+
+Celery introduces the various message brokers such as RabbitMQ and Redis.
+A user sends a request to a page taking too long to load. Celery can decrease page load time by running part of
+functionality as postponed tasks on the same server or sometime on different server.
+Celery's workers can then update the UI via callbacks, process file, send emails, make changes in db etc.
+
+Producers: These are web nodes that manages the web requests. When application is processing, tasks are assigned to the celery means force into
+the task queue.
+Consumers: These are worker nodes that monitor the queue head, the worker takes the tasks and perform it. Workers can perform various tasks and 
+can also behave as Producers
+Queue: Basically a message broker which acts as a bridge between producer and consumer. It essentially passes messages between web application 
+and celery workers.(RabbitMQ, Redis, ZooKeeper, Amazon SQS)
+
+Steps:
+1. Create a virtual environment
+2. Install Celery
+3. Create a Django project
+4. Put the Celery settings
+
+To receive tasks from your program and send results to backend, Celery requires a message broker for communication. Redis and RabbitMQ are 2 
+message brokers. Brokers are separate service that enable applications, systems and services to communicate and share information. A message 
+queue is a first-in first-out data structure. 
+If we want to keep track of the results of our tasks run, we need to setup a results backend database as well. We are working with Redis both as
+message broker and as a results backend. These results can be inspected with Redis CLI or can pull information into a dedicated page in our Django proejct.
+Usecases:
+1. Offloading work from app
+2. Scheduling Task execution at a specific time
+
+Celery Workers: Worker processes that run tasks independently from one another and outside the context of our main service
+Celery Beat: Scheduler that orchestrates when to run tasks,
+
+Application shouldn't handle long running tasks synchronously, because doing so impairs app's user experience and overall usefulness.
+Rather, we should handoff this task to a celery worker. Celery workers can tackle computations as bg task and allow users to continue browsing.
+
+Install the Redis
+
+5. Install the redis on operating system
+6. Install Redis in pip
+
+Once we integrate Celery with our application, we can send time intensive tasks to Celery's task queue. That way, web application can continue
+to respond quickly to users while Celery completes expensive operations asynchronously in the background. 
