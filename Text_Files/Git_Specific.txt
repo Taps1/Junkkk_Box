@@ -1,3 +1,32 @@
+git init
+git clone
+git add
+git commit
+git push
+git branch
+git status
+git log
+git fetch - takes the latest changes from remote repo but don't merge into local working copy
+git pull - takes the latest changes from remote repo and merge into local working copy
+git rebase - Changes from one branch are re-applied to top of another branch to cerate linear history 
+git merge - Combine 2 branches and create a merge commit. history remain branched.
+git stash - Clean up the working directory by saving uncommitted changes temporarily.
+git reset - removes commits from history, git reset --hard HEAD^
+git revert - undo the changes with a new commit, better for shared repository.
+How do you undo the last commit - 
+If changes are not pushed: 
+	git reset --soft HEAD^ (retains changes)
+	git reset --hard HEAD^ (delete changes)
+If changes are pushed:
+	git revert HEAD, git push
+git cherry-pick: applying specific commit to a branch
+Squashing multiple commits into one:
+	git reabse -i HEAD~n (n=number of commits)
+	Modify pick to Squash for other commits
+	
+
+
+
 After having all the changes you need to push into the repositories:
 	git branch -a
 	git checkout -b "Alias_name" "actual_branch"
