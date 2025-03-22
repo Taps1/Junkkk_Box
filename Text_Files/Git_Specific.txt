@@ -21,12 +21,13 @@ If changes are pushed:
 	git revert HEAD, git push
 git cherry-pick: applying specific commit to a branch
 Squashing multiple commits into one:
-	git reabse -i HEAD~n (n=number of commits)
-	Modify pick to Squash for other commits
+	git rebase -i HEAD~n (n=number of commits)
+	Modify pick to Squash for other commits and take only 1 as pick
+git branch -d <branch_name>
+Recovering a deleted branch:
+	git reflog # lookout for your branch hash
+	gut checkout -b <branch-name> <hash>
 	
-
-
-
 After having all the changes you need to push into the repositories:
 	git branch -a
 	git checkout -b "Alias_name" "actual_branch"
@@ -147,7 +148,6 @@ If I want to have more than 1 git accounts on a single local machine, Then do
         HostName github.com
         User git
         IdentityFile ~/.ssh/id_rsa_2
-
 
 Once, the config file is been created, I have to add these Identity keys as:
 	ssh-add ~/path/to/first/keys/id_rsa
